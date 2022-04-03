@@ -1,0 +1,37 @@
+{
+  "name": "@voltra/vue-player",
+  "version": "0.0.1",
+  "description": "A Vue port of react-player: components for playing a variety of URLs including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, DailyMotion",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Voltra/vue-player.git"
+  },
+  "keywords": [
+    "vue",
+    "media",
+    "player",
+    "video",
+    "audio",
+    "youtube",
+    "facebook",
+    "twitch",
+    "soundcloud",
+    "streamable",
+    "vimeo",
+    "wistia",
+    "dailymotion",
+    "hls",
+    "dash",
+    "vue-component"
+  ],
+  "author": "Voltra <ludwig.guerin.98@gmx.fr>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Voltra/vue-player/issues"
+  },
+  "homepage": "https://github.com/Voltra/vue-player#readme"
+}

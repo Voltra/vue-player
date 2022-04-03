@@ -1,0 +1,10 @@
+node_modules/
+*.log
+logs
+tmp
+*.bkp
+*.swp
+.DS_Store
+.idea/
+.vscode/
+.brackets.json
