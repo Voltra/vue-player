@@ -164,7 +164,12 @@ export const playerMixin = {
 		 * Disable  picture-in-picture mode
 		 */
 		disablePIP() {},
-		// [/Hooks]
+
+		/**
+		 * Set the looping flag
+		 */
+		setLoop(shouldLoop) {},
+ 		// [/Hooks]
 
 		// [Event handlers/delegates/propagators]
 		onError(...args) {

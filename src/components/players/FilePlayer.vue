@@ -2,6 +2,7 @@
 	<component
 		:is="tag"
 		ref="player"
+		class="vue-player--file"
 		:style="styles"
 		preload="auto"
 		:src="src"

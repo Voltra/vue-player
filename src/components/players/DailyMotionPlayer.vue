@@ -174,12 +174,10 @@
 	};
 </script>
 
-<style lang="scss" scoped>
-	.vue-player {
-		&--dailymotion {
-			display: block;
-			width: 100%;
-			height: 100%;
-		}
+<style lang="scss">
+	.vue-player--dailymotion {
+		display: block;
+		width: 100%;
+		height: 100%;
 	}
 </style>

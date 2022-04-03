@@ -1,7 +1,7 @@
 <template>
 	<div
 		:id="this.playerID"
-		class="fb-video"
+		class="fb-video vue-player--facebook"
 		:data-href="this.url"
 		:data-autoplay="this.playing ? 'true' : 'false'"
 		:data-controls="this.controls ? 'true' : 'false'"
@@ -183,8 +183,8 @@
 	};
 </script>
 
-<style lang="scss" scoped>
-	.fb-video {
+<style lang="scss">
+	.vue-player--facebook {
 		width: 100%;
 		height: 100%;
 	}
