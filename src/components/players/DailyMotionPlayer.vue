@@ -5,8 +5,8 @@
 </template>
 
 <script>
-	import { getSDK, parseStartTime } from "../utils";
-	import { canPlay, MATCH_URL_DAILYMOTION } from "../patterns";
+	import { getSDK, parseStartTime } from "../../utils";
+	import { canPlay, MATCH_URL_DAILYMOTION } from "../../patterns";
 	import { playerMixin } from "../../mixins/player";
 	import VueTypes from "vue-types";
 
@@ -26,9 +26,6 @@
 			display: VueTypes.string.def("block"),
 		},
 
-		mounted() {
-			this.$emit("mounted", this);
-		},
 		computed: {
 			/**
 			 * @type {Partial<CSSStyleDeclaration>}
@@ -147,28 +144,7 @@
 
 			onDurationChange() {
 				const duration = this.getDuration();
-				this.$emit("duration", duration);
-			},
-			onError(...args) {
-				this.$emit("error", ...args);
-			},
-			onReady(...args) {
-				this.$emit("ready", ...args);
-			},
-			onSeek(currentTime) {
-				this.$emit("seek", currentTime);
-			},
-			onEnded() {
-				this.$emit("ended");
-			},
-			onPause(...args) {
-				this.$emit("pause", ...args);
-			},
-			onPlay(...args) {
-				this.$emit("play", ...args);
-			},
-			onBuffer(...args) {
-				this.$emit("buffer", ...args);
+				this.onDuration(duration);
 			},
 		},
 	};

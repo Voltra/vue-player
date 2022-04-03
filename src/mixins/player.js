@@ -189,17 +189,114 @@ export const playerMixin = {
 			}
 		})),
 	},
+	mounted() {
+		this.$emit("mounted", this);
+	},
 	methods: {
 		callPlayer(method, ...args) {
 			return callPlayer.call(this, [method, ...args]);
 		},
 
+		// [Hooks]
+		/**
+		 * Start/resume playing
+		 * @hook play
+		 */
 		play() {},
+
+
+		/**
+		 * Pause the video
+		 * @hook pause
+		 */
 		pause() {},
+
+
+		/**
+		 * Stop the video (pause + back to 0)
+		 * @hook stop
+		 */
 		stop() {},
-		seek(seconds) {},
+
+		/**
+		 * Move the play-head to the give time in seconds
+		 * @param {number} seconds - The time point to move the play-head to
+		 * @hook seekTo
+		 */
+		seekTo(seconds) {},
+
+		/**
+		 * Move the play-point to the give time in seconds
+		 * @param {number} fraction - A number in the range [0;1] where 0 is mute and 1 is full power
+		 * @hook setVolume
+		 */
 		setVolume(fraction) {},
+
+		/**
+		 * Mute the player
+		 * @hook mute
+		 */
 		mute() {},
+
+		/**
+		 * Mute the player
+		 * @hook unmute
+		 */
 		unmute() {},
+
+		/**
+		 * Get the duration of the video
+		 * @returns {number|null}
+		 * @hook getDuration
+		 */
+		getDuration() {
+			return 0;
+		},
+
+		/**
+		 * Get the current position of the play-head in seconds
+		 * @returns {number|null}
+		 * @hook getCurrentTime
+		 */
+		getCurrentTime() {
+			return 0;
+		},
+
+		/**
+		 * Get the amount of seconds already preloaded
+		 * @returns {number|null}
+		 * @hook getSecondsLoaded
+		 */
+		getSecondsLoaded() {
+			return 0;
+		},
+		// [/Hooks]
+
+		// [Event handlers/delegates/propagators]
+		onError(...args) {
+			this.$emit("error", ...args);
+		},
+		onDuration(duration) {
+			this.$emit("duration", duration);
+		},
+		onReady(...args) {
+			this.$emit("ready", ...args);
+		},
+		onSeek(currentTime) {
+			this.$emit("seek", currentTime);
+		},
+		onEnded() {
+			this.$emit("ended");
+		},
+		onPause(...args) {
+			this.$emit("pause", ...args);
+		},
+		onPlay(...args) {
+			this.$emit("play", ...args);
+		},
+		onBuffer(...args) {
+			this.$emit("buffer", ...args);
+		},
+		// [/Event handlers/delegates/propagators]
 	},
 };
