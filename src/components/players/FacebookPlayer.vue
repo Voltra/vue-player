@@ -14,6 +14,7 @@
 	import { getSDK, randomString } from "../../utils";
 	import { canPlay } from "../../patterns";
 	import { playerMixin } from "../../mixins/player";
+	import { facebookConfigProps } from "../../props/facebookConfig";
 
 	const SDK_URL = "https://connect.facebook.net/en_US/sdk.js";
 	const SDK_GLOBAL = "FB";
@@ -29,6 +30,10 @@
 
 		events: ["loaded"],
 		mixins: [playerMixin],
+
+		props: {
+			config: facebookConfigProps,
+		},
 
 		data() {
 			return {

@@ -9,6 +9,7 @@
 	import { canPlay, MATCH_URL_DAILYMOTION } from "../../patterns";
 	import { playerMixin } from "../../mixins/player";
 	import VueTypes from "vue-types";
+	import { dailymotionConfigProps } from "../../props/dailymotionConfig";
 
 	const SDK_URL = "https://api.dmcdn.net/all.js";
 	const SDK_GLOBAL = "DM";
@@ -23,6 +24,7 @@
 
 		mixins: [playerMixin],
 		props: {
+			config: dailymotionConfigProps,
 			display: VueTypes.string.def("block"),
 		},
 

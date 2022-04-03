@@ -32,6 +32,7 @@
 	import { isMediaStream, supportsWebKitPresentationMode } from "../../utils";
 	import { AUDIO_EXTENSIONS, canPlay, DASH_EXTENSIONS, FLV_EXTENSIONS, HLS_EXTENSIONS } from "../../patterns";
 	import { playerMixin } from "../../mixins/player";
+	import { fileConfigProps } from "../../props/fileConfig";
 
 	const HAS_NAVIGATOR = typeof navigator !== "undefined";
 	const IS_IPAD_PRO = HAS_NAVIGATOR && navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
@@ -53,6 +54,10 @@
 		// [/META]
 
 		mixins: [playerMixin],
+
+		props: {
+			config: fileConfigProps,
+		},
 
 		data() {
 			return {
@@ -293,8 +298,10 @@
 			enablePIP() {
 				if (this.$refs.player?.requestPictureInPicture && document.pictureInPictureElement !== this.$refs.player) {
 					this.$refs.player?.requestPictureInPicture?.();
+					this.onEnablePIP();
 				} else if (supportsWebKitPresentationMode(this.$refs.player) && this.$refs.player?.webkitPresentationMode !== "picture-in-picture") {
 					this.$refs.player?.webkitSetPresentationMode?.("picture-in-picture");
+					this.onEnablePIP();
 				}
 			},
 
@@ -306,8 +313,10 @@
 			disablePIP() {
 				if (document.exitPictureInPicture && document.pictureInPictureElement === this.$refs.player) {
 					document.exitPictureInPicture();
+					this.onDisablePIP();
 				} else if (supportsWebKitPresentationMode(this.$refs.player) && this.$refs.player?.webkitPresentationMode !== "inline") {
 					this.$refs.player?.webkitSetPresentationMode?.("inline");
+					this.onDisablePIP();
 				}
 			},
 
