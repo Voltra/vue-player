@@ -277,6 +277,23 @@ export const playerMixin = {
 		getSecondsLoaded() {
 			return 0;
 		},
+
+		/**
+		 * Set the playback rate
+		 * @param {number} rate
+		 * @hook setPlaybackRate
+		 */
+		setPlaybackRate(rate) {},
+
+		/**
+		 * Enable  picture-in-picture mode
+		 */
+		enablePIP() {},
+
+		/**
+		 * Disable  picture-in-picture mode
+		 */
+		disablePIP() {},
 		// [/Hooks]
 
 		// [Event handlers/delegates/propagators]

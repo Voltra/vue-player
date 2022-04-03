@@ -12,15 +12,16 @@
 		v-bind="config.attributes"
 	>
 		<template v-if="urlIsArray">
-			<template v-for="source in this.url">
+			<template v-for="(source, index) in this.url">
 				<slot name="source" v-bind="{ source }">
-					<source :src="source" :key="source" />
+					<source v-if="typeof source === 'string'" :src="source" :key="index"/>
+					<source v-else :key="index" v-bind="source"/>
 				</slot>
 			</template>
 
-			<template v-for="track in this.config.tracks">
+			<template v-for="(track, index) in this.config.tracks">
 				<slot name="track" v-bind="{ track }">
-					<track :src="track" :key="track"/>
+					<track :key="index" v-bind="track"/>
 				</slot>
 			</template>
 		</template>
@@ -53,6 +54,20 @@
 
 		mixins: [playerMixin],
 
+		data() {
+			return {
+				/**
+				 * @type {HTMLElement|null}
+				 */
+				prevPlayer: this.$refs.player ?? null,
+
+				/**
+				 * @type {string}
+				 */
+				prevUrl: this.url,
+			};
+		},
+
 		computed: {
 			urlIsArray() {
 				return Array.isArray(this.url);
@@ -63,7 +78,7 @@
 			},
 
 			tag() {
-				return this.shouldUseAudio ? 'audio' : 'video';
+				return this.shouldUseAudio ? "audio" : "video";
 			},
 
 			shouldUseAudio() {
@@ -94,11 +109,32 @@
 			if (IS_IOS) {
 				this.$refs.player?.load?.();
 			}
+
+			this.$watch(
+				() => this.$refs.player,
+				(newPlayer, oldPlayer) => {
+					this.prevPlayer = oldPlayer;
+				},
+			);
 		},
 		beforeUnmount() {
+			this.prevPlayer = null;
 			this.removeListeners(this.$refs.player);
-
 			this.hls?.destroy?.();
+		},
+
+		watch: {
+			url(newUrl, prevUrl) {
+				this.prevUrl = prevUrl;
+
+				if (!isMediaStream(newUrl) && this.$refs.player) {
+					this.$refs.player.srcObject = null;
+				}
+			},
+			shouldUseAudio() {
+				this.removeListeners(this.prevPlayer, this.prevUrl);
+				this.addListeners(this.$refs.player);
+			},
 		},
 
 		methods: {
@@ -156,6 +192,125 @@
 				this.dash?.reset?.();
 			},
 
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook seekTo
+			 */
+			seekTo(seconds) {
+				this.player.currentTime = seconds;
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook setVolume
+			 */
+			setVolume(fraction) {
+				this.player.volume = fraction;
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook mute
+			 */
+			mute() {
+				this.player.muted = true;
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook unmute
+			 */
+			unmute() {
+				this.player.muted = false;
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook getDuration
+			 */
+			getDuration() {
+				if (!this.$refs.player) return null;
+				const { duration, seekable } = this.$refs.player;
+				// on iOS, live streams return Infinity for the duration
+				// so instead we use the end of the seekable timerange
+				if (duration === Infinity && seekable.length > 0) {
+					return seekable.end(seekable.length - 1);
+				}
+				return duration;
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook getCurrentTime
+			 */
+			getCurrentTime() {
+				return this.$refs.player?.currentTime;
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook getSecondsLoaded
+			 */
+			getSecondsLoaded() {
+				if (!this.$refs.player) return null;
+				const { buffered } = this.$refs.player;
+				if (buffered.length === 0) {
+					return 0;
+				}
+				const end = buffered.end(buffered.length - 1);
+				const duration = this.getDuration();
+				if (end > duration) {
+					return duration;
+				}
+				return end;
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook setPlaybackRate
+			 */
+			setPlaybackRate(rate) {
+				try {
+					this.$refs.player.playbackRate = rate;
+				} catch (error) {
+					this.onError(error);
+				}
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook enablePIP
+			 */
+			enablePIP() {
+				if (this.$refs.player?.requestPictureInPicture && document.pictureInPictureElement !== this.$refs.player) {
+					this.$refs.player?.requestPictureInPicture?.();
+				} else if (supportsWebKitPresentationMode(this.$refs.player) && this.$refs.player?.webkitPresentationMode !== "picture-in-picture") {
+					this.$refs.player?.webkitSetPresentationMode?.("picture-in-picture");
+				}
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook disablePIP
+			 */
+			disablePIP() {
+				if (document.exitPictureInPicture && document.pictureInPictureElement === this.$refs.player) {
+					document.exitPictureInPicture();
+				} else if (supportsWebKitPresentationMode(this.$refs.player) && this.$refs.player?.webkitPresentationMode !== "inline") {
+					this.$refs.player?.webkitSetPresentationMode?.("inline");
+				}
+			},
+
 			async load(url) {
 				const { hlsVersion, hlsOptions, dashVersion, flvVersion } = this.config;
 
@@ -211,6 +366,19 @@
 						this.$refs.player.src = URL.createObjectURL(url);
 					}
 				}
+			},
+
+			getSource(url) {
+				const useHLS = this.shouldUseHLS(url);
+				const useDASH = this.shouldUseDASH(url);
+				const useFLV = this.shouldUseFLV(url);
+				if (url instanceof Array || isMediaStream(url) || useHLS || useDASH || useFLV) {
+					return undefined;
+				}
+				if (MATCH_DROPBOX_URL.test(url)) {
+					return url.replace("www.dropbox.com", "dl.dropboxusercontent.com");
+				}
+				return url;
 			},
 
 			onPresentationModeChange(e) {
