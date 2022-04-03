@@ -20,6 +20,24 @@ const noop = () => {
 };
 
 export const playerMixin = {
+	events: [
+		"ready",
+		"start",
+		"play",
+		"pause",
+		"buffer",
+		"buffer-end",
+		"ended",
+		"error",
+		"duration",
+		"seek",
+		"playback-rate-change",
+		"progress",
+		"click-preview",
+		"enable-pip",
+		"disable-pip",
+	],
+	slots: ["playIcon", "fallback"],
 	props: {
 		url: oneOfType([string, array, object]).isRequired,
 		playing: bool.def(false),
@@ -170,22 +188,13 @@ export const playerMixin = {
 			}
 		})),
 	},
-	events: [
-		"ready",
-		"start",
-		"play",
-		"pause",
-		"buffer",
-		"buffer-end",
-		"ended",
-		"error",
-		"duration",
-		"seek",
-		"playback-rate-change",
-		"progress",
-		"click-preview",
-		"enable-pip",
-		"disable-pip",
-	],
-	slots: ["playIcon", "fallback"],
+	methods: {
+		play() {},
+		pause() {},
+		stop() {},
+		seek(seconds) {},
+		setVolume(fraction) {},
+		mute() {},
+		unmute() {},
+	},
 };
