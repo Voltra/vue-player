@@ -197,6 +197,8 @@ export const playerMixin = {
 			return callPlayer.call(this, [method, ...args]);
 		},
 
+		async load(url, ...args) {},
+
 		// [Hooks]
 		/**
 		 * Start/resume playing

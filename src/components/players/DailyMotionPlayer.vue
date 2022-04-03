@@ -37,6 +37,88 @@
 			},
 		},
 		methods: {
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook play
+			 */
+			play() {
+				this.callPlayer("play");
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook pause
+			 */
+			pause() {
+				this.callPlayer("pause");
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook seekTo
+			 */
+			seekTo(seconds) {
+				this.callPlayer("seek", seconds);
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook setVolume
+			 */
+			setVolume(fraction) {
+				this.callPlayer("setVolume", fraction);
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook mute
+			 */
+			mute() {
+				this.callPlayer("setMuted", true);
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook unmute
+			 */
+			unmute() {
+				this.callPlayer("setMuted", false);
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook getDuration
+			 */
+			getDuration() {
+				return this.player?.duration || null;
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook getCurrentTime
+			 */
+			getCurrentTime() {
+				return this.player?.currentTime;
+			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook getSecondsLoaded
+			 */
+			getSecondsLoaded() {
+				return this.player?.bufferedTime;
+			},
+
+
 			async load(url) {
 				const { controls, config, playing } = this;
 				const [, id] = url.match(MATCH_URL_DAILYMOTION);
@@ -80,66 +162,6 @@
 				} catch (e) {
 					this.onError(e);
 				}
-			},
-
-			/**
-			 * @inheritDoc
-			 * @override
-			 */
-			play() {
-				this.callPlayer("play");
-			},
-
-			/**
-			 * @inheritDoc
-			 * @override
-			 */
-			pause() {
-				this.callPlayer("pause");
-			},
-
-			/**
-			 * @inheritDoc
-			 * @override
-			 */
-			seekTo(seconds) {
-				this.callPlayer("seek", seconds);
-			},
-
-			/**
-			 * @inheritDoc
-			 * @override
-			 */
-			setVolume(fraction) {
-				this.callPlayer("setVolume", fraction);
-			},
-
-			/**
-			 * @inheritDoc
-			 * @override
-			 */
-			mute() {
-				this.callPlayer("setMuted", true);
-			},
-
-			/**
-			 * @inheritDoc
-			 * @override
-			 */
-			unmute() {
-				this.callPlayer("setMuted", false);
-			},
-
-			getDuration() {
-				return this.player?.duration || null;
-			},
-
-			getCurrentTime() {
-				return this.player?.currentTime;
-			},
-
-			getSecondsLoaded() {
-				return this.player?.bufferedTime;
 			},
 
 			onDurationChange() {
