@@ -46,50 +46,6 @@
 		},
 
 		methods: {
-			async load(url, isReady) {
-				if (isReady) {
-					const FB = await getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY);
-					FB?.XFBML?.parse?.();
-					return;
-				}
-
-				const FB = await getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY);
-
-				FB.init({
-					appId: this.config.appId,
-					xfbml: true,
-					version: this.config.version,
-				});
-
-				FB.Event.subscribe("xfbml.render", msg => {
-					// Here we know the SDK has loaded, even if onReady/onPlay
-					// is not called due to a video that cannot be embedded
-					this.onLoaded();
-				});
-
-				FB.Event.subscribe("xfbml.ready", msg => {
-					if (msg.type === "video" && msg.id === this.playerID) {
-						this.player = msg.instance;
-						this.player.subscribe("startedPlaying", this.onPlay);
-						this.player.subscribe("paused", this.onPause);
-						this.player.subscribe("finishedPlaying", this.onEnded);
-						this.player.subscribe("startedBuffering", this.onBuffer);
-						this.player.subscribe("finishedBuffering", this.onBufferEnd);
-						this.player.subscribe("error", this.onError);
-						if (this.props.muted) {
-							this.callPlayer("mute");
-						} else {
-							this.callPlayer("unmute");
-						}
-						this.props.onReady();
-
-						// For some reason Facebook have added `visibility: hidden`
-						// to the iframe when autoplay fails, so here we set it back
-						document.getElementById(this.playerID).querySelector("iframe").style.visibility = "visible";
-					}
-				});
-			},
-
 			/**
 			 * @inheritDoc
 			 * @override
@@ -169,6 +125,50 @@
 			 */
 			getSecondsLoaded() {
 				return null;
+			},
+
+			async load(url, isReady) {
+				if (isReady) {
+					const FB = await getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY);
+					FB?.XFBML?.parse?.();
+					return;
+				}
+
+				const FB = await getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY);
+
+				FB.init({
+					appId: this.config.appId,
+					xfbml: true,
+					version: this.config.version,
+				});
+
+				FB.Event.subscribe("xfbml.render", msg => {
+					// Here we know the SDK has loaded, even if onReady/onPlay
+					// is not called due to a video that cannot be embedded
+					this.onLoaded();
+				});
+
+				FB.Event.subscribe("xfbml.ready", msg => {
+					if (msg.type === "video" && msg.id === this.playerID) {
+						this.player = msg.instance;
+						this.player.subscribe("startedPlaying", this.onPlay);
+						this.player.subscribe("paused", this.onPause);
+						this.player.subscribe("finishedPlaying", this.onEnded);
+						this.player.subscribe("startedBuffering", this.onBuffer);
+						this.player.subscribe("finishedBuffering", this.onBufferEnd);
+						this.player.subscribe("error", this.onError);
+						if (this.props.muted) {
+							this.callPlayer("mute");
+						} else {
+							this.callPlayer("unmute");
+						}
+						this.props.onReady();
+
+						// For some reason Facebook have added `visibility: hidden`
+						// to the iframe when autoplay fails, so here we set it back
+						document.getElementById(this.playerID).querySelector("iframe").style.visibility = "visible";
+					}
+				});
 			},
 
 			onLoaded(...args) {

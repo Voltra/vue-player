@@ -20,6 +20,11 @@ const {
 const noop = () => {
 };
 
+
+// TODO: Split config into multiple files and merge here
+// TODO: Remove config from master mixin
+// TODO: Make master player use the config
+// TODO: Make each player use their specific config
 export const playerMixin = {
 	events: [
 		"ready",
@@ -298,6 +303,18 @@ export const playerMixin = {
 		},
 		onBuffer(...args) {
 			this.$emit("buffer", ...args);
+		},
+		onBufferEnd(...args) {
+			this.$emit("buffer-end", ...args);
+		},
+		onPlaybackRateChange(...args) {
+			this.$emit("playback-rate-change", ...args);
+		},
+		onEnablePIP(...args) {
+			this.$emit("enable-pip", ...args);
+		},
+		onDisablePIP(...args) {
+			this.$emit("enable-pip", ...args);
 		},
 		// [/Event handlers/delegates/propagators]
 	},
