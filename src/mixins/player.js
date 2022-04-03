@@ -1,5 +1,10 @@
 import VueTypes from "vue-types";
 
+/*
+	This is just https://github.com/cookpete/react-player/blob/master/src/props.js
+	adapted to use Vue stuff
+*/
+
 const {
 	string,
 	bool,
