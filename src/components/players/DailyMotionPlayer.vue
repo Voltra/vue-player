@@ -17,7 +17,8 @@
 	export default {
 		// [META]
 		displayName: "DailyMotion",
-		canPlay: canPlay.dailymotion(),
+		canPlay: canPlay.dailymotion,
+		loopOnEnded: true,
 		// [/META]
 
 		mixins: [playerMixin],

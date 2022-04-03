@@ -136,7 +136,7 @@ export function callPlayer(method, ...args) {
 	// Util method for calling a method on this.player
 	// but guard against errors and console.warn instead
 	if (!this.player || !this.player[method]) {
-		let message = `ReactPlayer: ${this.constructor.displayName} player could not call %c${method}%c – `;
+		let message = `VuePlayer: ${this.$options.displayName} player could not call %c${method}%c – `;
 		if (!this.player) {
 			message += "The player was not available";
 		} else if (!this.player[method]) {
@@ -149,7 +149,7 @@ export function callPlayer(method, ...args) {
 }
 
 export function isMediaStream(url) {
-	return (
+	return (typeof MediaStream !== "undefined" && url instanceof MediaStream) || (
 		typeof window !== "undefined" &&
 		typeof window.MediaStream !== "undefined" &&
 		url instanceof window.MediaStream
@@ -163,6 +163,7 @@ export function isBlobUrl(url) {
 export function supportsWebKitPresentationMode(video = document.createElement("video")) {
 	// Check if Safari supports PiP, and is not on mobile (other than iPad)
 	// iPhone safari appears to "support" PiP through the check, however PiP does not function
-	const notMobile = /iPhone|iPod/.test(navigator.userAgent) === false;
-	return video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function" && notMobile;
+	const notMobile = !/iPhone|iPod/.test(navigator.userAgent);
+	return typeof video.webkitSetPresentationMode === "function"
+		&& notMobile;
 }

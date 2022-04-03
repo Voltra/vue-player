@@ -35,6 +35,8 @@
   },
   "homepage": "https://github.com/Voltra/vue-player#readme",
   "dependencies": {
+    "deepmerge": "^4.2.2",
+    "load-script": "^2.0.0",
     "vue-types": "^4.1.1"
   }
 }

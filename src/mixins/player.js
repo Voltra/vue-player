@@ -1,4 +1,5 @@
 import VueTypes from "vue-types";
+import { callPlayer } from "../utils";
 
 /*
 	This is just https://github.com/cookpete/react-player/blob/master/src/props.js
@@ -189,6 +190,10 @@ export const playerMixin = {
 		})),
 	},
 	methods: {
+		callPlayer(method, ...args) {
+			return callPlayer.call(this, [method, ...args]);
+		},
+
 		play() {},
 		pause() {},
 		stop() {},
