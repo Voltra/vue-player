@@ -61,25 +61,56 @@
 		},
 
 		methods: {
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook play
+			 */
 			play() {
 				this.callPlayer("play");
 			},
 
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook pause
+			 */
 			pause() {
 				this.callPlayer("pause");
 			},
+
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook seekTo
+			 */
 			seekTo(seconds) {
 				this.callPlayer("seek", seconds);
 			},
 
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook getDuration
+			 */
 			getDuration() {
 				return this.duration;
 			},
 
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook getCurrentTime
+			 */
 			getCurrentTime() {
 				return this.currentTime;
 			},
 
+			/**
+			 * @inheritDoc
+			 * @override
+			 * @hook getSecondsLoaded
+			 */
 			getSecondsLoaded() {
 				return this.secondsLoaded;
 			},
