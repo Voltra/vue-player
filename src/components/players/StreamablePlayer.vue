@@ -47,19 +47,6 @@
 			},
 		},
 
-		watch: {
-			loop(newValue) {
-				this.player?.setLoop?.(newValue);
-			},
-			muted(newValue) {
-				if (newValue) {
-					this.mute();
-				} else {
-					this.unmute();
-				}
-			},
-		},
-
 		methods: {
 			/**
 			 * @inheritDoc

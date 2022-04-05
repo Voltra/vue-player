@@ -162,12 +162,12 @@
 						this.player.subscribe("startedBuffering", this.onBuffer);
 						this.player.subscribe("finishedBuffering", this.onBufferEnd);
 						this.player.subscribe("error", this.onError);
-						if (this.props.muted) {
-							this.callPlayer("mute");
+						if (this.muted) {
+							this.mute();
 						} else {
-							this.callPlayer("unmute");
+							this.unmute();
 						}
-						this.props.onReady();
+						this.onReady();
 
 						// For some reason Facebook have added `visibility: hidden`
 						// to the iframe when autoplay fails, so here we set it back

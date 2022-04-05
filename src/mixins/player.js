@@ -22,6 +22,7 @@ const noop = () => {
 
 export const playerMixin = {
 	events: [
+		"mounted",
 		"ready",
 		"start",
 		"play",
@@ -66,6 +67,26 @@ export const playerMixin = {
 	},
 	mounted() {
 		this.$emit("mounted", this);
+	},
+
+	watch: {
+		muted(newValue) {
+			if (newValue) {
+				this.mute();
+			} else {
+				this.unmute();
+			}
+		},
+		loop: "setLoop",
+		playbackRate: "setPlaybackRate",
+		volume: "setVolume",
+		playing(newValue) {
+			if(newValue) {
+				this.play();
+			} else {
+				this.pause();
+			}
+		}
 	},
 	methods: {
 		callPlayer(method, ...args) {
