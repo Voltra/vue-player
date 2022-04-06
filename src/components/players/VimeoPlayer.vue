@@ -1,5 +1,5 @@
 <template>
-	<div :key="this.url" ref="container"/>
+	<div :key="this.url" :style="styles" ref="container"/>
 </template>
 
 <script>
@@ -7,6 +7,7 @@
 	import { playerMixin } from "../../mixins/player";
 	import { vimeoConfigProps } from "../../props/vimeoConfig";
 	import { getSDK } from "../../utils";
+	import VueTypes from "vue-types";
 
 	const SDK_URL = "https://player.vimeo.com/api/player.js";
 	const SDK_GLOBAL = "Vimeo";
@@ -22,6 +23,7 @@
 
 		props: {
 			config: vimeoConfigProps,
+			display: VueTypes.string.def("block"),
 		},
 
 		data() {
@@ -30,6 +32,17 @@
 				currentTime: null,
 				secondsLoaded: null,
 			};
+		},
+
+		computed: {
+			styles() {
+				return {
+					display: this.display,
+					overflow: "hidden",
+					width: "100%",
+					height: "100%",
+				};
+			},
 		},
 
 		methods: {
