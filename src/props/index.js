@@ -7,7 +7,7 @@ import {
 	facebookConfigProps,
 	facebookConfigPropsDefaults,
 } from "./facebookConfig";
-import { shape } from "vue-types";
+import { func, oneOfType, shape, string, object } from "vue-types";
 import {
 	dailymotionConfigProps,
 	dailymotionConfigPropsDefaults,
@@ -50,3 +50,9 @@ export const configProps = shape({
 	twitch: twitchConfigProps,
 	vidyard: vidyardConfigProps,
 }).def(configPropsDefaults);
+
+export const tagOrComponentProps = oneOfType([
+	object,
+	string,
+	func,
+]);

@@ -14,7 +14,9 @@
 		v-on="$listeners"
 	/>
 
-	<span v-else class="vue-player--none"/>
+	<span v-else class="vue-player--none">
+		<slot name="none"/>
+	</span>
 </template>
 
 <script>
@@ -95,7 +97,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook getDuration
+			 * @playerHook getDuration
 			 */
 			getDuration() {
 				if (!this.isReady) return null;
@@ -105,7 +107,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook getCurrentTime
+			 * @playerHook getCurrentTime
 			 */
 			getCurrentTime() {
 				if (!this.isReady) return null;
@@ -115,7 +117,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook getSecondsLoaded
+			 * @playerHook getSecondsLoaded
 			 */
 			getSecondsLoaded() {
 				if (!this.isReady) return null;
@@ -125,7 +127,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook getSecondsLoaded
+			 * @playerHook getSecondsLoaded
 			 */
 			seekTo(amount, type) {
 				// When seeking before player is ready, store value and seek later

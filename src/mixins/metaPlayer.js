@@ -1,5 +1,5 @@
 import { playerMixin } from "./player";
-import { configProps } from "../props";
+import { configProps, tagOrComponentProps } from "../props";
 import VueTypes from "vue-types";
 
 export const metaPlayerMixin = {
@@ -7,10 +7,6 @@ export const metaPlayerMixin = {
 	props: {
 		config: configProps,
 		progressFrequency: VueTypes.number,
-		activePlayer: VueTypes.oneOfType([
-			VueTypes.object,
-			VueTypes.string,
-			VueTypes.func,
-		]),
+		activePlayer: tagOrComponentProps,
 	},
 };

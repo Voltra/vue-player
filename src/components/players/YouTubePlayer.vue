@@ -44,7 +44,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook play
+			 * @playerHook play
 			 */
 			play() {
 				this.callPlayer("playVideo");
@@ -53,7 +53,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook pause
+			 * @playerHook pause
 			 */
 			pause() {
 				this.callPlayer("pauseVideo");
@@ -62,7 +62,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook stop
+			 * @playerHook stop
 			 */
 			stop() {
 				if (!document.body.contains(this.callPlayer("getIframe"))) return;
@@ -72,7 +72,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook seekTo
+			 * @playerHook seekTo
 			 */
 			seekTo(amount) {
 				this.callPlayer("seekTo", amount);
@@ -84,7 +84,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook setVolume
+			 * @playerHook setVolume
 			 */
 			setVolume(fraction) {
 				this.callPlayer("setVolume", fraction * 100);
@@ -93,7 +93,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook mute
+			 * @playerHook mute
 			 */
 			mute() {
 				this.callPlayer("mute");
@@ -102,7 +102,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook unmute
+			 * @playerHook unmute
 			 */
 			unmute() {
 				this.callPlayer("unmute");
@@ -111,7 +111,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook setPlaybackRate
+			 * @playerHook setPlaybackRate
 			 */
 			setPlaybackRate(rate) {
 				this.callPlayer("setPlaybackRate", rate);
@@ -120,7 +120,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook setLoop
+			 * @playerHook setLoop
 			 */
 			setLoop(loop) {
 				this.callPlayer("setLoop", loop);
@@ -129,7 +129,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook getDuration
+			 * @playerHook getDuration
 			 */
 			getDuration() {
 				return this.callPlayer("getDuration");
@@ -138,7 +138,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook getCurrentTime
+			 * @playerHook getCurrentTime
 			 */
 			getCurrentTime() {
 				return this.callPlayer("getCurrentTime");
@@ -147,7 +147,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook getSecondsLoaded
+			 * @playerHook getSecondsLoaded
 			 */
 			getSecondsLoaded() {
 				return this.callPlayer("getVideoLoadedFraction") * this.getDuration();

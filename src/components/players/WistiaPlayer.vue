@@ -50,7 +50,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook play
+			 * @playerHook play
 			 */
 			play() {
 				this.callPlayer("play");
@@ -59,7 +59,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook pause
+			 * @playerHook pause
 			 */
 			pause() {
 				this.callPlayer("pause");
@@ -68,7 +68,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook stop
+			 * @playerHook stop
 			 */
 			stop() {
 				this.unbind();
@@ -78,7 +78,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook seekTo
+			 * @playerHook seekTo
 			 */
 			seekTo(seconds) {
 				this.callPlayer("time", seconds);
@@ -87,7 +87,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook setVolume
+			 * @playerHook setVolume
 			 */
 			setVolume(fraction) {
 				this.callPlayer("volume", fraction);
@@ -96,7 +96,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook mute
+			 * @playerHook mute
 			 */
 			mute() {
 				this.callPlayer("mute");
@@ -105,7 +105,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook unmute
+			 * @playerHook unmute
 			 */
 			unmute() {
 				this.callPlayer("unmute");
@@ -114,7 +114,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook setPlaybackRate
+			 * @playerHook setPlaybackRate
 			 */
 			setPlaybackRate(rate) {
 				this.callPlayer("playbackRate", rate);
@@ -123,7 +123,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook setPlaybackRate
+			 * @playerHook setPlaybackRate
 			 */
 			getDuration() {
 				return this.callPlayer("duration");
@@ -132,7 +132,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook getCurrentTime
+			 * @playerHook getCurrentTime
 			 */
 			getCurrentTime() {
 				return this.callPlayer("time");
@@ -141,7 +141,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook getSecondsLoaded
+			 * @playerHook getSecondsLoaded
 			 */
 			getSecondsLoaded() {
 				return null;

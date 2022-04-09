@@ -37,9 +37,10 @@
 	"dependencies": {
 		"deepmerge": "^4.2.2",
 		"load-script": "^2.0.0",
+		"memoize-one": "^6.0.0",
 		"vue-types": "^4.1.1"
 	},
 	"peerDependencies": {
-		"vue": "^2.6.0|^3.0.0"
+		"vue": "^2.6.0 || ^3.0.0"
 	}
 }

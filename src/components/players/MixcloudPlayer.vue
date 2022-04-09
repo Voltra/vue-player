@@ -64,7 +64,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook play
+			 * @playerHook play
 			 */
 			play() {
 				this.callPlayer("play");
@@ -73,7 +73,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook pause
+			 * @playerHook pause
 			 */
 			pause() {
 				this.callPlayer("pause");
@@ -82,7 +82,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook seekTo
+			 * @playerHook seekTo
 			 */
 			seekTo(seconds) {
 				this.callPlayer("seek", seconds);
@@ -91,7 +91,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook getDuration
+			 * @playerHook getDuration
 			 */
 			getDuration() {
 				return this.duration;
@@ -100,7 +100,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook getCurrentTime
+			 * @playerHook getCurrentTime
 			 */
 			getCurrentTime() {
 				return this.currentTime;
@@ -109,7 +109,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook getSecondsLoaded
+			 * @playerHook getSecondsLoaded
 			 */
 			getSecondsLoaded() {
 				return this.secondsLoaded;

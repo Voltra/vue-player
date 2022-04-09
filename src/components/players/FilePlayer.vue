@@ -147,7 +147,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook onDisablePIP
+			 * @playerHook onDisablePIP
 			 */
 			onDisablePIP(...args) {
 				this.$emit("disable-pip", ...args);
@@ -160,7 +160,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook onSeek
+			 * @playerHook onSeek
 			 */
 			onSeek(e) {
 				this.$emit("seek", e.target.currentTime);
@@ -169,7 +169,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook play
+			 * @playerHook play
 			 */
 			play() {
 				const promise = this.$refs.player.play?.();
@@ -182,7 +182,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook pause
+			 * @playerHook pause
 			 */
 			pause() {
 				this.$refs.player.pause?.();
@@ -191,7 +191,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook stop
+			 * @playerHook stop
 			 */
 			stop() {
 				this.$refs.player?.removeAttribute?.("src");
@@ -201,7 +201,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook seekTo
+			 * @playerHook seekTo
 			 */
 			seekTo(seconds) {
 				this.player.currentTime = seconds;
@@ -210,7 +210,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook setVolume
+			 * @playerHook setVolume
 			 */
 			setVolume(fraction) {
 				this.player.volume = fraction;
@@ -219,7 +219,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook mute
+			 * @playerHook mute
 			 */
 			mute() {
 				this.player.muted = true;
@@ -228,7 +228,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook unmute
+			 * @playerHook unmute
 			 */
 			unmute() {
 				this.player.muted = false;
@@ -237,7 +237,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook getDuration
+			 * @playerHook getDuration
 			 */
 			getDuration() {
 				if (!this.$refs.player) return null;
@@ -253,7 +253,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook getCurrentTime
+			 * @playerHook getCurrentTime
 			 */
 			getCurrentTime() {
 				return this.$refs.player?.currentTime;
@@ -262,7 +262,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook getSecondsLoaded
+			 * @playerHook getSecondsLoaded
 			 */
 			getSecondsLoaded() {
 				if (!this.$refs.player) return null;
@@ -281,7 +281,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook setPlaybackRate
+			 * @playerHook setPlaybackRate
 			 */
 			setPlaybackRate(rate) {
 				try {
@@ -294,7 +294,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook enablePIP
+			 * @playerHook enablePIP
 			 */
 			enablePIP() {
 				if (this.$refs.player?.requestPictureInPicture && document.pictureInPictureElement !== this.$refs.player) {
@@ -309,7 +309,7 @@
 			/**
 			 * @inheritDoc
 			 * @override
-			 * @hook disablePIP
+			 * @playerHook disablePIP
 			 */
 			disablePIP() {
 				if (document.exitPictureInPicture && document.pictureInPictureElement === this.$refs.player) {

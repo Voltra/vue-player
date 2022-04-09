@@ -107,54 +107,54 @@ export const playerMixin = {
 		// [Hooks]
 		/**
 		 * Start/resume playing
-		 * @hook play
+		 * @playerHook play
 		 */
 		play() {},
 
 
 		/**
 		 * Pause the video
-		 * @hook pause
+		 * @playerHook pause
 		 */
 		pause() {},
 
 
 		/**
 		 * Stop the video (pause + back to 0)
-		 * @hook stop
+		 * @playerHook stop
 		 */
 		stop() {},
 
 		/**
 		 * Move the play-head to the give time in seconds
 		 * @param {number} seconds - The time point to move the play-head to
-		 * @hook seekTo
+		 * @playerHook seekTo
 		 */
 		seekTo(seconds) {},
 
 		/**
 		 * Move the play-point to the give time in seconds
 		 * @param {number} fraction - A number in the range [0;1] where 0 is mute and 1 is full power
-		 * @hook setVolume
+		 * @playerHook setVolume
 		 */
 		setVolume(fraction) {},
 
 		/**
 		 * Mute the player
-		 * @hook mute
+		 * @playerHook mute
 		 */
 		mute() {},
 
 		/**
 		 * Mute the player
-		 * @hook unmute
+		 * @playerHook unmute
 		 */
 		unmute() {},
 
 		/**
 		 * Get the duration of the video
 		 * @returns {number|null}
-		 * @hook getDuration
+		 * @playerHook getDuration
 		 */
 		getDuration() {
 			return 0;
@@ -163,7 +163,7 @@ export const playerMixin = {
 		/**
 		 * Get the current position of the play-head in seconds
 		 * @returns {number|null}
-		 * @hook getCurrentTime
+		 * @playerHook getCurrentTime
 		 */
 		getCurrentTime() {
 			return 0;
@@ -172,7 +172,7 @@ export const playerMixin = {
 		/**
 		 * Get the amount of seconds already preloaded
 		 * @returns {number|null}
-		 * @hook getSecondsLoaded
+		 * @playerHook getSecondsLoaded
 		 */
 		getSecondsLoaded() {
 			return 0;
@@ -181,7 +181,7 @@ export const playerMixin = {
 		/**
 		 * Set the playback rate
 		 * @param {number} rate
-		 * @hook setPlaybackRate
+		 * @playerHook setPlaybackRate
 		 */
 		setPlaybackRate(rate) {},
 
