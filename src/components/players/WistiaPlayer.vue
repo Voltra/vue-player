@@ -1,10 +1,14 @@
 <template>
-	//
+	<div
+		:id="pid"
+		:key="videoId"
+		:class="className"
+	/>
 </template>
 
 <script>
 	import { randomString } from "../../utils";
-	import { canPlay } from "../../patterns";
+	import { canPlay, MATCH_URL_WISTIA } from "../../patterns";
 	import { playerMixin } from "../../mixins/player";
 	import { wistiaConfigProps } from "../../props/wistiaConfig";
 
@@ -34,6 +38,12 @@
 		computed: {
 			pid() {
 				return this.config.playerId ?? this.randomId;
+			},
+			videoId() {
+				return this.url?.match?.(MATCH_URL_WISTIA)?.[1];
+			},
+			className() {
+				return `vue-player--wistia wistia_embed wistia_async_${this.videoId}`;
 			},
 		},
 		methods: {
@@ -139,7 +149,7 @@
 
 			async load(url) {
 				try {
-					const { playing, muted, controls, onReady, config, onError } = this.props;
+					const { playing, muted, controls, onReady, config, onError } = this;
 
 					const Wistia = await getSDK(SDK_URL, SDK_GLOBAL);
 					config.customControls?.forEach?.(control => Wistia.defineControl(control));
@@ -186,3 +196,10 @@
 		},
 	};
 </script>
+
+<style>
+	.vue-player--wistia {
+		width: 100%;
+		height: 100%;
+	}
+</style>
