@@ -65,8 +65,17 @@ export const playerMixin = {
 		]).def("div"),
 		config: object.def({}),
 	},
+	data() {
+		return {
+			isMounted: false,
+		};
+	},
 	mounted() {
+		this.isMounted = true;
 		this.$emit("mounted", this);
+	},
+	beforeUnmount() {
+		this.isMounted = false;
 	},
 
 	watch: {

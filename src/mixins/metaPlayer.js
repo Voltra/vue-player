@@ -1,10 +1,16 @@
 import { playerMixin } from "./player";
-import { shape, object, func, string, array, bool } from "vue-types";
 import { configProps } from "../props";
+import VueTypes from "vue-types";
 
 export const metaPlayerMixin = {
 	mixins: [playerMixin],
 	props: {
 		config: configProps,
+		progressFrequency: VueTypes.number,
+		activePlayer: VueTypes.oneOfType([
+			VueTypes.object,
+			VueTypes.string,
+			VueTypes.func,
+		]),
 	},
 };
