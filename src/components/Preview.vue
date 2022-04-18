@@ -94,7 +94,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	@mixin flexCentered {
 		display: flex;
 		justify-content: center;

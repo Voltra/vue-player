@@ -15,7 +15,7 @@
 		<template v-if="urlIsArray">
 			<template v-for="(source, index) in this.url">
 				<slot name="source" v-bind="{ source }">
-					<source v-if="typeof source === 'string'" :src="source" :key="index"/>
+					<source v-if="typeof source === 'string'" :src="source" :key="source"/>
 					<source v-else :key="index" v-bind="source"/>
 				</slot>
 			</template>
