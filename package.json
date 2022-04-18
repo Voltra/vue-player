@@ -1,0 +1,65 @@
+{
+	"name": "@voltra/vue-player",
+	"version": "0.0.1",
+	"description": "A Vue port of react-player: components for playing a variety of URLs including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, DailyMotion",
+	"main": "dist/index.js",
+	"sideEffects": false,
+	"scripts": {
+		"build": "webpack --mode production",
+		"watch": "webpack --mode development --watch",
+		"clean": "rm -rf dist"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Voltra/vue-player.git"
+	},
+	"keywords": [
+		"vue",
+		"media",
+		"player",
+		"video",
+		"audio",
+		"youtube",
+		"facebook",
+		"twitch",
+		"soundcloud",
+		"streamable",
+		"vimeo",
+		"wistia",
+		"dailymotion",
+		"hls",
+		"dash",
+		"vue-component"
+	],
+	"author": "Voltra <ludwig.guerin.98@gmx.fr>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Voltra/vue-player/issues"
+	},
+	"homepage": "https://voltra.github.io/vue-player",
+	"dependencies": {
+		"deepmerge": "^4.2.2",
+		"load-script": "^2.0.0",
+		"memoize-one": "^6.0.0",
+		"vue-types": "^4.1.1"
+	},
+	"peerDependencies": {
+		"vue": "^2.6.0 || ^3.0.0"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.17.9",
+		"@babel/preset-env": "^7.16.11",
+		"@nuxt/friendly-errors-webpack-plugin": "^2.5.2",
+		"babel-loader": "^8.2.4",
+		"core-js": "^3.22.0",
+		"css-loader": "^6.7.1",
+		"mini-css-extract-plugin": "^2.6.0",
+		"sass": "^1.50.0",
+		"sass-loader": "^12.6.0",
+		"style-loader": "^3.3.1",
+		"vue-loader": "^17.0.0",
+		"vue-template-compiler": "^2.6.14",
+		"webpack": "^5.72.0",
+		"webpack-cli": "^4.9.2"
+	}
+}

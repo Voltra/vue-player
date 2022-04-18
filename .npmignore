@@ -1,0 +1,11 @@
+.github
+*.config.js
+*.png
+test
+*.log
+*.bkp
+*.swp
+.DS_Store
+tmp
+logs
+
