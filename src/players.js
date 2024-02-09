@@ -3,13 +3,13 @@ import { supportsWebKitPresentationMode } from "./utils";
 
 export const players = [
 	/**
-	 * @type {PlayerDecl<"youtube", "YouTube", import("./components/players/YouTubePlayer.vue").default>}
+	 * @type {PlayerDecl<"youtube", "YouTube", import("./components/players/YouTubePlayer").default>}
 	 */
 	{
 		key: 'youtube',
 		name: 'YouTube',
 		canPlay: canPlay.youtube,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerYouTube' */'./components/players/YouTubePlayer.vue')
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerYouTube' */'./components/players/YouTubePlayer')
 	},
 
 	/**
@@ -23,97 +23,97 @@ export const players = [
 	},
 
 	/**
-	 * @type {PlayerDecl<"vimeo", "Vimeo", import("./components/players/VimeoPlayer.vue").default>}
+	 * @type {PlayerDecl<"vimeo", "Vimeo", import("./components/players/VimeoPlayer").default>}
 	 */
 	{
 		key: 'vimeo',
 		name: 'Vimeo',
 		canPlay: canPlay.vimeo,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerVimeo' */'./components/players/VimeoPlayer.vue')
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerVimeo' */'./components/players/VimeoPlayer')
 	},
 
 	/**
-	 * @type {PlayerDecl<"facebook", "Facebook", import("./components/players/FacebookPlayer.vue").default>}
+	 * @type {PlayerDecl<"facebook", "Facebook", import("./components/players/FacebookPlayer").default>}
 	 */
 	{
 		key: 'facebook',
 		name: 'Facebook',
 		canPlay: canPlay.facebook,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerFacebook' */'./components/players/FacebookPlayer.vue')
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerFacebook' */'./components/players/FacebookPlayer')
 	},
 
 	/**
-	 * @type {PlayerDecl<"streamable", "Streamable", import("./components/players/StreamablePlayer.vue").default>}
+	 * @type {PlayerDecl<"streamable", "Streamable", import("./components/players/StreamablePlayer").default>}
 	 */
 	{
 		key: 'streamable',
 		name: 'Streamable',
 		canPlay: canPlay.streamable,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerStreamable' */'./components/players/StreamablePlayer.vue')
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerStreamable' */'./components/players/StreamablePlayer')
 	},
 
 	/**
-	 * @type {PlayerDecl<"wistia", "Wistia", import("./components/players/WistiaPlayer.vue").default>}
+	 * @type {PlayerDecl<"wistia", "Wistia", import("./components/players/WistiaPlayer").default>}
 	 */
 	{
 		key: 'wistia',
 		name: 'Wistia',
 		canPlay: canPlay.wistia,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerWistia' */'./components/players/WistiaPlayer.vue')
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerWistia' */'./components/players/WistiaPlayer')
 	},
 
 	/**
-	 * @type {PlayerDecl<"twitch", "Twitch", import("./components/players/TwitchPlayer.vue").default>}
+	 * @type {PlayerDecl<"twitch", "Twitch", import("./components/players/TwitchPlayer").default>}
 	 */
 	{
 		key: 'twitch',
 		name: 'Twitch',
 		canPlay: canPlay.twitch,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerTwitch' */'./components/players/TwitchPlayer.vue')
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerTwitch' */'./components/players/TwitchPlayer')
 	},
 
 	/**
-	 * @type {PlayerDecl<"dailymotion", "DailyMotion", import("./components/players/DailyMotionPlayer.vue").default>}
+	 * @type {PlayerDecl<"dailymotion", "DailyMotion", import("./components/players/DailyMotionPlayer").default>}
 	 */
 	{
 		key: 'dailymotion',
 		name: 'DailyMotion',
 		canPlay: canPlay.dailymotion,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerDailyMotion' */'./components/players/DailyMotionPlayer.vue')
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerDailyMotion' */'./components/players/DailyMotionPlayer')
 	},
 
 	/**
-	 * @type {PlayerDecl<"mixcloud", "Mixcloud", import("./components/players/MixcloudPlayer.vue").default>}
+	 * @type {PlayerDecl<"mixcloud", "Mixcloud", import("./components/players/MixcloudPlayer").default>}
 	 */
 	{
 		key: 'mixcloud',
 		name: 'Mixcloud',
 		canPlay: canPlay.mixcloud,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerMixcloud' */'./components/players/MixcloudPlayer.vue')
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerMixcloud' */'./components/players/MixcloudPlayer')
 	},
 
 	/**
-	 * @type {PlayerDecl<"vidyard", "Vidyard", import("./components/players/VidyardPlayer.vue").default>}
+	 * @type {PlayerDecl<"vidyard", "Vidyard", import("./components/players/VidyardPlayer").default>}
 	 */
 	{
 		key: 'vidyard',
 		name: 'Vidyard',
 		canPlay: canPlay.vidyard,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerVidyard' */'./components/players/VidyardPlayer.vue')
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerVidyard' */'./components/players/VidyardPlayer')
 	},
 
 	/**
-	 * @type {PlayerDecl<"kaltura", "Kaltura", import("./components/players/KalturaPlayer.vue").default>}
+	 * @type {PlayerDecl<"kaltura", "Kaltura", import("./components/players/KalturaPlayer").default>}
 	 */
 	{
 		key: 'kaltura',
 		name: 'Kaltura',
 		canPlay: canPlay.kaltura,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerKaltura' */'./components/players/KalturaPlayer.vue')
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerKaltura' */'./components/players/KalturaPlayer')
 	},
 
 	/**
-	 * @type {PlayerDecl<"file", "FilePlayer", import("./components/players/FilePlayer.vue").default>}
+	 * @type {PlayerDecl<"file", "FilePlayer", import("./components/players/FilePlayer").default>}
 	 */
 	{
 		key: 'file',
@@ -122,7 +122,7 @@ export const players = [
 		canEnablePIP: url => {
 			return canPlay.file(url) && (document.pictureInPictureEnabled || supportsWebKitPresentationMode()) && !AUDIO_EXTENSIONS.test(url)
 		},
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerFilePlayer' */'./components/players/FilePlayer.vue')
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerFilePlayer' */'./components/players/FilePlayer')
 	}
 ];
 

@@ -6,6 +6,17 @@
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,
 		"skipLibCheck": true,
-		"allowJs": true
-	}
+		"allowJs": true,
+		"baseUrl": "src",
+		"declaration": false,
+		"inlineSourceMap": false,
+		"lib": ["esnext"],
+		"listEmittedFiles": false,
+		"listFiles": false,
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"traceResolution": false
+	},
+	"exclude": ["node_modules", "dist"],
+	"include": ["src"]
 }
