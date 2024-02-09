@@ -7,7 +7,7 @@ import {
 	facebookConfigProps,
 	facebookConfigPropsDefaults,
 } from "./facebookConfig";
-import { func, oneOfType, shape, string, object } from "vue-types";
+import VueTypes from "vue-types";
 import {
 	dailymotionConfigProps,
 	dailymotionConfigPropsDefaults,
@@ -38,7 +38,7 @@ export const configPropsDefaults = {
 	vidyard: vidyardConfigPropsDefaults,
 };
 
-export const configProps = shape({
+export const configProps = VueTypes.shape({
 	soundcloud: soundcloudConfigProps,
 	youtube: youtubeConfigProps,
 	facebook: facebookConfigProps,
@@ -49,10 +49,10 @@ export const configProps = shape({
 	mixcloud: mixcloudConfigProps,
 	twitch: twitchConfigProps,
 	vidyard: vidyardConfigProps,
-}).def(configPropsDefaults);
+}).def(() => configPropsDefaults);
 
-export const tagOrComponentProps = oneOfType([
-	object,
-	string,
-	func,
+export const tagOrComponentProps = VueTypes.oneOfType([
+	VueTypes.object,
+	VueTypes.string,
+	VueTypes.func,
 ]);

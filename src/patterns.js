@@ -47,6 +47,9 @@ export const HLS_EXTENSIONS = /\.(m3u8)($|\?)/i;
 export const DASH_EXTENSIONS = /\.(mpd)($|\?)/i;
 export const FLV_EXTENSIONS = /\.(flv)($|\?)/i;
 
+/**
+ * @type {CanPlayUrl}
+ */
 const canPlayFile = url => {
 	if (url instanceof Array) {
 		for (const item of url) {
@@ -72,21 +75,68 @@ const canPlayFile = url => {
 };
 
 export const canPlay = {
+	/**
+	 * @type {CanPlayUrl}
+	 */
 	youtube: url => {
 		if (url instanceof Array) {
 			return url.every(item => MATCH_URL_YOUTUBE.test(item));
 		}
 		return MATCH_URL_YOUTUBE.test(url);
 	},
+
+	/**
+	 * @type {CanPlayUrl}
+	 */
 	soundcloud: url => MATCH_URL_SOUNDCLOUD.test(url) && !AUDIO_EXTENSIONS.test(url),
+
+	/**
+	 * @type {CanPlayUrl}
+	 */
 	vimeo: url => MATCH_URL_VIMEO.test(url) && !VIDEO_EXTENSIONS.test(url) && !HLS_EXTENSIONS.test(url),
+
+	/**
+	 * @type {CanPlayUrl}
+	 */
 	facebook: url => MATCH_URL_FACEBOOK.test(url) || MATCH_URL_FACEBOOK_WATCH.test(url),
+
+	/**
+	 * @type {CanPlayUrl}
+	 */
 	streamable: url => MATCH_URL_STREAMABLE.test(url),
+
+	/**
+	 * @type {CanPlayUrl}
+	 */
 	wistia: url => MATCH_URL_WISTIA.test(url),
+
+	/**
+	 * @type {CanPlayUrl}
+	 */
 	twitch: url => MATCH_URL_TWITCH_VIDEO.test(url) || MATCH_URL_TWITCH_CHANNEL.test(url),
+
+	/**
+	 * @type {CanPlayUrl}
+	 */
 	dailymotion: url => MATCH_URL_DAILYMOTION.test(url),
+
+	/**
+	 * @type {CanPlayUrl}
+	 */
 	mixcloud: url => MATCH_URL_MIXCLOUD.test(url),
+
+	/**
+	 * @type {CanPlayUrl}
+	 */
 	vidyard: url => MATCH_URL_VIDYARD.test(url),
+
+	/**
+	 * @type {CanPlayUrl}
+	 */
 	kaltura: url => MATCH_URL_KALTURA.test(url),
+
+	/**
+	 * @type {CanPlayUrl}
+	 */
 	file: canPlayFile,
 };

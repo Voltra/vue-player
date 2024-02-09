@@ -1,28 +1,22 @@
-import VuePlayer from "@/components/VuePlayer";
-import Player from "@/components/Player";
-import Preview from "@/components/Preview";
-import DailyMotionPlayer from "@/components/players/DailyMotionPlayer";
-import FacebookPlayer from "@/components/players/FacebookPlayer";
-import FilePlayer from "@/components/players/FilePlayer";
-import KalturaPlayer from "@/components/players/KalturaPlayer";
-import MixcloudPlayer from "@/components/players/MixcloudPlayer";
-import SoundcloudPlayer from "@/components/players/SoundcloudPlayer";
-
 export * from "./mixins/player";
 
-export {
-	// Meta player
-	VuePlayer,
+// Meta player
+export { default as VuePlayer } from "@/components/VuePlayer"
 
-	// Helpers
-	Player,
-	Preview,
+// Helpers
+export { default as Player } from "@/components/Player"
+export { default as Preview } from "@/components/Preview"
 
-	// Players
-	DailyMotionPlayer,
-	FacebookPlayer,
-	FilePlayer,
-	KalturaPlayer,
-	MixcloudPlayer,
-	SoundcloudPlayer,
-}
+// Players
+export { default as DailyMotionPlayer } from "@/components/players/DailyMotionPlayer"
+export { default as FacebookPlayer } from "@/components/players/FacebookPlayer"
+export { default as FilePlayer } from "@/components/players/FilePlayer"
+export { default as KalturaPlayer } from "@/components/players/KalturaPlayer"
+export { default as MixcloudPlayer } from "@/components/players/MixcloudPlayer"
+export { default as SoundcloudPlayer } from "@/components/players/SoundcloudPlayer"
+export { default as StreamablePlayer } from "@/components/players/StreamablePlayer"
+export { default as TwitchPlayer } from "@/components/players/TwitchPlayer"
+export { default as VidyardPlayer } from "@/components/players/VidyardPlayer"
+export { default as VimeoPlayer } from "@/components/players/VimeoPlayer"
+export { default as WistiaPlayer } from "@/components/players/WistiaPlayer"
+export { default as YouTubePlayer } from "@/components/players/YouTubePlayer"

@@ -1,5 +1,8 @@
-import { bool, integer, shape } from "vue-types";
+import VueTypes from "vue-types";
 
+/**
+ * @type {DailymotionConfig}
+ */
 export const dailymotionConfigPropsDefaults = {
 	params: {
 		api: 1,
@@ -7,9 +10,12 @@ export const dailymotionConfigPropsDefaults = {
 	},
 };
 
-export const dailymotionConfigProps = shape({
-	params: shape({
-		api: integer,
-		"endscreen-enable": bool,
+/**
+ * @type {import("vue-types").VueTypeShape<DailymotionConfig>}
+ */
+export const dailymotionConfigProps = VueTypes.shape({
+	params: VueTypes.shape({
+		api: VueTypes.integer,
+		"endscreen-enable": VueTypes.bool,
 	}).loose,
-}).loose.def(dailymotionConfigPropsDefaults);
+}).loose.def(() => dailymotionConfigPropsDefaults);
