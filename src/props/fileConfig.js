@@ -1,5 +1,8 @@
-import { array, bool, object, shape, string } from "vue-types";
+import VueTypes, { array, bool, object, shape, string } from "vue-types";
 
+/**
+ * @type {FileConfig}
+ */
 export const fileConfigPropsDefaults = {
 	attributes: {},
 	tracks: [],
@@ -14,16 +17,19 @@ export const fileConfigPropsDefaults = {
 	flvVersion: '1.5.0'
 };
 
-export const fileConfigProps = shape({
-	attributes: object,
-	tracks: array,
-	forceVideo: bool,
-	forceAudio: bool,
-	forceHLS: bool,
-	forceDASH: bool,
-	forceFLV: bool,
-	hlsOptions: object,
-	hlsVersion: string,
-	dashVersion: string,
-	flvVersion: string,
-}).loose.def(fileConfigPropsDefaults);
+/**
+ * @type {import("vue-types").VueTypeShape<FileConfig>}
+ */
+export const fileConfigProps = VueTypes.shape({
+	attributes: VueTypes.object,
+	tracks: VueTypes.array,
+	forceVideo: VueTypes.bool,
+	forceAudio: VueTypes.bool,
+	forceHLS: VueTypes.bool,
+	forceDASH: VueTypes.bool,
+	forceFLV: VueTypes.bool,
+	hlsOptions: VueTypes.object,
+	hlsVersion: VueTypes.string,
+	dashVersion: VueTypes.string,
+	flvVersion: VueTypes.string,
+}).loose.def(() => fileConfigPropsDefaults);

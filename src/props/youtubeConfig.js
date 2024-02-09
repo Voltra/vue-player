@@ -1,5 +1,8 @@
-import { func, integer, object, shape } from "vue-types";
+import VueTypes, { func, integer, object, shape } from "vue-types";
 
+/**
+ * @type {YoutubeConfig}
+ */
 export const youtubeConfigPropsDefaults = {
 	playerVars: {
 		playsinline: 1,
@@ -12,14 +15,17 @@ export const youtubeConfigPropsDefaults = {
 	onUnstarted: () => {},
 };
 
-export const youtubeConfigProps = shape({
-	playerVars: shape({
-		playsinline: integer,
-		showinfo: integer,
-		rel: integer,
-		iv_load_policy: integer,
-		modestbranding: integer,
+/**
+ * @type {import("vue-types").VueTypeShape<YoutubeConfig>}
+ */
+export const youtubeConfigProps = VueTypes.shape({
+	playerVars: VueTypes.shape({
+		playsinline: VueTypes.integer,
+		showinfo: VueTypes.integer,
+		rel: VueTypes.integer,
+		iv_load_policy: VueTypes.integer,
+		modestbranding: VueTypes.integer,
 	}).loose,
-	embedOptions: object,
-	onUnstarted: func,
-}).loose.def(youtubeConfigPropsDefaults);
+	embedOptions: VueTypes.object,
+	onUnstarted: VueTypes.func,
+}).loose.def(() => youtubeConfigPropsDefaults);

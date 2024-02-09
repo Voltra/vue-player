@@ -1,9 +1,15 @@
-import { object, shape } from "vue-types";
+import VueTypes from "vue-types";
 
+/**
+ * @type {VidyardConfig}
+ */
 export const vidyardConfigPropsDefaults = {
 	options: {}
 };
 
-export const vidyardConfigProps = shape({
-	options: object,
-}).loose.def(vidyardConfigPropsDefaults);
+/**
+ * @type {import("vue-types").VueTypeShape<VidyardConfig>}
+ */
+export const vidyardConfigProps = VueTypes.shape({
+	options: VueTypes.object,
+}).loose.def(() => vidyardConfigPropsDefaults);

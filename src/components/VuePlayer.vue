@@ -42,14 +42,31 @@
 	import { configPropsDefaults } from "../props";
 	import memoize from "memoize-one";
 
+	/**
+	 * @type {PlayerDecl<any, any, any>[]}
+	 */
 	let customPlayers = [];
 
 	export default {
 		// [META]
 		displayName: "VuePlayer",
+
+		/**
+		 * @template {string} Key
+		 * @template {string} Name
+		 * @template {Component} C
+		 * @param {PlayerDecl<Key, Name, C>} player
+		 */
 		addCustomPlayer(player) {
 			customPlayers.push(player);
 		},
+
+		/**
+		 * @template {string} Key
+		 * @template {string} Name
+		 * @template {Component} C
+		 * @param {PlayerDecl<Key, Name, C>} player
+		 */
 		removeCustomPlayer(player) {
 			customPlayers = customPlayers.filter(customPlayer => customPlayer !== player);
 		},
@@ -57,10 +74,10 @@
 			customPlayers = [];
 		},
 		canPlay(url) {
-			return [...customPlayers, players].some(Player => Player.canPlay(url));
+			return [...customPlayers, ...players].some(Player => Player.canPlay(url));
 		},
 		canEnablePIP(url) {
-			return [...customPlayers, players].some(Player => Player.canEnablePIP?.(url));
+			return [...customPlayers, ...players].some(Player => Player.canEnablePIP?.(url));
 		},
 		// [/META]
 		inheritAttrs: false,
@@ -166,7 +183,7 @@
 			handleReady() {
 				this.onReady(this);
 			},
-			getInternalePlayer(key = "player") {
+			getInternalPlayer(key = "player") {
 				return this.$refs.player?.getInternalPlayer(key);
 			},
 		},

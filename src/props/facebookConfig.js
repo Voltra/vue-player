@@ -1,5 +1,8 @@
-import { object, shape, string } from "vue-types";
+import VueTypes from "vue-types";
 
+/**
+ * @type {FacebookConfig}
+ */
 export const facebookConfigPropsDefaults = {
 	appId: '1309697205772819',
 	version: 'v3.3',
@@ -7,9 +10,12 @@ export const facebookConfigPropsDefaults = {
 	attributes: {}
 };
 
-export const facebookConfigProps = shape({
-	appId: string,
-	version: string,
-	playerId: string,
-	attributes: object,
-}).loose.def(facebookConfigPropsDefaults);
+/**
+ * @type {import("vue-types").VueTypeShape<FacebookConfig>}
+ */
+export const facebookConfigProps = VueTypes.shape({
+	appId: VueTypes.string,
+	version: VueTypes.string,
+	playerId: VueTypes.string,
+	attributes: VueTypes.object,
+}).loose.def(() => facebookConfigPropsDefaults);

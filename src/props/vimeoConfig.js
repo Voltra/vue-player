@@ -1,5 +1,8 @@
-import { bool, object, shape, string } from "vue-types";
+import VueTypes from "vue-types";
 
+/**
+ * @type {VimeoConfig}
+ */
 export const vimeoConfigPropsDefaults = {
 	playerOptions: {
 		autopause: false,
@@ -10,12 +13,15 @@ export const vimeoConfigPropsDefaults = {
 	title: null
 };
 
-export const vimeoConfigProps = shape({
-	playerOptions: shape({
-		autopause: bool,
-		byline: bool,
-		portrait: bool,
-		title: bool,
+/**
+ * @type {import("vue-types").VueTypeShape<VimeoConfig>}
+ */
+export const vimeoConfigProps = VueTypes.shape({
+	playerOptions: VueTypes.shape({
+		autopause: VueTypes.bool,
+		byline: VueTypes.bool,
+		portrait: VueTypes.bool,
+		title: VueTypes.bool,
 	}).loose,
-	title: string,
-}).loose.def(vimeoConfigPropsDefaults);
+	title: VueTypes.string,
+}).loose.def(() => vimeoConfigPropsDefaults);
