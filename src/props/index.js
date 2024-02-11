@@ -1,29 +1,14 @@
 import { soundcloudConfigProps, soundcloudConfigPropsDefaults } from "./soundcloudConfig";
-import {
-	youtubeConfigProps,
-	youtubeConfigPropsDefaults,
-} from "./youtubeConfig";
-import {
-	facebookConfigProps,
-	facebookConfigPropsDefaults,
-} from "./facebookConfig";
+import { youtubeConfigProps, youtubeConfigPropsDefaults } from "./youtubeConfig";
+import { facebookConfigProps, facebookConfigPropsDefaults } from "./facebookConfig";
 import VueTypes from "vue-types";
-import {
-	dailymotionConfigProps,
-	dailymotionConfigPropsDefaults,
-} from "./dailymotionConfig";
+import { dailymotionConfigProps, dailymotionConfigPropsDefaults } from "./dailymotionConfig";
 import { vimeoConfigProps, vimeoConfigPropsDefaults } from "./vimeoConfig";
 import { fileConfigProps, fileConfigPropsDefaults } from "./fileConfig";
 import { wistiaConfigProps, wistiaConfigPropsDefaults } from "./wistiaConfig";
-import {
-	mixcloudConfigProps,
-	mixcloudConfigPropsDefaults,
-} from "./mixcloudConfig";
+import { mixcloudConfigProps, mixcloudConfigPropsDefaults } from "./mixcloudConfig";
 import { twitchConfigProps, twitchConfigPropsDefaults } from "./twitchConfig";
-import {
-	vidyardConfigProps,
-	vidyardConfigPropsDefaults,
-} from "./vidyardConfig";
+import { vidyardConfigProps, vidyardConfigPropsDefaults } from "./vidyardConfig";
 
 export const configPropsDefaults = {
 	soundcloud: soundcloudConfigPropsDefaults,

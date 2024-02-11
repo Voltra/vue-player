@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue2";
+import vue from "@vitejs/plugin-vue";
 import path from "path";
 
 /**
@@ -17,7 +17,7 @@ export default defineConfig({
 			entry: here("src/index.js"),
 			name: "vuePlayer",
 			formats: ["es", "cjs", "umd"],
-			fileName: (format) => {
+			fileName: (format, entryName) => {
 				if (format === "es") {
 					return "index.esm.js";
 				}
@@ -29,11 +29,14 @@ export default defineConfig({
 				return "index.js";
 			},
 		},
+		emptyOutDir: true,
+		outDir: "dist",
 		rollupOptions: {
-			external: ["vue"],
+			external: ["vue", "vue-types"],
 			output: {
 				globals: {
 					vue: "Vue",
+					"vue-types": "VueTypes",
 				},
 			},
 		},
