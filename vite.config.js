@@ -16,7 +16,7 @@ export default defineConfig({
 		lib: {
 			entry: here("src/index.js"),
 			name: "vuePlayer",
-			formats: ["es", "cjs", "umd"],
+			formats: ["es", /*"cjs",*/ "umd"],
 			fileName: (format, entryName) => {
 				if (format === "es") {
 					return "index.esm.js";

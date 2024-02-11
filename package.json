@@ -1,6 +1,6 @@
 {
 	"name": "@voltra/vue-player",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"description": "A Vue port of react-player: components for playing a variety of URLs including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, DailyMotion",
 	"main": "dist/index.js",
 	"umd:main": "dist/index.js",
@@ -9,7 +9,7 @@
 	"exports": {
 		".": {
 			"import": "./dist/index.esm.js",
-			"require": "./dist/index.cjs.js"
+			"require": "./dist/index.js"
 		}
 	},
 	"scripts": {
