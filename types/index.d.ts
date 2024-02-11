@@ -4,7 +4,7 @@ declare module "@voltra/vue-player" {
 	// Meta player
 	export { default as VuePlayer } from "./components/VuePlayer.vue"
 
-	// Helpers
+	/*// Helpers
 	export { default as Player } from "./components/Player.vue"
 	export { default as Preview } from "./components/Preview.vue"
 
@@ -20,5 +20,5 @@ declare module "@voltra/vue-player" {
 	export { default as VidyardPlayer } from "./components/players/VidyardPlayer.vue"
 	export { default as VimeoPlayer } from "./components/players/VimeoPlayer.vue"
 	export { default as WistiaPlayer } from "./components/players/WistiaPlayer.vue"
-	export { default as YouTubePlayer } from "./components/players/YouTubePlayer.vue"
+	export { default as YouTubePlayer } from "./components/players/YouTubePlayer.vue"*/
 }
