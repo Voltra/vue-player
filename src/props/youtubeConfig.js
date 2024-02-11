@@ -1,4 +1,4 @@
-import VueTypes, { func, integer, object, shape } from "vue-types";
+import VueTypes from "vue-types";
 
 /**
  * @type {YoutubeConfig}

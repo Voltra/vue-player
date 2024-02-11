@@ -4,7 +4,7 @@
 		:tabindex="previewTabIndex"
 		:style="previewStyles"
 		@click="handleClick"
-		@keypress="handleKeyPress"
+		@keydown="handleKeyPress"
 	>
 		<slot name="playIcon">
 			<div class="vue-player__shadow react-player__shadow">

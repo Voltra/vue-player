@@ -1,4 +1,4 @@
-import VueTypes, { array, bool, object, shape, string } from "vue-types";
+import VueTypes from "vue-types";
 
 /**
  * @type {FileConfig}

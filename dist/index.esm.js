@@ -1,467 +1,179 @@
-/*!
- * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
- *
- * Copyright (c) 2014-2017, Jon Schlinkert.
- * Released under the MIT License.
- */
-function re(e) {
-  return Object.prototype.toString.call(e) === "[object Object]";
-}
-function rt(e) {
-  var t, r;
-  return re(e) === !1 ? !1 : (t = e.constructor, t === void 0 ? !0 : (r = t.prototype, !(re(r) === !1 || r.hasOwnProperty("isPrototypeOf") === !1)));
-}
-function C() {
-  return C = Object.assign ? Object.assign.bind() : function(e) {
-    for (var t = 1; t < arguments.length; t++) {
-      var r = arguments[t];
-      for (var n in r)
-        Object.prototype.hasOwnProperty.call(r, n) && (e[n] = r[n]);
-    }
-    return e;
-  }, C.apply(this, arguments);
-}
-function me(e, t) {
-  if (e == null)
-    return {};
-  var r, n, s = {}, i = Object.keys(e);
-  for (n = 0; n < i.length; n++)
-    t.indexOf(r = i[n]) >= 0 || (s[r] = e[r]);
-  return s;
-}
-const G = { silent: !1, logLevel: "warn" }, nt = ["validator"], ge = Object.prototype, _e = ge.toString, st = ge.hasOwnProperty, ve = /^\s*function (\w+)/;
-function ne(e) {
-  var t;
-  const r = (t = e == null ? void 0 : e.type) !== null && t !== void 0 ? t : e;
-  if (r) {
-    const n = r.toString().match(ve);
-    return n ? n[1] : "";
-  }
-  return "";
-}
-const S = rt, Pe = (e) => e;
-let f = Pe;
-process.env.NODE_ENV !== "production" && (f = typeof console < "u" ? function(t, r = G.logLevel) {
-  G.silent === !1 && console[r](`[VueTypes warn]: ${t}`);
-} : Pe);
-const T = (e, t) => st.call(e, t), it = Number.isInteger || function(e) {
-  return typeof e == "number" && isFinite(e) && Math.floor(e) === e;
-}, E = Array.isArray || function(e) {
-  return _e.call(e) === "[object Array]";
-}, k = (e) => _e.call(e) === "[object Function]", M = (e) => S(e) && T(e, "_vueTypes_name"), be = (e) => S(e) && (T(e, "type") || ["_vueTypes_name", "validator", "default", "required"].some((t) => T(e, t)));
-function Q(e, t) {
-  return Object.defineProperty(e.bind(t), "__original", { value: e });
-}
-function $(e, t, r = !1) {
-  let n, s = !0, i = "";
-  n = S(e) ? e : { type: e };
-  const l = M(n) ? n._vueTypes_name + " - " : "";
-  if (be(n) && n.type !== null) {
-    if (n.type === void 0 || n.type === !0 || !n.required && t === void 0)
-      return s;
-    E(n.type) ? (s = n.type.some((c) => $(c, t, !0) === !0), i = n.type.map((c) => ne(c)).join(" or ")) : (i = ne(n), s = i === "Array" ? E(t) : i === "Object" ? S(t) : i === "String" || i === "Number" || i === "Boolean" || i === "Function" ? function(c) {
-      if (c == null)
-        return "";
-      const o = c.constructor.toString().match(ve);
-      return o ? o[1] : "";
-    }(t) === i : t instanceof n.type);
-  }
-  if (!s) {
-    const c = `${l}value "${t}" should be of type "${i}"`;
-    return r === !1 ? (f(c), !1) : c;
-  }
-  if (T(n, "validator") && k(n.validator)) {
-    const c = f, o = [];
-    if (f = (u) => {
-      o.push(u);
-    }, s = n.validator(t), f = c, !s) {
-      const u = (o.length > 1 ? "* " : "") + o.join(`
-* `);
-      return o.length = 0, r === !1 ? (f(u), s) : u;
-    }
-  }
-  return s;
-}
-function _(e, t) {
-  const r = Object.defineProperties(t, { _vueTypes_name: { value: e, writable: !0 }, isRequired: { get() {
-    return this.required = !0, this;
-  } }, def: { value(s) {
-    return s === void 0 ? (T(this, "default") && delete this.default, this) : k(s) || $(this, s, !0) === !0 ? (this.default = E(s) ? () => [...s] : S(s) ? () => Object.assign({}, s) : s, this) : (f(`${this._vueTypes_name} - invalid default value: "${s}"`), this);
-  } } }), { validator: n } = r;
-  return k(n) && (r.validator = Q(n, r)), r;
-}
-function P(e, t) {
-  const r = _(e, t);
-  return Object.defineProperty(r, "validate", { value(n) {
-    return k(this.validator) && f(`${this._vueTypes_name} - calling .validate() will overwrite the current custom validator function. Validator info:
-${JSON.stringify(this)}`), this.validator = Q(n, this), this;
-  } });
-}
-function se(e, t, r) {
-  const n = function(o) {
-    const u = {};
-    return Object.getOwnPropertyNames(o).forEach((d) => {
-      u[d] = Object.getOwnPropertyDescriptor(o, d);
-    }), Object.defineProperties({}, u);
-  }(t);
-  if (n._vueTypes_name = e, !S(r))
-    return n;
-  const { validator: s } = r, i = me(r, nt);
-  if (k(s)) {
-    let { validator: o } = n;
-    o && (o = (c = (l = o).__original) !== null && c !== void 0 ? c : l), n.validator = Q(o ? function(u) {
-      return o.call(this, u) && s.call(this, u);
-    } : s, n);
-  }
-  var l, c;
-  return Object.assign(n, i);
-}
-function V(e) {
-  return e.replace(/^(?!\s*$)/gm, "  ");
-}
-const at = () => P("any", {}), ot = () => P("function", { type: Function }), lt = () => P("boolean", { type: Boolean }), ut = () => P("string", { type: String }), ct = () => P("number", { type: Number }), dt = () => P("array", { type: Array }), ht = () => P("object", { type: Object }), yt = () => _("integer", { type: Number, validator: (e) => it(e) }), pt = () => _("symbol", { validator: (e) => typeof e == "symbol" });
-function ft(e, t = "custom validation failed") {
-  if (typeof e != "function")
-    throw new TypeError("[VueTypes error]: You must provide a function as argument");
-  return _(e.name || "<<anonymous function>>", { type: null, validator(r) {
-    const n = e(r);
-    return n || f(`${this._vueTypes_name} - ${t}`), n;
-  } });
-}
-function mt(e) {
-  if (!E(e))
-    throw new TypeError("[VueTypes error]: You must provide an array as argument.");
-  const t = `oneOf - value should be one of "${e.join('", "')}".`, r = e.reduce((n, s) => {
-    if (s != null) {
-      const i = s.constructor;
-      n.indexOf(i) === -1 && n.push(i);
-    }
-    return n;
-  }, []);
-  return _("oneOf", { type: r.length > 0 ? r : void 0, validator(n) {
-    const s = e.indexOf(n) !== -1;
-    return s || f(t), s;
-  } });
-}
-function gt(e) {
-  if (!E(e))
-    throw new TypeError("[VueTypes error]: You must provide an array as argument");
-  let t = !1, r = [];
-  for (let s = 0; s < e.length; s += 1) {
-    const i = e[s];
-    if (be(i)) {
-      if (M(i) && i._vueTypes_name === "oneOf" && i.type) {
-        r = r.concat(i.type);
-        continue;
-      }
-      if (k(i.validator) && (t = !0), i.type === !0 || !i.type) {
-        f('oneOfType - invalid usage of "true" or "null" as types.');
-        continue;
-      }
-      r = r.concat(i.type);
-    } else
-      r.push(i);
-  }
-  r = r.filter((s, i) => r.indexOf(s) === i);
-  const n = r.length > 0 ? r : null;
-  return _("oneOfType", t ? { type: n, validator(s) {
-    const i = [], l = e.some((c) => {
-      const o = $(M(c) && c._vueTypes_name === "oneOf" ? c.type || null : c, s, !0);
-      return typeof o == "string" && i.push(o), o === !0;
-    });
-    return l || f(`oneOfType - provided value does not match any of the ${i.length} passed-in validators:
-${V(i.join(`
-`))}`), l;
-  } } : { type: n });
-}
-function _t(e) {
-  return _("arrayOf", { type: Array, validator(t) {
-    let r = "";
-    const n = t.every((s) => (r = $(e, s, !0), r === !0));
-    return n || f(`arrayOf - value validation error:
-${V(r)}`), n;
-  } });
-}
-function vt(e) {
-  return _("instanceOf", { type: e });
-}
-function Pt(e) {
-  return _("objectOf", { type: Object, validator(t) {
-    let r = "";
-    const n = Object.keys(t).every((s) => (r = $(e, t[s], !0), r === !0));
-    return n || f(`objectOf - value validation error:
-${V(r)}`), n;
-  } });
-}
-function bt(e) {
-  const t = Object.keys(e), r = t.filter((s) => {
-    var i;
-    return !((i = e[s]) === null || i === void 0 || !i.required);
-  }), n = _("shape", { type: Object, validator(s) {
-    if (!S(s))
-      return !1;
-    const i = Object.keys(s);
-    if (r.length > 0 && r.some((l) => i.indexOf(l) === -1)) {
-      const l = r.filter((c) => i.indexOf(c) === -1);
-      return f(l.length === 1 ? `shape - required property "${l[0]}" is not defined.` : `shape - required properties "${l.join('", "')}" are not defined.`), !1;
-    }
-    return i.every((l) => {
-      if (t.indexOf(l) === -1)
-        return this._vueTypes_isLoose === !0 || (f(`shape - shape definition does not include a "${l}" property. Allowed keys: "${t.join('", "')}".`), !1);
-      const c = $(e[l], s[l], !0);
-      return typeof c == "string" && f(`shape - "${l}" property validation error:
- ${V(c)}`), c === !0;
-    });
-  } });
-  return Object.defineProperty(n, "_vueTypes_isLoose", { writable: !0, value: !1 }), Object.defineProperty(n, "loose", { get() {
-    return this._vueTypes_isLoose = !0, this;
-  } }), n;
-}
-const wt = ["name", "validate", "getter"], St = /* @__PURE__ */ (() => {
-  var e;
-  return (e = class {
-    static get any() {
-      return at();
-    }
-    static get func() {
-      return ot().def(this.defaults.func);
-    }
-    static get bool() {
-      return lt().def(this.defaults.bool);
-    }
-    static get string() {
-      return ut().def(this.defaults.string);
-    }
-    static get number() {
-      return ct().def(this.defaults.number);
-    }
-    static get array() {
-      return dt().def(this.defaults.array);
-    }
-    static get object() {
-      return ht().def(this.defaults.object);
-    }
-    static get integer() {
-      return yt().def(this.defaults.integer);
-    }
-    static get symbol() {
-      return pt();
-    }
-    static get nullable() {
-      return { type: null };
-    }
-    static extend(t) {
-      if (E(t))
-        return t.forEach((o) => this.extend(o)), this;
-      const { name: r, validate: n = !1, getter: s = !1 } = t, i = me(t, wt);
-      if (T(this, r))
-        throw new TypeError(`[VueTypes error]: Type "${r}" already defined`);
-      const { type: l } = i;
-      if (M(l))
-        return delete i.type, Object.defineProperty(this, r, s ? { get: () => se(r, l, i) } : { value(...o) {
-          const u = se(r, l, i);
-          return u.validator && (u.validator = u.validator.bind(u, ...o)), u;
-        } });
-      let c;
-      return c = s ? { get() {
-        const o = Object.assign({}, i);
-        return n ? P(r, o) : _(r, o);
-      }, enumerable: !0 } : { value(...o) {
-        const u = Object.assign({}, i);
-        let d;
-        return d = n ? P(r, u) : _(r, u), u.validator && (d.validator = u.validator.bind(d, ...o)), d;
-      }, enumerable: !0 }, Object.defineProperty(this, r, c);
-    }
-  }).defaults = {}, e.sensibleDefaults = void 0, e.config = G, e.custom = ft, e.oneOf = mt, e.instanceOf = vt, e.oneOfType = gt, e.arrayOf = _t, e.objectOf = Pt, e.shape = bt, e.utils = { validate: (t, r) => $(r, t, !0) === !0, toType: (t, r, n = !1) => n ? P(t, r) : _(t, r) }, e;
-})();
-function $t(e = { func: () => {
-}, bool: !0, string: "", number: 0, array: () => [], object: () => ({}), integer: 0 }) {
-  var t;
-  return (t = class extends St {
-    static get sensibleDefaults() {
-      return C({}, this.defaults);
-    }
-    static set sensibleDefaults(r) {
-      this.defaults = r !== !1 ? C({}, r !== !0 ? r : e) : {};
-    }
-  }).defaults = C({}, e), t;
-}
-class a extends $t() {
-}
-function we(e) {
+import a from "vue-types";
+import { resolveComponent as qe, openBlock as c, createBlock as T, resolveDynamicComponent as M, mergeProps as v, withCtx as A, createElementBlock as y, renderSlot as S, Fragment as I, toHandlers as ye, normalizeStyle as $, createElementVNode as k, renderList as J, normalizeProps as ee, guardReactiveProps as te, createCommentVNode as We, normalizeClass as Xe } from "vue";
+function pe(e) {
   return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e;
 }
-var Lt = function(t, r, n) {
-  var s = document.head || document.getElementsByTagName("head")[0], i = document.createElement("script");
-  typeof r == "function" && (n = r, r = {}), r = r || {}, n = n || function() {
-  }, i.type = r.type || "text/javascript", i.charset = r.charset || "utf8", i.async = "async" in r ? !!r.async : !0, i.src = t, r.attrs && Ot(i, r.attrs), r.text && (i.text = "" + r.text);
-  var l = "onload" in i ? ie : Tt;
-  l(i, n), i.onload || ie(i, n), s.appendChild(i);
+var Ze = function(t, s, r) {
+  var n = document.head || document.getElementsByTagName("head")[0], i = document.createElement("script");
+  typeof s == "function" && (r = s, s = {}), s = s || {}, r = r || function() {
+  }, i.type = s.type || "text/javascript", i.charset = s.charset || "utf8", i.async = "async" in s ? !!s.async : !0, i.src = t, s.attrs && Qe(i, s.attrs), s.text && (i.text = "" + s.text);
+  var o = "onload" in i ? se : Je;
+  o(i, r), i.onload || se(i, r), n.appendChild(i);
 };
-function Ot(e, t) {
-  for (var r in t)
-    e.setAttribute(r, t[r]);
+function Qe(e, t) {
+  for (var s in t)
+    e.setAttribute(s, t[s]);
 }
-function ie(e, t) {
+function se(e, t) {
   e.onload = function() {
     this.onerror = this.onload = null, t(null, e);
   }, e.onerror = function() {
     this.onerror = this.onload = null, t(new Error("Failed to load " + this.src), e);
   };
 }
-function Tt(e, t) {
+function Je(e, t) {
   e.onreadystatechange = function() {
     this.readyState != "complete" && this.readyState != "loaded" || (this.onreadystatechange = null, t(null, e));
   };
 }
-const Et = /* @__PURE__ */ we(Lt);
-var kt = function(t) {
-  return Rt(t) && !Ct(t);
+const et = /* @__PURE__ */ pe(Ze);
+var tt = function(t) {
+  return st(t) && !rt(t);
 };
-function Rt(e) {
+function st(e) {
   return !!e && typeof e == "object";
 }
-function Ct(e) {
+function rt(e) {
   var t = Object.prototype.toString.call(e);
-  return t === "[object RegExp]" || t === "[object Date]" || It(e);
+  return t === "[object RegExp]" || t === "[object Date]" || at(e);
 }
-var At = typeof Symbol == "function" && Symbol.for, Dt = At ? Symbol.for("react.element") : 60103;
-function It(e) {
-  return e.$$typeof === Dt;
+var it = typeof Symbol == "function" && Symbol.for, nt = it ? Symbol.for("react.element") : 60103;
+function at(e) {
+  return e.$$typeof === nt;
 }
-function jt(e) {
+function ot(e) {
   return Array.isArray(e) ? [] : {};
 }
-function A(e, t) {
-  return t.clone !== !1 && t.isMergeableObject(e) ? R(jt(e), e, t) : e;
+function O(e, t) {
+  return t.clone !== !1 && t.isMergeableObject(e) ? E(ot(e), e, t) : e;
 }
-function Mt(e, t, r) {
-  return e.concat(t).map(function(n) {
-    return A(n, r);
+function lt(e, t, s) {
+  return e.concat(t).map(function(r) {
+    return O(r, s);
   });
 }
-function Vt(e, t) {
+function dt(e, t) {
   if (!t.customMerge)
-    return R;
-  var r = t.customMerge(e);
-  return typeof r == "function" ? r : R;
+    return E;
+  var s = t.customMerge(e);
+  return typeof s == "function" ? s : E;
 }
-function Ut(e) {
+function ct(e) {
   return Object.getOwnPropertySymbols ? Object.getOwnPropertySymbols(e).filter(function(t) {
     return Object.propertyIsEnumerable.call(e, t);
   }) : [];
 }
-function ae(e) {
-  return Object.keys(e).concat(Ut(e));
+function re(e) {
+  return Object.keys(e).concat(ct(e));
 }
-function Se(e, t) {
+function fe(e, t) {
   try {
     return t in e;
   } catch {
     return !1;
   }
 }
-function xt(e, t) {
-  return Se(e, t) && !(Object.hasOwnProperty.call(e, t) && Object.propertyIsEnumerable.call(e, t));
+function ut(e, t) {
+  return fe(e, t) && !(Object.hasOwnProperty.call(e, t) && Object.propertyIsEnumerable.call(e, t));
 }
-function Nt(e, t, r) {
-  var n = {};
-  return r.isMergeableObject(e) && ae(e).forEach(function(s) {
-    n[s] = A(e[s], r);
-  }), ae(t).forEach(function(s) {
-    xt(e, s) || (Se(e, s) && r.isMergeableObject(t[s]) ? n[s] = Vt(s, r)(e[s], t[s], r) : n[s] = A(t[s], r));
-  }), n;
+function ht(e, t, s) {
+  var r = {};
+  return s.isMergeableObject(e) && re(e).forEach(function(n) {
+    r[n] = O(e[n], s);
+  }), re(t).forEach(function(n) {
+    ut(e, n) || (fe(e, n) && s.isMergeableObject(t[n]) ? r[n] = dt(n, s)(e[n], t[n], s) : r[n] = O(t[n], s));
+  }), r;
 }
-function R(e, t, r) {
-  r = r || {}, r.arrayMerge = r.arrayMerge || Mt, r.isMergeableObject = r.isMergeableObject || kt, r.cloneUnlessOtherwiseSpecified = A;
-  var n = Array.isArray(t), s = Array.isArray(e), i = n === s;
-  return i ? n ? r.arrayMerge(e, t, r) : Nt(e, t, r) : A(t, r);
+function E(e, t, s) {
+  s = s || {}, s.arrayMerge = s.arrayMerge || lt, s.isMergeableObject = s.isMergeableObject || tt, s.cloneUnlessOtherwiseSpecified = O;
+  var r = Array.isArray(t), n = Array.isArray(e), i = r === n;
+  return i ? r ? s.arrayMerge(e, t, s) : ht(e, t, s) : O(t, s);
 }
-R.all = function(t, r) {
+E.all = function(t, s) {
   if (!Array.isArray(t))
     throw new Error("first argument should be an array");
-  return t.reduce(function(n, s) {
-    return R(n, s, r);
+  return t.reduce(function(r, n) {
+    return E(r, n, s);
   }, {});
 };
-var Ft = R, Ht = Ft;
-const Kt = /* @__PURE__ */ we(Ht), Bt = /[?&#](?:start|t)=([0-9hms]+)/, zt = /[?&#]end=([0-9hms]+)/, W = /(\d+)([hms])/g, Yt = /^\d+$/;
-function $e(e, t) {
+var yt = E, pt = yt;
+const ft = /* @__PURE__ */ pe(pt), mt = /[?&#](?:start|t)=([0-9hms]+)/, Pt = /[?&#]end=([0-9hms]+)/, G = /(\d+)([hms])/g, gt = /^\d+$/;
+function me(e, t) {
   if (e instanceof Array)
     return;
-  const r = e.match(t);
-  if (r) {
-    const n = r[1];
-    if (n.match(W))
-      return qt(n);
-    if (Yt.test(n))
-      return parseInt(n);
+  const s = e.match(t);
+  if (s) {
+    const r = s[1];
+    if (r.match(G))
+      return bt(r);
+    if (gt.test(r))
+      return parseInt(r);
   }
 }
-function qt(e) {
-  let t = 0, r = W.exec(e);
-  for (; r !== null; ) {
-    const [, n, s] = r;
-    s === "h" && (t += parseInt(n, 10) * 60 * 60), s === "m" && (t += parseInt(n, 10) * 60), s === "s" && (t += parseInt(n, 10)), r = W.exec(e);
+function bt(e) {
+  let t = 0, s = G.exec(e);
+  for (; s !== null; ) {
+    const [, r, n] = s;
+    n === "h" && (t += parseInt(r, 10) * 60 * 60), n === "m" && (t += parseInt(r, 10) * 60), n === "s" && (t += parseInt(r, 10)), s = G.exec(e);
   }
   return t;
 }
 function D(e) {
-  return $e(e, Bt);
+  return me(e, mt);
 }
-function oe(e) {
-  return $e(e, zt);
+function ie(e) {
+  return me(e, Pt);
 }
-function ee() {
+function Z() {
   return Math.random().toString(36).substr(2, 5);
 }
-function Gt(e) {
+function _t(e) {
   return Object.keys(e).map((t) => `${t}=${e[t]}`).join("&");
 }
 function H(e) {
   return window[e] ? window[e] : window.exports && window.exports[e] ? window.exports[e] : window.module && window.module.exports && window.module.exports[e] ? window.module.exports[e] : null;
 }
-const O = {};
-function b(e, t, r = null, n = () => !0, s = Et) {
+const L = {};
+function _(e, t, s = null, r = () => !0, n = et) {
   const i = H(t);
-  return i && n(i) ? Promise.resolve(i) : new Promise((l, c) => {
-    if (O[e]) {
-      O[e].push({ resolve: l, reject: c });
+  return i && r(i) ? Promise.resolve(i) : new Promise((o, d) => {
+    if (L[e]) {
+      L[e].push({ resolve: o, reject: d });
       return;
     }
-    O[e] = [{ resolve: l, reject: c }];
-    const o = (u) => {
-      O[e].forEach((d) => d.resolve(u));
+    L[e] = [{ resolve: o, reject: d }];
+    const h = (l) => {
+      L[e].forEach((p) => p.resolve(l));
     };
-    if (r) {
-      const u = window[r];
-      window[r] = function() {
-        u && u(), o(H(t));
+    if (s) {
+      const l = window[s];
+      window[s] = function() {
+        l && l(), h(H(t));
       };
     }
-    s(e, (u) => {
-      u ? (O[e].forEach((d) => d.reject(u)), O[e] = null) : r || o(H(t));
+    n(e, (l) => {
+      l ? (L[e].forEach((p) => p.reject(l)), L[e] = null) : s || h(H(t));
     });
   });
 }
-function Wt(e, ...t) {
+function vt(e, ...t) {
   if (!this.player || !this.player[e]) {
-    let r = `VuePlayer: ${this.$options.displayName} player could not call %c${e}%c – `;
-    return this.player ? this.player[e] || (r += "The method was not available") : r += "The player was not available", console.warn(r, "font-weight: bold", ""), null;
+    let s = `VuePlayer: ${this.$options.displayName} player could not call %c${e}%c – `;
+    return this.player ? this.player[e] || (s += "The method was not available") : s += "The player was not available", console.warn(s, "font-weight: bold", ""), null;
   }
   return this.player[e](...t);
 }
-function I(e) {
+function R(e) {
   return typeof MediaStream < "u" && e instanceof MediaStream || typeof window < "u" && typeof window.MediaStream < "u" && e instanceof window.MediaStream;
 }
-function Xt(e) {
+function wt(e) {
   return /^blob:/.test(e);
 }
-function j(e = document.createElement("video")) {
+function C(e = document.createElement("video")) {
   const t = !/iPhone|iPod/.test(navigator.userAgent);
   return typeof e.webkitSetPresentationMode == "function" && t;
 }
-const v = {
+const P = {
   events: [
     "mounted",
     "ready",
@@ -531,7 +243,7 @@ const v = {
   },
   methods: {
     callPlayer(e, ...t) {
-      return Wt.apply(this, [e, ...t]);
+      return vt.apply(this, [e, ...t]);
     },
     async load(e, ...t) {
     },
@@ -666,7 +378,7 @@ const v = {
     }
     // [/Event handlers/delegates/propagators]
   }
-}, Le = {
+}, Pe = {
   options: {
     visual: !0,
     // Undocumented, but makes player fill container and look better
@@ -677,7 +389,7 @@ const v = {
     show_comments: !1,
     show_playcount: !1
   }
-}, Oe = a.shape({
+}, ge = a.shape({
   options: a.shape({
     visual: a.bool,
     buying: a.bool,
@@ -687,7 +399,7 @@ const v = {
     show_comments: a.bool,
     show_playcount: a.bool
   }).loose
-}).loose.def(() => Le), Te = {
+}).loose.def(() => Pe), be = {
   playerVars: {
     playsinline: 1,
     showinfo: 0,
@@ -698,7 +410,7 @@ const v = {
   embedOptions: {},
   onUnstarted: () => {
   }
-}, Ee = a.shape({
+}, _e = a.shape({
   playerVars: a.shape({
     playsinline: a.integer,
     showinfo: a.integer,
@@ -708,27 +420,27 @@ const v = {
   }).loose,
   embedOptions: a.object,
   onUnstarted: a.func
-}).loose.def(() => Te), ke = {
+}).loose.def(() => be), ve = {
   appId: "1309697205772819",
   version: "v3.3",
   playerId: null,
   attributes: {}
-}, Re = a.shape({
+}, we = a.shape({
   appId: a.string,
   version: a.string,
   playerId: a.string,
   attributes: a.object
-}).loose.def(() => ke), Ce = {
+}).loose.def(() => ve), Se = {
   params: {
     api: 1,
     "endscreen-enable": !1
   }
-}, Ae = a.shape({
+}, Le = a.shape({
   params: a.shape({
     api: a.integer,
     "endscreen-enable": a.bool
   }).loose
-}).loose.def(() => Ce), De = {
+}).loose.def(() => Se), Ee = {
   playerOptions: {
     autopause: !1,
     byline: !1,
@@ -736,7 +448,7 @@ const v = {
     title: !1
   },
   title: null
-}, Ie = a.shape({
+}, $e = a.shape({
   playerOptions: a.shape({
     autopause: a.bool,
     byline: a.bool,
@@ -744,7 +456,7 @@ const v = {
     title: a.bool
   }).loose,
   title: a.string
-}).loose.def(() => De), je = {
+}).loose.def(() => Ee), Te = {
   attributes: {},
   tracks: [],
   forceVideo: !1,
@@ -756,7 +468,7 @@ const v = {
   hlsVersion: "1.1.4",
   dashVersion: "3.1.3",
   flvVersion: "1.5.0"
-}, Me = a.shape({
+}, ke = a.shape({
   attributes: a.object,
   tracks: a.array,
   forceVideo: a.bool,
@@ -768,68 +480,68 @@ const v = {
   hlsVersion: a.string,
   dashVersion: a.string,
   flvVersion: a.string
-}).loose.def(() => je), Ve = {
+}).loose.def(() => Te), Oe = {
   wistia: {
     options: {},
     playerId: null,
     customControls: null
   }
-}, Ue = a.shape({
+}, De = a.shape({
   wistia: a.shape({
     options: a.object,
     playerId: a.string,
     customControls: a.array
   }).loose
-}).loose.def(() => Ve), xe = {
+}).loose.def(() => Oe), Ae = {
   options: {
     hide_cover: 1
   }
-}, Ne = a.shape({
+}, Ie = a.shape({
   options: a.shape({
     hide_cover: a.integer
   }).loose
-}).loose.def(() => xe), Fe = {
+}).loose.def(() => Ae), Re = {
   options: {},
   playerId: null
-}, He = a.shape({
+}, Ce = a.shape({
   options: a.object,
   playerId: a.string
-}).loose.def(() => Fe), Ke = {
+}).loose.def(() => Re), Me = {
   options: {}
-}, Be = a.shape({
+}, Ve = a.shape({
   options: a.object
-}).loose.def(() => Ke), X = {
-  soundcloud: Le,
-  youtube: Te,
-  facebook: ke,
-  dailymotion: Ce,
-  vimeo: De,
-  file: je,
-  wistia: Ve,
-  mixcloud: xe,
-  twitch: Fe,
-  vidyard: Ke
-}, Zt = a.shape({
-  soundcloud: Oe,
-  youtube: Ee,
-  facebook: Re,
-  dailymotion: Ae,
-  vimeo: Ie,
-  file: Me,
-  wistia: Ue,
-  mixcloud: Ne,
-  twitch: He,
-  vidyard: Be
-}).def(() => X), Jt = a.oneOfType([
+}).loose.def(() => Me), q = {
+  soundcloud: Pe,
+  youtube: be,
+  facebook: ve,
+  dailymotion: Se,
+  vimeo: Ee,
+  file: Te,
+  wistia: Oe,
+  mixcloud: Ae,
+  twitch: Re,
+  vidyard: Me
+}, St = a.shape({
+  soundcloud: ge,
+  youtube: _e,
+  facebook: we,
+  dailymotion: Le,
+  vimeo: $e,
+  file: ke,
+  wistia: De,
+  mixcloud: Ie,
+  twitch: Ce,
+  vidyard: Ve
+}).def(() => q), Lt = a.oneOfType([
   a.object,
   a.string,
   a.func
-]), ze = {
-  mixins: [v],
+]), je = {
+  mixins: [P],
   props: {
-    config: Zt,
+    config: St,
     progressFrequency: a.number,
-    activePlayer: Jt
+    activePlayer: Lt
   }
 };
 /*!
@@ -855,63 +567,63 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-const le = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|watch\?v=|watch\?.+&v=))((\w|-){11})|youtube\.com\/playlist\?list=|youtube\.com\/user\//, Qt = /(?:soundcloud\.com|snd\.sc)\/[^.]+$/, er = /vimeo\.com\/(?!progressive_redirect).+/, tr = /^https?:\/\/(www\.)?facebook\.com.*\/(video(s)?|watch|story)(\.php?|\/).+$/, rr = /^https?:\/\/fb\.watch\/.+$/, Ye = /streamable\.com\/([a-z0-9]+)$/, qe = /(?:wistia\.(?:com|net)|wi\.st)\/(?:medias|embed)\/(?:iframe\/)?(.*)$/, nr = /(?:www\.|go\.)?twitch\.tv\/videos\/(\d+)($|\?)/, Z = /(?:www\.|go\.)?twitch\.tv\/([a-zA-Z0-9_]+)($|\?)/, Ge = /^(?:(?:https?):)?(?:\/\/)?(?:www\.)?(?:(?:dailymotion\.com(?:\/embed)?\/video)|dai\.ly)\/([a-zA-Z0-9]+)(?:_[\w_-]+)?$/, We = /mixcloud\.com\/([^/]+\/[^/]+)/, Xe = /vidyard.com\/(?:watch\/)?([a-zA-Z0-9-_]+)/, sr = /^https?:\/\/[a-zA-Z]+\.kaltura.(com|org)\/p\/([0-9]+)\/sp\/([0-9]+)00\/embedIframeJs\/uiconf_id\/([0-9]+)\/partner_id\/([0-9]+)(.*)entry_id.([a-zA-Z0-9-_]+)$/, U = /\.(m4a|m4b|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i, Ze = /\.(mp4|og[gv]|webm|mov|m4v)(#t=[,\d+]+)?($|\?)/i, te = /\.(m3u8)($|\?)/i, Je = /\.(mpd)($|\?)/i, Qe = /\.(flv)($|\?)/i, J = (e) => {
+const ne = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|watch\?v=|watch\?.+&v=))((\w|-){11})|youtube\.com\/playlist\?list=|youtube\.com\/user\//, Et = /(?:soundcloud\.com|snd\.sc)\/[^.]+$/, $t = /vimeo\.com\/(?!progressive_redirect).+/, Tt = /^https?:\/\/(www\.)?facebook\.com.*\/(video(s)?|watch|story)(\.php?|\/).+$/, kt = /^https?:\/\/fb\.watch\/.+$/, Ue = /streamable\.com\/([a-z0-9]+)$/, xe = /(?:wistia\.(?:com|net)|wi\.st)\/(?:medias|embed)\/(?:iframe\/)?(.*)$/, Ot = /(?:www\.|go\.)?twitch\.tv\/videos\/(\d+)($|\?)/, W = /(?:www\.|go\.)?twitch\.tv\/([a-zA-Z0-9_]+)($|\?)/, Ne = /^(?:(?:https?):)?(?:\/\/)?(?:www\.)?(?:(?:dailymotion\.com(?:\/embed)?\/video)|dai\.ly)\/([a-zA-Z0-9]+)(?:_[\w_-]+)?$/, He = /mixcloud\.com\/([^/]+\/[^/]+)/, Ke = /vidyard.com\/(?:watch\/)?([a-zA-Z0-9-_]+)/, Dt = /^https?:\/\/[a-zA-Z]+\.kaltura.(com|org)\/p\/([0-9]+)\/sp\/([0-9]+)00\/embedIframeJs\/uiconf_id\/([0-9]+)\/partner_id\/([0-9]+)(.*)entry_id.([a-zA-Z0-9-_]+)$/, V = /\.(m4a|m4b|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i, Be = /\.(mp4|og[gv]|webm|mov|m4v)(#t=[,\d+]+)?($|\?)/i, Q = /\.(m3u8)($|\?)/i, Fe = /\.(mpd)($|\?)/i, ze = /\.(flv)($|\?)/i, X = (e) => {
   if (e instanceof Array) {
     for (const t of e)
-      if (typeof t == "string" && J(t) || J(t.src))
+      if (typeof t == "string" && X(t) || X(t.src))
         return !0;
     return !1;
   }
-  return I(e) || Xt(e) ? !0 : U.test(e) || Ze.test(e) || te.test(e) || Je.test(e) || Qe.test(e);
-}, h = {
+  return R(e) || wt(e) ? !0 : V.test(e) || Be.test(e) || Q.test(e) || Fe.test(e) || ze.test(e);
+}, u = {
   /**
    * @type {CanPlayUrl}
    */
-  youtube: (e) => e instanceof Array ? e.every((t) => le.test(t)) : le.test(e),
+  youtube: (e) => e instanceof Array ? e.every((t) => ne.test(t)) : ne.test(e),
   /**
    * @type {CanPlayUrl}
    */
-  soundcloud: (e) => Qt.test(e) && !U.test(e),
+  soundcloud: (e) => Et.test(e) && !V.test(e),
   /**
    * @type {CanPlayUrl}
    */
-  vimeo: (e) => er.test(e) && !Ze.test(e) && !te.test(e),
+  vimeo: (e) => $t.test(e) && !Be.test(e) && !Q.test(e),
   /**
    * @type {CanPlayUrl}
    */
-  facebook: (e) => tr.test(e) || rr.test(e),
+  facebook: (e) => Tt.test(e) || kt.test(e),
   /**
    * @type {CanPlayUrl}
    */
-  streamable: (e) => Ye.test(e),
+  streamable: (e) => Ue.test(e),
   /**
    * @type {CanPlayUrl}
    */
-  wistia: (e) => qe.test(e),
+  wistia: (e) => xe.test(e),
   /**
    * @type {CanPlayUrl}
    */
-  twitch: (e) => nr.test(e) || Z.test(e),
+  twitch: (e) => Ot.test(e) || W.test(e),
   /**
    * @type {CanPlayUrl}
    */
-  dailymotion: (e) => Ge.test(e),
+  dailymotion: (e) => Ne.test(e),
   /**
    * @type {CanPlayUrl}
    */
-  mixcloud: (e) => We.test(e),
+  mixcloud: (e) => He.test(e),
   /**
    * @type {CanPlayUrl}
    */
-  vidyard: (e) => Xe.test(e),
+  vidyard: (e) => Ke.test(e),
   /**
    * @type {CanPlayUrl}
    */
-  kaltura: (e) => sr.test(e),
+  kaltura: (e) => Dt.test(e),
   /**
    * @type {CanPlayUrl}
    */
-  file: J
+  file: X
 }, K = [
   /**
    * @type {PlayerDecl<"youtube", "YouTube", import("./components/players/YouTubePlayer.vue").default>}
@@ -919,8 +631,8 @@ const le = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|wa
   {
     key: "youtube",
     name: "YouTube",
-    canPlay: h.youtube,
-    lazyPlayer: () => Promise.resolve().then(() => $s)
+    canPlay: u.youtube,
+    lazyPlayer: () => Promise.resolve().then(() => Cr)
   },
   /**
    * @type {PlayerDecl<"soundcloud", "SoundCloud", import("./components/players/SoundCloudPlayer.vue").default>}
@@ -928,8 +640,8 @@ const le = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|wa
   {
     key: "soundcloud",
     name: "SoundCloud",
-    canPlay: h.soundcloud,
-    lazyPlayer: () => Promise.resolve().then(() => Ln)
+    canPlay: u.soundcloud,
+    lazyPlayer: () => Promise.resolve().then(() => Ks)
   },
   /**
    * @type {PlayerDecl<"vimeo", "Vimeo", import("./components/players/VimeoPlayer.vue").default>}
@@ -937,8 +649,8 @@ const le = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|wa
   {
     key: "vimeo",
     name: "Vimeo",
-    canPlay: h.vimeo,
-    lazyPlayer: () => Promise.resolve().then(() => is)
+    canPlay: u.vimeo,
+    lazyPlayer: () => Promise.resolve().then(() => Pr)
   },
   /**
    * @type {PlayerDecl<"facebook", "Facebook", import("./components/players/FacebookPlayer.vue").default>}
@@ -946,8 +658,8 @@ const le = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|wa
   {
     key: "facebook",
     name: "Facebook",
-    canPlay: h.facebook,
-    lazyPlayer: () => Promise.resolve().then(() => xr)
+    canPlay: u.facebook,
+    lazyPlayer: () => Promise.resolve().then(() => os)
   },
   /**
    * @type {PlayerDecl<"streamable", "Streamable", import("./components/players/StreamablePlayer.vue").default>}
@@ -955,8 +667,8 @@ const le = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|wa
   {
     key: "streamable",
     name: "Streamable",
-    canPlay: h.streamable,
-    lazyPlayer: () => Promise.resolve().then(() => Dn)
+    canPlay: u.streamable,
+    lazyPlayer: () => Promise.resolve().then(() => Ws)
   },
   /**
    * @type {PlayerDecl<"wistia", "Wistia", import("./components/players/WistiaPlayer.vue").default>}
@@ -964,8 +676,8 @@ const le = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|wa
   {
     key: "wistia",
     name: "Wistia",
-    canPlay: h.wistia,
-    lazyPlayer: () => Promise.resolve().then(() => ps)
+    canPlay: u.wistia,
+    lazyPlayer: () => Promise.resolve().then(() => Er)
   },
   /**
    * @type {PlayerDecl<"twitch", "Twitch", import("./components/players/TwitchPlayer.vue").default>}
@@ -973,8 +685,8 @@ const le = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|wa
   {
     key: "twitch",
     name: "Twitch",
-    canPlay: h.twitch,
-    lazyPlayer: () => Promise.resolve().then(() => Hn)
+    canPlay: u.twitch,
+    lazyPlayer: () => Promise.resolve().then(() => rr)
   },
   /**
    * @type {PlayerDecl<"dailymotion", "DailyMotion", import("./components/players/DailyMotionPlayer.vue").default>}
@@ -982,8 +694,8 @@ const le = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|wa
   {
     key: "dailymotion",
     name: "DailyMotion",
-    canPlay: h.dailymotion,
-    lazyPlayer: () => Promise.resolve().then(() => Ar)
+    canPlay: u.dailymotion,
+    lazyPlayer: () => Promise.resolve().then(() => ts)
   },
   /**
    * @type {PlayerDecl<"mixcloud", "Mixcloud", import("./components/players/MixcloudPlayer.vue").default>}
@@ -991,8 +703,8 @@ const le = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|wa
   {
     key: "mixcloud",
     name: "Mixcloud",
-    canPlay: h.mixcloud,
-    lazyPlayer: () => Promise.resolve().then(() => gn)
+    canPlay: u.mixcloud,
+    lazyPlayer: () => Promise.resolve().then(() => Ms)
   },
   /**
    * @type {PlayerDecl<"vidyard", "Vidyard", import("./components/players/VidyardPlayer.vue").default>}
@@ -1000,8 +712,8 @@ const le = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|wa
   {
     key: "vidyard",
     name: "Vidyard",
-    canPlay: h.vidyard,
-    lazyPlayer: () => Promise.resolve().then(() => Zn)
+    canPlay: u.vidyard,
+    lazyPlayer: () => Promise.resolve().then(() => ur)
   },
   /**
    * @type {PlayerDecl<"kaltura", "Kaltura", import("./components/players/KalturaPlayer.vue").default>}
@@ -1009,8 +721,8 @@ const le = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|wa
   {
     key: "kaltura",
     name: "Kaltura",
-    canPlay: h.kaltura,
-    lazyPlayer: () => Promise.resolve().then(() => un)
+    canPlay: u.kaltura,
+    lazyPlayer: () => Promise.resolve().then(() => ks)
   },
   /**
    * @type {PlayerDecl<"file", "FilePlayer", import("./components/players/FilePlayer.vue").default>}
@@ -1018,75 +730,52 @@ const le = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|wa
   {
     key: "file",
     name: "FilePlayer",
-    canPlay: h.file,
-    canEnablePIP: (e) => h.file(e) && (document.pictureInPictureEnabled || j()) && !U.test(e),
-    lazyPlayer: () => Promise.resolve().then(() => en)
+    canPlay: u.file,
+    canEnablePIP: (e) => u.file(e) && (document.pictureInPictureEnabled || C()) && !V.test(e),
+    lazyPlayer: () => Promise.resolve().then(() => vs)
   }
 ];
-var ue = Number.isNaN || function(t) {
+var ae = Number.isNaN || function(t) {
   return typeof t == "number" && t !== t;
 };
-function ir(e, t) {
-  return !!(e === t || ue(e) && ue(t));
+function At(e, t) {
+  return !!(e === t || ae(e) && ae(t));
 }
-function ar(e, t) {
+function It(e, t) {
   if (e.length !== t.length)
     return !1;
-  for (var r = 0; r < e.length; r++)
-    if (!ir(e[r], t[r]))
+  for (var s = 0; s < e.length; s++)
+    if (!At(e[s], t[s]))
       return !1;
   return !0;
 }
-function ce(e, t) {
-  t === void 0 && (t = ar);
-  var r = null;
-  function n() {
-    for (var s = [], i = 0; i < arguments.length; i++)
-      s[i] = arguments[i];
-    if (r && r.lastThis === this && t(s, r.lastArgs))
-      return r.lastResult;
-    var l = e.apply(this, s);
-    return r = {
-      lastResult: l,
-      lastArgs: s,
+function oe(e, t) {
+  t === void 0 && (t = It);
+  var s = null;
+  function r() {
+    for (var n = [], i = 0; i < arguments.length; i++)
+      n[i] = arguments[i];
+    if (s && s.lastThis === this && t(n, s.lastArgs))
+      return s.lastResult;
+    var o = e.apply(this, n);
+    return s = {
+      lastResult: o,
+      lastArgs: n,
       lastThis: this
-    }, l;
+    }, o;
   }
-  return n.clear = function() {
-    r = null;
-  }, n;
+  return r.clear = function() {
+    s = null;
+  }, r;
 }
-function m(e, t, r, n, s, i, l, c) {
-  var o = typeof e == "function" ? e.options : e;
-  t && (o.render = t, o.staticRenderFns = r, o._compiled = !0), n && (o.functional = !0), i && (o._scopeId = "data-v-" + i);
-  var u;
-  if (l ? (u = function(p) {
-    p = p || // cached call
-    this.$vnode && this.$vnode.ssrContext || // stateful
-    this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext, !p && typeof __VUE_SSR_CONTEXT__ < "u" && (p = __VUE_SSR_CONTEXT__), s && s.call(this, p), p && p._registeredComponents && p._registeredComponents.add(l);
-  }, o._ssrRegister = u) : s && (u = c ? function() {
-    s.call(
-      this,
-      (o.functional ? this.parent : this).$root.$options.shadowRoot
-    );
-  } : s), u)
-    if (o.functional) {
-      o._injectStyles = u;
-      var d = o.render;
-      o.render = function(g, L) {
-        return u.call(L), d(g, L);
-      };
-    } else {
-      var y = o.beforeCreate;
-      o.beforeCreate = y ? [].concat(y, u) : [u];
-    }
-  return {
-    exports: e,
-    options: o
-  };
-}
+const m = (e, t) => {
+  const s = e.__vccOpts || e;
+  for (const [r, n] of t)
+    s[r] = n;
+  return s;
+};
 let w = [];
-const or = {
+const Rt = {
   // [META]
   displayName: "VuePlayer",
   /**
@@ -1115,17 +804,17 @@ const or = {
   },
   canEnablePIP(e) {
     return [...w, ...K].some((t) => {
-      var r;
-      return (r = t.canEnablePIP) == null ? void 0 : r.call(t, e);
+      var s;
+      return (s = t.canEnablePIP) == null ? void 0 : s.call(t, e);
     });
   },
   // [/META]
   inheritAttrs: !1,
-  mixins: [ze],
+  mixins: [je],
   emits: ["click-preview"],
   components: {
-    Preview: () => Promise.resolve().then(() => Sr),
-    Player: () => Promise.resolve().then(() => gr)
+    Preview: () => Promise.resolve().then(() => Gt),
+    Player: () => Promise.resolve().then(() => Ht)
   },
   data() {
     return {
@@ -1133,7 +822,7 @@ const or = {
     };
   },
   mounted() {
-    this.getConfig = ce(this.getConfig), this.getActivePlayer = ce(this.getActivePlayer);
+    this.getConfig = oe(this.getConfig), this.getActivePlayer = oe(this.getActivePlayer);
   },
   computed: {
     previewProps() {
@@ -1200,16 +889,16 @@ const or = {
      * @playerHook seekTo
      */
     seekTo(e, t) {
-      var r, n;
-      return (n = (r = this.$refs.player) == null ? void 0 : r.seekTo) == null ? void 0 : n.call(r, e, t);
+      var s, r;
+      return (r = (s = this.$refs.player) == null ? void 0 : s.seekTo) == null ? void 0 : r.call(s, e, t);
     },
     getConfig(e, t) {
-      var r;
-      return Kt.all([
-        X,
-        X[t] ?? {},
+      var s;
+      return ft.all([
+        q,
+        q[t] ?? {},
         this.config ?? {},
-        ((r = this.config) == null ? void 0 : r[t]) ?? {}
+        ((s = this.config) == null ? void 0 : s[t]) ?? {}
       ]);
     },
     getActivePlayer(e) {
@@ -1229,26 +918,39 @@ const or = {
       return (t = this.$refs.player) == null ? void 0 : t.getInternalPlayer(e);
     }
   }
-};
-var lr = function() {
-  var t = this, r = t._self._c;
-  return r(t.wrapper, t._b({ ref: "wrapper", tag: "component" }, "component", t.$attrs, !1), [t.url ? r("span", [t._t("noUrl")], 2) : [t.shouldShowPreview ? r("Preview", t._b({ on: { click: t.handleClickPreview }, scopedSlots: t._u([{ key: "playIcon", fn: function() {
-    return [t._t("playIcon")];
-  }, proxy: !0 }], null, !0) }, "Preview", t.previewProps, !1)) : r(t.currentPlayer, t._g(t._b({ key: t.playerKey, ref: "player", tag: "component", style: t.playerStyles, attrs: { config: t.playerConfig, activePlayer: t.playerComponent }, on: { ready: t.handleReady }, scopedSlots: t._u([{ key: "none", fn: function() {
-    return [t._t("#noPlayer")];
-  }, proxy: !0 }], null, !0) }, "component", t.$props, !1), t.$listeners))]], 2);
-}, ur = [], cr = /* @__PURE__ */ m(
-  or,
-  lr,
-  ur,
-  !1,
-  null,
-  null,
-  null,
-  null
-);
-const Ls = cr.exports, dr = 5e3, hr = {
-  mixins: [ze],
+}, Ct = { key: 0 };
+function Mt(e, t, s, r, n, i) {
+  const o = qe("Preview");
+  return c(), T(M(e.wrapper), v({ ref: "wrapper" }, e.$attrs), {
+    default: A(() => [
+      e.url ? (c(), y("span", Ct, [
+        S(e.$slots, "noUrl")
+      ])) : (c(), y(I, { key: 1 }, [
+        n.shouldShowPreview ? (c(), T(o, v({ key: 0 }, i.previewProps, { onClick: i.handleClickPreview }), {
+          playIcon: A(() => [
+            S(e.$slots, "playIcon")
+          ]),
+          _: 3
+        }, 16, ["onClick"])) : (c(), T(M(i.currentPlayer), v({ key: 1 }, e.$props, {
+          key: i.playerKey,
+          ref: "player",
+          config: i.playerConfig,
+          activePlayer: i.playerComponent,
+          style: i.playerStyles,
+          onReady: i.handleReady
+        }, ye(e.$listeners)), {
+          none: A(() => [
+            S(e.$slots, "#noPlayer")
+          ]),
+          _: 3
+        }, 16, ["config", "activePlayer", "style", "onReady"]))
+      ], 64))
+    ]),
+    _: 3
+  }, 16);
+}
+const jr = /* @__PURE__ */ m(Rt, [["render", Mt]]), Vt = 5e3, jt = {
+  mixins: [je],
   inheritAttrs: !1,
   data() {
     return {
@@ -1275,23 +977,23 @@ const Ls = cr.exports, dr = 5e3, hr = {
     }
   },
   beforeUnmount() {
-    var e, t, r, n;
-    clearTimeout(this.progressTimeout), clearTimeout(this.durationCheckTimeout), this.isReady && this.stopOnUnmount && ((t = (e = this.player) == null ? void 0 : e.stop) == null || t.call(e), (n = (r = this.player) == null ? void 0 : r.disablePIP) == null || n.call(r));
+    var e, t, s, r;
+    clearTimeout(this.progressTimeout), clearTimeout(this.durationCheckTimeout), this.isReady && this.stopOnUnmount && ((t = (e = this.player) == null ? void 0 : e.stop) == null || t.call(e), (r = (s = this.player) == null ? void 0 : s.disablePIP) == null || r.call(s));
   },
   watch: {
     playing(e) {
-      var t, r, n, s;
-      e && !this.isPlaying ? ((r = (t = this.player) == null ? void 0 : t.play) == null || r.call(t), this.isPlaying = !0) : !e && this.isPlaying && ((s = (n = this.player) == null ? void 0 : n.pause) == null || s.call(n), this.isPlaying = !1);
+      var t, s, r, n;
+      e && !this.isPlaying ? ((s = (t = this.player) == null ? void 0 : t.play) == null || s.call(t), this.isPlaying = !0) : !e && this.isPlaying && ((n = (r = this.player) == null ? void 0 : r.pause) == null || n.call(r), this.isPlaying = !1);
     },
     pictureInPicture(e) {
-      var t, r, n, s;
-      e ? (r = (t = this.player) == null ? void 0 : t.enablePIP) == null || r.call(t) : (s = (n = this.player) == null ? void 0 : n.disablePIP) == null || s.call(n);
+      var t, s, r, n;
+      e ? (s = (t = this.player) == null ? void 0 : t.enablePIP) == null || s.call(t) : (n = (r = this.player) == null ? void 0 : r.disablePIP) == null || n.call(r);
     },
     muted(e) {
-      var t, r, n, s;
-      e ? (r = (t = this.player) == null ? void 0 : t.mute) == null || r.call(t) : ((s = (n = this.player) == null ? void 0 : n.unmute) == null || s.call(n), this.volume !== null && this.$nextTick(() => {
-        var i, l;
-        return (l = (i = this.player) == null ? void 0 : i.setVolume) == null ? void 0 : l.call(i, volume);
+      var t, s, r, n;
+      e ? (s = (t = this.player) == null ? void 0 : t.mute) == null || s.call(t) : ((n = (r = this.player) == null ? void 0 : r.unmute) == null || n.call(r), this.volume !== null && this.$nextTick(() => {
+        var i, o;
+        return (o = (i = this.player) == null ? void 0 : i.setVolume) == null ? void 0 : o.call(i, volume);
       }));
     }
   },
@@ -1332,16 +1034,16 @@ const Ls = cr.exports, dr = 5e3, hr = {
       if (!this.isReady) {
         e !== 0 && (this.seekOnPlay = e, setTimeout(() => {
           this.seekOnPlay = null;
-        }, dr));
+        }, Vt));
         return;
       }
       if (t ? t === "fraction" : e > 0 && e < 1) {
-        const n = this.player.getDuration();
-        if (!n) {
+        const r = this.player.getDuration();
+        if (!r) {
           console.warn("VuePlayer: could not seek using fraction – duration not yet available");
           return;
         }
-        this.player.seekTo(n * e);
+        this.player.seekTo(r * e);
         return;
       }
       this.player.seekTo(e);
@@ -1355,13 +1057,13 @@ const Ls = cr.exports, dr = 5e3, hr = {
     },
     progress() {
       if (this.url && this.player && this.isReady) {
-        const e = this.getCurrentTime() ?? 0, t = this.getSecondsLoaded(), r = this.getDuration();
-        if (r) {
-          const n = {
+        const e = this.getCurrentTime() ?? 0, t = this.getSecondsLoaded(), s = this.getDuration();
+        if (s) {
+          const r = {
             playedSeconds: e,
-            played: e / r
+            played: e / s
           };
-          t !== null && (n.loadedSeconds = t, n.loaded = t / r), (n.playedSeconds !== this.prevPlayed || n.loadedSeconds !== this.prevLoaded) && this.onProgress(n), this.prevPlayed = n.playedSeconds, this.prevLoaded = n.loadedSeconds;
+          t !== null && (r.loadedSeconds = t, r.loaded = t / s), (r.playedSeconds !== this.prevPlayed || r.loadedSeconds !== this.prevLoaded) && this.onProgress(r), this.prevPlayed = r.playedSeconds, this.prevLoaded = r.loadedSeconds;
         }
       }
       this.progressTimeout = setTimeout(this.progress, this.progressFrequency ?? this.progressInterval);
@@ -1370,21 +1072,21 @@ const Ls = cr.exports, dr = 5e3, hr = {
       if (!this.mounted)
         return;
       this.isReady = !0, this.isLoading = !1;
-      const { onReady: e, playing: t, volume: r, muted: n } = this;
-      e(), !n && r !== null && this.player.setVolume(r), this.loadOnReady ? (this.player.load(this.loadOnReady, !0), this.loadOnReady = null) : t && this.player.play(), this.handleDurationCheck();
+      const { onReady: e, playing: t, volume: s, muted: r } = this;
+      e(), !r && s !== null && this.player.setVolume(s), this.loadOnReady ? (this.player.load(this.loadOnReady, !0), this.loadOnReady = null) : t && this.player.play(), this.handleDurationCheck();
     },
     handlePlay() {
-      var n, s;
+      var r, n;
       this.isPlaying = !0, this.isLoading = !1;
-      const { onStart: e, onPlay: t, playbackRate: r } = this;
-      this.startOnPlay && (r !== 1 && ((s = (n = this.player) == null ? void 0 : n.setPlaybackRate) == null || s.call(n, r)), e(), this.startOnPlay = !1), t(), this.seekOnPlay && (this.seekTo(this.seekOnPlay), this.seekOnPlay = null), this.handleDurationCheck();
+      const { onStart: e, onPlay: t, playbackRate: s } = this;
+      this.startOnPlay && (s !== 1 && ((n = (r = this.player) == null ? void 0 : r.setPlaybackRate) == null || n.call(r, s)), e(), this.startOnPlay = !1), t(), this.seekOnPlay && (this.seekTo(this.seekOnPlay), this.seekOnPlay = null), this.handleDurationCheck();
     },
     handlePause(e) {
       this.isPlaying = !1, this.isLoading || this.onPause(e);
     },
     handleEnded() {
-      const { activePlayer: e, loop: t, onEnded: r } = this;
-      e.loopOnEnded && t && this.seekTo(0), t || (this.isPlaying = !1, r());
+      const { activePlayer: e, loop: t, onEnded: s } = this;
+      e.loopOnEnded && t && this.seekTo(0), t || (this.isPlaying = !1, s());
     },
     handleError(...e) {
       this.isLoading = !1, this.onError(...e);
@@ -1398,24 +1100,28 @@ const Ls = cr.exports, dr = 5e3, hr = {
       this.isLoading = !1;
     }
   }
+}, Ut = {
+  key: 1,
+  class: "vue-player--none"
 };
-var yr = function() {
-  var t = this, r = t._self._c;
-  return t.activePlayer ? r(t.activePlayer, t._g(t._b({ tag: "component", staticClass: "vue-player", on: { mount: t.handlePlayerMount, ready: t.handleReady, play: t.handlePlay, pause: t.handlePause, ended: t.handleEnded, loaded: t.handleLoaded, error: t.handleError } }, "component", t.playerProps, !1), t.$listeners)) : r("span", { staticClass: "vue-player--none" }, [t._t("none")], 2);
-}, pr = [], fr = /* @__PURE__ */ m(
-  hr,
-  yr,
-  pr,
-  !1,
-  null,
-  null,
-  null,
-  null
-);
-const mr = fr.exports, gr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+function xt(e, t, s, r, n, i) {
+  return e.activePlayer ? (c(), T(M(e.activePlayer), v({ key: 0 }, i.playerProps, {
+    class: "vue-player",
+    onMount: i.handlePlayerMount,
+    onReady: i.handleReady,
+    onPlay: i.handlePlay,
+    onPause: i.handlePause,
+    onEnded: i.handleEnded,
+    onLoaded: i.handleLoaded,
+    onError: i.handleError
+  }, ye(e.$listeners)), null, 16, ["onMount", "onReady", "onPlay", "onPause", "onEnded", "onLoaded", "onError"])) : (c(), y("span", Ut, [
+    S(e.$slots, "none")
+  ]));
+}
+const Nt = /* @__PURE__ */ m(jt, [["render", xt]]), Ht = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: mr
-}, Symbol.toStringTag, { value: "Module" })), B = {}, _r = {
+  default: Nt
+}, Symbol.toStringTag, { value: "Module" })), B = {}, Kt = {
   emits: ["click"],
   props: {
     url: a.string.isRequired,
@@ -1467,8 +1173,8 @@ const mr = fr.exports, gr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
         this.image = null;
         const t = await (await fetch(this.oEmbedUrl.replace("{url}", this.url))).json();
         if (typeof t.thumbnail_url < "u" && this.mounted) {
-          const r = t.thumbnail_url.replace("height=100", "height=480");
-          this.image = r, B[this.url] = r;
+          const s = t.thumbnail_url.replace("height=100", "height=480");
+          this.image = s, B[this.url] = s;
         }
       }
     },
@@ -1477,37 +1183,34 @@ const mr = fr.exports, gr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
       light: "fetchImage"
     }
   }
-};
-var vr = function() {
-  var t = this, r = t._self._c;
-  return r("div", { staticClass: "vue-player__preview react-player__preview", style: t.previewStyles, attrs: { tabindex: t.previewTabIndex }, on: { click: t.handleClick, keypress: t.handleKeyPress } }, [t._t("playIcon", function() {
-    return [t._m(0)];
-  })], 2);
-}, Pr = [function() {
-  var e = this, t = e._self._c;
-  return t("div", { staticClass: "vue-player__shadow react-player__shadow" }, [t("div", { staticClass: "vue-player__play-icon react-player__play-icon" })]);
-}], br = /* @__PURE__ */ m(
-  _r,
-  vr,
-  Pr,
-  !1,
-  null,
-  null,
-  null,
-  null
-);
-const wr = br.exports, Sr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, Bt = ["tabindex"], Ft = /* @__PURE__ */ k("div", { class: "vue-player__shadow react-player__shadow" }, [
+  /* @__PURE__ */ k("div", { class: "vue-player__play-icon react-player__play-icon" })
+], -1);
+function zt(e, t, s, r, n, i) {
+  return c(), y("div", {
+    class: "vue-player__preview react-player__preview",
+    tabindex: s.previewTabIndex,
+    style: $(i.previewStyles),
+    onClick: t[0] || (t[0] = (...o) => i.handleClick && i.handleClick(...o)),
+    onKeydown: t[1] || (t[1] = (...o) => i.handleKeyPress && i.handleKeyPress(...o))
+  }, [
+    S(e.$slots, "playIcon", {}, () => [
+      Ft
+    ])
+  ], 44, Bt);
+}
+const Yt = /* @__PURE__ */ m(Kt, [["render", zt]]), Gt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: wr
-}, Symbol.toStringTag, { value: "Module" })), $r = "https://api.dmcdn.net/all.js", Lr = "DM", Or = "dmAsyncInit", Tr = {
+  default: Yt
+}, Symbol.toStringTag, { value: "Module" })), qt = "https://api.dmcdn.net/all.js", Wt = "DM", Xt = "dmAsyncInit", Zt = {
   // [META]
   displayName: "DailyMotion",
-  canPlay: h.dailymotion,
+  canPlay: u.dailymotion,
   loopOnEnded: !0,
   // [/META]
-  mixins: [v],
+  mixins: [P],
   props: {
-    config: Ae,
+    config: Le,
     display: a.string.def("block")
   },
   computed: {
@@ -1597,30 +1300,30 @@ const wr = br.exports, Sr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
       return (e = this.player) == null ? void 0 : e.bufferedTime;
     },
     async load(e) {
-      const { controls: t, config: r, playing: n } = this, [, s] = e.match(Ge);
+      const { controls: t, config: s, playing: r } = this, [, n] = e.match(Ne);
       if (this.player) {
-        this.player.load(s, {
+        this.player.load(n, {
           start: D(e),
-          autoplay: n
+          autoplay: r
         });
         return;
       }
       try {
-        const i = await b($r, Lr, Or, (c) => c.player);
+        const i = await _(qt, Wt, Xt, (d) => d.player);
         if (!this.$refs.container)
           return;
-        const l = i.player;
-        this.player = new l(this.$refs.container, {
+        const o = i.player;
+        this.player = new o(this.$refs.container, {
           width: "100%",
           height: "100%",
-          video: s,
+          video: n,
           params: {
             controls: t,
             autoplay: this.playing,
             mute: this.muted,
             start: D(e),
             origin: window.location.origin,
-            ...r.params
+            ...s.params
           },
           events: {
             apiready: this.onReady,
@@ -1642,37 +1345,32 @@ const wr = br.exports, Sr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
       this.onDuration(e);
     }
   }
-};
-var Er = function() {
-  var t = this, r = t._self._c;
-  return r("div", { staticClass: "vue-player--dailymotion", style: t.styles }, [r("div", { ref: "container" })]);
-}, kr = [], Rr = /* @__PURE__ */ m(
-  Tr,
-  Er,
-  kr,
-  !1,
-  null,
-  null,
-  null,
-  null
-);
-const Cr = Rr.exports, Ar = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, Qt = { ref: "container" };
+function Jt(e, t, s, r, n, i) {
+  return c(), y("div", {
+    class: "vue-player--dailymotion",
+    style: $(i.styles)
+  }, [
+    k("div", Qt, null, 512)
+  ], 4);
+}
+const es = /* @__PURE__ */ m(Zt, [["render", Jt]]), ts = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: Cr
-}, Symbol.toStringTag, { value: "Module" })), de = "https://connect.facebook.net/en_US/sdk.js", he = "FB", ye = "fbAsyncInit", Dr = "facebook-player-", Ir = {
+  default: es
+}, Symbol.toStringTag, { value: "Module" })), le = "https://connect.facebook.net/en_US/sdk.js", de = "FB", ce = "fbAsyncInit", ss = "facebook-player-", rs = {
   // [META]
   displayName: "Facebook",
-  canPlay: h.facebook,
+  canPlay: u.facebook,
   loopOnEnabled: !0,
   // [/META]
   events: ["loaded"],
-  mixins: [v],
+  mixins: [P],
   props: {
-    config: Re
+    config: we
   },
   data() {
     return {
-      randomId: `${Dr}${ee()}`
+      randomId: `${ss}${Z()}`
     };
   },
   computed: {
@@ -1758,20 +1456,20 @@ const Cr = Rr.exports, Ar = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
       return null;
     },
     async load(e, t) {
-      var n, s;
+      var r, n;
       if (t) {
-        const i = await b(de, he, ye);
-        (s = (n = i == null ? void 0 : i.XFBML) == null ? void 0 : n.parse) == null || s.call(n);
+        const i = await _(le, de, ce);
+        (n = (r = i == null ? void 0 : i.XFBML) == null ? void 0 : r.parse) == null || n.call(r);
         return;
       }
-      const r = await b(de, he, ye);
-      r.init({
+      const s = await _(le, de, ce);
+      s.init({
         appId: this.config.appId,
         xfbml: !0,
         version: this.config.version
-      }), r.Event.subscribe("xfbml.render", (i) => {
+      }), s.Event.subscribe("xfbml.render", (i) => {
         this.onLoaded();
-      }), r.Event.subscribe("xfbml.ready", (i) => {
+      }), s.Event.subscribe("xfbml.ready", (i) => {
         i.type === "video" && i.id === this.playerID && (this.player = i.instance, this.player.subscribe("startedPlaying", this.onPlay), this.player.subscribe("paused", this.onPause), this.player.subscribe("finishedPlaying", this.onEnded), this.player.subscribe("startedBuffering", this.onBuffer), this.player.subscribe("finishedBuffering", this.onBufferEnd), this.player.subscribe("error", this.onError), this.muted ? this.mute() : this.unmute(), this.onReady(), document.getElementById(this.playerID).querySelector("iframe").style.visibility = "visible");
       });
     },
@@ -1779,31 +1477,28 @@ const Cr = Rr.exports, Ar = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
       this.$emit("loaded", ...e);
     }
   }
-};
-var jr = function() {
-  var t = this, r = t._self._c;
-  return r("div", t._b({ staticClass: "fb-video vue-player--facebook", attrs: { id: this.playerID, "data-href": this.url, "data-autoplay": this.playing ? "true" : "false", "data-controls": this.controls ? "true" : "false", "data-allowfullscreen": "true" } }, "div", t.config.attributes, !1));
-}, Mr = [], Vr = /* @__PURE__ */ m(
-  Ir,
-  jr,
-  Mr,
-  !1,
-  null,
-  null,
-  null,
-  null
-);
-const Ur = Vr.exports, xr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, is = ["id", "data-href", "data-autoplay", "data-controls"];
+function ns(e, t, s, r, n, i) {
+  return c(), y("div", v({
+    id: this.playerID,
+    class: "fb-video vue-player--facebook",
+    "data-href": this.url,
+    "data-autoplay": this.playing ? "true" : "false",
+    "data-controls": this.controls ? "true" : "false",
+    "data-allowfullscreen": "true"
+  }, s.config.attributes), null, 16, is);
+}
+const as = /* @__PURE__ */ m(rs, [["render", ns]]), os = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: Ur
-}, Symbol.toStringTag, { value: "Module" })), et = typeof navigator < "u", Nr = et && navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1, pe = et && (/iPad|iPhone|iPod/.test(navigator.userAgent) || Nr) && !window.MSStream, Fr = "https://cdn.jsdelivr.net/npm/hls.js@VERSION/dist/hls.min.js", Hr = "Hls", Kr = "https://cdnjs.cloudflare.com/ajax/libs/dashjs/VERSION/dash.all.min.js", Br = "dashjs", zr = "https://cdn.jsdelivr.net/npm/flv.js@VERSION/dist/flv.min.js", Yr = "flvjs", qr = /www\.dropbox\.com\/.+/, z = /https:\/\/watch\.cloudflarestream\.com\/([a-z0-9]+)/, Gr = "https://videodelivery.net/{id}/manifest/video.m3u8", Wr = {
+  default: as
+}, Symbol.toStringTag, { value: "Module" })), Ye = typeof navigator < "u", ls = Ye && navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1, ue = Ye && (/iPad|iPhone|iPod/.test(navigator.userAgent) || ls) && !window.MSStream, ds = "https://cdn.jsdelivr.net/npm/hls.js@VERSION/dist/hls.min.js", cs = "Hls", us = "https://cdnjs.cloudflare.com/ajax/libs/dashjs/VERSION/dash.all.min.js", hs = "dashjs", ys = "https://cdn.jsdelivr.net/npm/flv.js@VERSION/dist/flv.min.js", ps = "flvjs", fs = /www\.dropbox\.com\/.+/, F = /https:\/\/watch\.cloudflarestream\.com\/([a-z0-9]+)/, ms = "https://videodelivery.net/{id}/manifest/video.m3u8", Ps = {
   // [META]
   displayName: "FilePlayer",
-  canPlay: h.file,
+  canPlay: u.file,
   // [/META]
-  mixins: [v],
+  mixins: [P],
   props: {
-    config: Me
+    config: ke
   },
   data() {
     return {
@@ -1831,7 +1526,7 @@ const Ur = Vr.exports, xr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
     },
     shouldUseAudio() {
       var e;
-      return (e = this.config) != null && e.forceVideo || this.config.attributes.poster ? !1 : U.test(this.url) || this.config.forceAudio;
+      return (e = this.config) != null && e.forceVideo || this.config.attributes.poster ? !1 : V.test(this.url) || this.config.forceAudio;
     },
     styles() {
       return {
@@ -1845,10 +1540,10 @@ const Ur = Vr.exports, xr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
   },
   mounted() {
     var e, t;
-    this.addListeners(this.$refs.player), pe && ((t = (e = this.$refs.player) == null ? void 0 : e.load) == null || t.call(e)), this.$watch(
+    this.addListeners(this.$refs.player), ue && ((t = (e = this.$refs.player) == null ? void 0 : e.load) == null || t.call(e)), this.$watch(
       () => this.$refs.player,
-      (r, n) => {
-        this.prevPlayer = n;
+      (s, r) => {
+        this.prevPlayer = r;
       }
     );
   },
@@ -1858,7 +1553,7 @@ const Ur = Vr.exports, xr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
   },
   watch: {
     url(e, t) {
-      this.prevUrl = t, !I(e) && this.$refs.player && (this.$refs.player.srcObject = null);
+      this.prevUrl = t, !R(e) && this.$refs.player && (this.$refs.player.srcObject = null);
     },
     shouldUseAudio() {
       this.removeListeners(this.prevPlayer, this.prevUrl), this.addListeners(this.$refs.player);
@@ -1887,8 +1582,8 @@ const Ur = Vr.exports, xr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
      * @playerHook play
      */
     play() {
-      var t, r;
-      const e = (r = (t = this.$refs.player).play) == null ? void 0 : r.call(t);
+      var t, s;
+      const e = (s = (t = this.$refs.player).play) == null ? void 0 : s.call(t);
       e && e.catch(this.onError);
     },
     /**
@@ -1906,8 +1601,8 @@ const Ur = Vr.exports, xr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
      * @playerHook stop
      */
     stop() {
-      var e, t, r, n;
-      (t = (e = this.$refs.player) == null ? void 0 : e.removeAttribute) == null || t.call(e, "src"), (n = (r = this.dash) == null ? void 0 : r.reset) == null || n.call(r);
+      var e, t, s, r;
+      (t = (e = this.$refs.player) == null ? void 0 : e.removeAttribute) == null || t.call(e, "src"), (r = (s = this.dash) == null ? void 0 : s.reset) == null || r.call(s);
     },
     /**
      * @inheritDoc
@@ -1972,8 +1667,8 @@ const Ur = Vr.exports, xr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
       const { buffered: e } = this.$refs.player;
       if (e.length === 0)
         return 0;
-      const t = e.end(e.length - 1), r = this.getDuration();
-      return t > r ? r : t;
+      const t = e.end(e.length - 1), s = this.getDuration();
+      return t > s ? s : t;
     },
     /**
      * @inheritDoc
@@ -1993,8 +1688,8 @@ const Ur = Vr.exports, xr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
      * @playerHook enablePIP
      */
     enablePIP() {
-      var e, t, r, n, s, i;
-      (e = this.$refs.player) != null && e.requestPictureInPicture && document.pictureInPictureElement !== this.$refs.player ? ((r = (t = this.$refs.player) == null ? void 0 : t.requestPictureInPicture) == null || r.call(t), this.onEnablePIP()) : j(this.$refs.player) && ((n = this.$refs.player) == null ? void 0 : n.webkitPresentationMode) !== "picture-in-picture" && ((i = (s = this.$refs.player) == null ? void 0 : s.webkitSetPresentationMode) == null || i.call(s, "picture-in-picture"), this.onEnablePIP());
+      var e, t, s, r, n, i;
+      (e = this.$refs.player) != null && e.requestPictureInPicture && document.pictureInPictureElement !== this.$refs.player ? ((s = (t = this.$refs.player) == null ? void 0 : t.requestPictureInPicture) == null || s.call(t), this.onEnablePIP()) : C(this.$refs.player) && ((r = this.$refs.player) == null ? void 0 : r.webkitPresentationMode) !== "picture-in-picture" && ((i = (n = this.$refs.player) == null ? void 0 : n.webkitSetPresentationMode) == null || i.call(n, "picture-in-picture"), this.onEnablePIP());
     },
     /**
      * @inheritDoc
@@ -2002,34 +1697,34 @@ const Ur = Vr.exports, xr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
      * @playerHook disablePIP
      */
     disablePIP() {
-      var e, t, r;
-      document.exitPictureInPicture && document.pictureInPictureElement === this.$refs.player ? (document.exitPictureInPicture(), this.onDisablePIP()) : j(this.$refs.player) && ((e = this.$refs.player) == null ? void 0 : e.webkitPresentationMode) !== "inline" && ((r = (t = this.$refs.player) == null ? void 0 : t.webkitSetPresentationMode) == null || r.call(t, "inline"), this.onDisablePIP());
+      var e, t, s;
+      document.exitPictureInPicture && document.pictureInPictureElement === this.$refs.player ? (document.exitPictureInPicture(), this.onDisablePIP()) : C(this.$refs.player) && ((e = this.$refs.player) == null ? void 0 : e.webkitPresentationMode) !== "inline" && ((s = (t = this.$refs.player) == null ? void 0 : t.webkitSetPresentationMode) == null || s.call(t, "inline"), this.onDisablePIP());
     },
     async load(e) {
-      var i, l, c, o, u, d;
-      const { hlsVersion: t, hlsOptions: r, dashVersion: n, flvVersion: s } = this.config;
-      if ((l = (i = this.hls) == null ? void 0 : i.destroy) == null || l.call(i), (o = (c = this.dash) == null ? void 0 : c.reset) == null || o.call(c), this.shouldUseHLS(e)) {
-        const y = await getSDK(Fr.replace("VERSION", t), Hr);
-        if (this.hls = new y(r), this.hls.on(y.Events.MANIFEST_PARSED, () => {
+      var i, o, d, h, l, p;
+      const { hlsVersion: t, hlsOptions: s, dashVersion: r, flvVersion: n } = this.config;
+      if ((o = (i = this.hls) == null ? void 0 : i.destroy) == null || o.call(i), (h = (d = this.dash) == null ? void 0 : d.reset) == null || h.call(d), this.shouldUseHLS(e)) {
+        const f = await getSDK(ds.replace("VERSION", t), cs);
+        if (this.hls = new f(s), this.hls.on(f.Events.MANIFEST_PARSED, () => {
           this.onReady();
-        }), this.hls.on(y.Events.ERROR, (p, g) => {
-          this.onError(p, g, this.hls, y);
-        }), z.test(e)) {
-          const p = e.match(z)[1];
-          this.hls.loadSource(Gr.replace("{id}", p));
+        }), this.hls.on(f.Events.ERROR, (b, g) => {
+          this.onError(b, g, this.hls, f);
+        }), F.test(e)) {
+          const b = e.match(F)[1];
+          this.hls.loadSource(ms.replace("{id}", b));
         } else
           this.hls.loadSource(e);
         this.hls.attachMedia(this.$refs.player), this.onLoaded();
       } else if (this.shouldUseDASH(e)) {
-        const y = await getSDK(Kr.replace("VERSION", n), Br);
-        this.dash = y.MediaPlayer().create(), this.dash.initialize(this.$refs.player, e, this.playing), this.dash.on("error", this.onError), parseInt(n) < 3 ? this.dash.getDebug().setLogToBrowserConsole(!1) : this.dash.updateSettings({ debug: { logLevel: y.Debug.LOG_LEVEL_NONE } }), this.onLoaded();
+        const f = await getSDK(us.replace("VERSION", r), hs);
+        this.dash = f.MediaPlayer().create(), this.dash.initialize(this.$refs.player, e, this.playing), this.dash.on("error", this.onError), parseInt(r) < 3 ? this.dash.getDebug().setLogToBrowserConsole(!1) : this.dash.updateSettings({ debug: { logLevel: f.Debug.LOG_LEVEL_NONE } }), this.onLoaded();
       } else if (this.shouldUseFLV(e)) {
-        const y = await getSDK(zr.replace("VERSION", s), Yr);
-        this.flv = y.createPlayer({ type: "flv", url: e }), this.flv.attachMediaElement(this.$refs.player), this.flv.load(), this.onLoaded();
+        const f = await getSDK(ys.replace("VERSION", n), ps);
+        this.flv = f.createPlayer({ type: "flv", url: e }), this.flv.attachMediaElement(this.$refs.player), this.flv.load(), this.onLoaded();
       }
       if (e instanceof Array)
-        (d = (u = this.$refs.player) == null ? void 0 : u.load) == null || d.call(u);
-      else if (I(e))
+        (p = (l = this.$refs.player) == null ? void 0 : l.load) == null || p.call(l);
+      else if (R(e))
         try {
           this.$refs.player.srcObject = e;
         } catch {
@@ -2037,65 +1732,72 @@ const Ur = Vr.exports, xr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
         }
     },
     getSource(e) {
-      const t = this.shouldUseHLS(e), r = this.shouldUseDASH(e), n = this.shouldUseFLV(e);
-      if (!(e instanceof Array || I(e) || t || r || n))
-        return qr.test(e) ? e.replace("www.dropbox.com", "dl.dropboxusercontent.com") : e;
+      const t = this.shouldUseHLS(e), s = this.shouldUseDASH(e), r = this.shouldUseFLV(e);
+      if (!(e instanceof Array || R(e) || t || s || r))
+        return fs.test(e) ? e.replace("www.dropbox.com", "dl.dropboxusercontent.com") : e;
     },
     onPresentationModeChange(e) {
-      if (this.$refs.player && j(this.$refs.player)) {
+      if (this.$refs.player && C(this.$refs.player)) {
         const { webkitPresentationMode: t } = this.$refs.player;
         t === "picture-in-picture" ? this.onEnablePIP(e) : t === "inline" && this.onDisablePIP(e);
       }
     },
     addListeners(e) {
-      const { url: t, playsInline: r } = this;
-      e.addEventListener("play", this.onPlay), e.addEventListener("waiting", this.onBuffer), e.addEventListener("playing", this.onBufferEnd), e.addEventListener("pause", this.onPause), e.addEventListener("seeked", this.onSeek), e.addEventListener("ended", this.onEnded), e.addEventListener("error", this.onError), e.addEventListener("ratechange", this.onPlaybackRateChange), e.addEventListener("enterpictureinpicture", this.onEnablePIP), e.addEventListener("leavepictureinpicture", this.onDisablePIP), e.addEventListener("webkitpresentationmodechanged", this.onPresentationModeChange), this.shouldUseHLS(t) || e.addEventListener("canplay", this.onReady), r && (e.setAttribute("playsinline", ""), e.setAttribute("webkit-playsinline", ""), e.setAttribute("x5-playsinline", ""));
+      const { url: t, playsInline: s } = this;
+      e.addEventListener("play", this.onPlay), e.addEventListener("waiting", this.onBuffer), e.addEventListener("playing", this.onBufferEnd), e.addEventListener("pause", this.onPause), e.addEventListener("seeked", this.onSeek), e.addEventListener("ended", this.onEnded), e.addEventListener("error", this.onError), e.addEventListener("ratechange", this.onPlaybackRateChange), e.addEventListener("enterpictureinpicture", this.onEnablePIP), e.addEventListener("leavepictureinpicture", this.onDisablePIP), e.addEventListener("webkitpresentationmodechanged", this.onPresentationModeChange), this.shouldUseHLS(t) || e.addEventListener("canplay", this.onReady), s && (e.setAttribute("playsinline", ""), e.setAttribute("webkit-playsinline", ""), e.setAttribute("x5-playsinline", ""));
     },
     removeListeners(e, t) {
       e.removeEventListener("canplay", this.onReady), e.removeEventListener("play", this.onPlay), e.removeEventListener("waiting", this.onBuffer), e.removeEventListener("playing", this.onBufferEnd), e.removeEventListener("pause", this.onPause), e.removeEventListener("seeked", this.onSeek), e.removeEventListener("ended", this.onEnded), e.removeEventListener("error", this.onError), e.removeEventListener("ratechange", this.onPlaybackRateChange), e.removeEventListener("enterpictureinpicture", this.onEnablePIP), e.removeEventListener("leavepictureinpicture", this.onDisablePIP), e.removeEventListener("webkitpresentationmodechanged", this.onPresentationModeChange), this.shouldUseHLS(t) || e.removeEventListener("canplay", this.onReady);
     },
     shouldUseHLS(e) {
       var t;
-      return (t = this.config) != null && t.forceHLS ? !0 : pe ? !1 : te.test(e) || z.test(e);
+      return (t = this.config) != null && t.forceHLS ? !0 : ue ? !1 : Q.test(e) || F.test(e);
     },
     shouldUseDASH(e) {
-      return Je.test(e) || this.props.config.forceDASH;
+      return Fe.test(e) || this.props.config.forceDASH;
     },
     shouldUseFLV(e) {
-      return Qe.test(e) || this.props.config.forceFLV;
+      return ze.test(e) || this.props.config.forceFLV;
     }
   }
-};
-var Xr = function() {
-  var t = this, r = t._self._c;
-  return r(t.tag, t._b({ ref: "player", tag: "component", staticClass: "vue-player--file", style: t.styles, attrs: { preload: "auto", src: t.src, autoplay: t.playing, controls: t.controls, muted: t.muted, loop: t.loop } }, "component", t.config.attributes, !1), [t.urlIsArray ? [t._l(this.url, function(n, s) {
-    return [t._t("source", function() {
-      return [typeof n == "string" ? r("source", { key: n, attrs: { src: n } }) : r("source", t._b({ key: s }, "source", n, !1))];
-    }, null, { source: n })];
-  }), t._l(this.config.tracks, function(n, s) {
-    return [t._t("track", function() {
-      return [r("track", t._b({ key: s }, "track", n, !1))];
-    }, null, { track: n })];
-  })] : t._e()], 2);
-}, Zr = [], Jr = /* @__PURE__ */ m(
-  Wr,
-  Xr,
-  Zr,
-  !1,
-  null,
-  null,
-  null,
-  null
-);
-const Qr = Jr.exports, en = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, gs = ["src"];
+function bs(e, t, s, r, n, i) {
+  return c(), T(M(i.tag), v({
+    ref: "player",
+    class: "vue-player--file",
+    style: i.styles,
+    preload: "auto",
+    src: i.src,
+    autoplay: e.playing,
+    controls: e.controls,
+    muted: e.muted,
+    loop: e.loop
+  }, s.config.attributes), {
+    default: A(() => [
+      i.urlIsArray ? (c(), y(I, { key: 0 }, [
+        (c(!0), y(I, null, J(this.url, (o, d) => S(e.$slots, "source", ee(te({ source: o })), () => [
+          typeof o == "string" ? (c(), y("source", {
+            src: o,
+            key: o
+          }, null, 8, gs)) : (c(), y("source", v({ key: d }, o), null, 16))
+        ])), 256)),
+        (c(!0), y(I, null, J(this.config.tracks, (o, d) => S(e.$slots, "track", ee(te({ track: o })), () => [
+          (c(), y("track", v({ key: d }, o), null, 16))
+        ])), 256))
+      ], 64)) : We("", !0)
+    ]),
+    _: 3
+  }, 16, ["style", "src", "autoplay", "controls", "muted", "loop"]);
+}
+const _s = /* @__PURE__ */ m(Ps, [["render", bs]]), vs = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: Qr
-}, Symbol.toStringTag, { value: "Module" })), tn = "https://cdn.embed.ly/player-0.1.0.min.js", rn = "playerjs", nn = {
+  default: _s
+}, Symbol.toStringTag, { value: "Module" })), ws = "https://cdn.embed.ly/player-0.1.0.min.js", Ss = "playerjs", Ls = {
   // [META]
   displayName: "Kaltura",
-  canPlay: h.kaltura,
+  canPlay: u.kaltura,
   // [/META]
-  mixins: [v],
+  mixins: [P],
   data() {
     return {
       duration: null,
@@ -2186,7 +1888,7 @@ const Qr = Jr.exports, en = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
     },
     async load(e) {
       try {
-        const t = await b(tn, rn);
+        const t = await _(ws, Ss);
         if (!this.$refs.iframe)
           return;
         this.player = new t.Player(this.$refs.iframe), this.player.on("ready", () => {
@@ -2199,37 +1901,36 @@ const Qr = Jr.exports, en = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
       }
     },
     addListeners(e) {
-      e.on("play", this.onPlay), e.on("pause", this.onPause), e.on("ended", this.onEnded), e.on("error", this.onError), e.on("timeupdate", ({ duration: t, seconds: r }) => {
-        const n = this.duration !== t;
-        this.duration = t, this.currentTime = r, n && this.onDuration(t), this.onSeek(r);
+      e.on("play", this.onPlay), e.on("pause", this.onPause), e.on("ended", this.onEnded), e.on("error", this.onError), e.on("timeupdate", ({ duration: t, seconds: s }) => {
+        const r = this.duration !== t;
+        this.duration = t, this.currentTime = s, r && this.onDuration(t), this.onSeek(s);
       });
     }
   }
-};
-var sn = function() {
-  var t = this, r = t._self._c;
-  return r("iframe", { ref: "iframe", staticClass: "vue-player--kaltura", attrs: { src: t.url, frameborder: "0", scrolling: "no", allowfullscreen: "", allow: "encrypted-media;autoplay", referrerpolicy: "no-referrer-when-downgrade" } });
-}, an = [], on = /* @__PURE__ */ m(
-  nn,
-  sn,
-  an,
-  !1,
-  null,
-  null,
-  null,
-  null
-);
-const ln = on.exports, un = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, Es = ["src"];
+function $s(e, t, s, r, n, i) {
+  return c(), y("iframe", {
+    class: "vue-player--kaltura",
+    ref: "iframe",
+    src: e.url,
+    frameborder: "0",
+    scrolling: "no",
+    allowfullscreen: "",
+    allow: "encrypted-media;autoplay",
+    referrerpolicy: "no-referrer-when-downgrade"
+  }, null, 8, Es);
+}
+const Ts = /* @__PURE__ */ m(Ls, [["render", $s]]), ks = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: ln
-}, Symbol.toStringTag, { value: "Module" })), cn = "https://widget.mixcloud.com/media/js/widgetApi.js", dn = "Mixcloud", hn = {
+  default: Ts
+}, Symbol.toStringTag, { value: "Module" })), Os = "https://widget.mixcloud.com/media/js/widgetApi.js", Ds = "Mixcloud", As = {
   // [META]
   displayName: "Mixcloud",
-  canPlay: h.mixcloud,
+  canPlay: u.mixcloud,
   // [/META]
-  mixins: [v],
+  mixins: [P],
   props: {
-    config: Ne
+    config: Ie
   },
   data() {
     return {
@@ -2243,13 +1944,13 @@ const ln = on.exports, un = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
      * @type {string}
      */
     id() {
-      return this.url.match(We)[1];
+      return this.url.match(He)[1];
     },
     /**
      * @type {string}
      */
     query() {
-      return Gt({
+      return _t({
         ...this.config.options,
         feed: `/${this.id}/`
       });
@@ -2312,10 +2013,10 @@ const ln = on.exports, un = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
     },
     async load(e) {
       try {
-        const t = await b(cn, dn);
+        const t = await _(Os, Ds);
         this.player = t.PlayerWidget(this.$refs.iframe), this.player.ready.then(() => {
-          this.player.events.play.on(this.onPlay), this.player.events.pause.on(this.onPause), this.player.events.ended.on(this.onEnded), this.player.events.error.on(this.onError), this.player.events.progress.on((r, n) => {
-            this.currentTime = r, this.duration = n;
+          this.player.events.play.on(this.onPlay), this.player.events.pause.on(this.onPause), this.player.events.ended.on(this.onEnded), this.player.events.error.on(this.onError), this.player.events.progress.on((s, r) => {
+            this.currentTime = s, this.duration = r;
           }), this.onReady();
         });
       } catch (t) {
@@ -2323,32 +2024,28 @@ const ln = on.exports, un = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
       }
     }
   }
-};
-var yn = function() {
-  var t = this, r = t._self._c;
-  return r("iframe", { key: t.id, ref: "iframe", staticClass: "vue-player--mixcloud", attrs: { src: t.src, frameborder: "0" } });
-}, pn = [], fn = /* @__PURE__ */ m(
-  hn,
-  yn,
-  pn,
-  !1,
-  null,
-  null,
-  null,
-  null
-);
-const mn = fn.exports, gn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, Is = ["src"];
+function Rs(e, t, s, r, n, i) {
+  return c(), y("iframe", {
+    key: i.id,
+    ref: "iframe",
+    src: i.src,
+    class: "vue-player--mixcloud",
+    frameborder: "0"
+  }, null, 8, Is);
+}
+const Cs = /* @__PURE__ */ m(As, [["render", Rs]]), Ms = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: mn
-}, Symbol.toStringTag, { value: "Module" })), _n = "https://w.soundcloud.com/player/api.js", vn = "SC", Pn = {
+  default: Cs
+}, Symbol.toStringTag, { value: "Module" })), Vs = "https://w.soundcloud.com/player/api.js", js = "SC", Us = {
   // [META]
   displayName: "Soundcloud",
-  canPlay: h.soundcloud,
+  canPlay: u.soundcloud,
   loopOnEnded: !0,
   // [/META]
-  mixins: [v],
+  mixins: [P],
   props: {
-    config: Oe,
+    config: ge,
     display: a.string.def("block")
   },
   data() {
@@ -2445,50 +2142,47 @@ const mn = fn.exports, gn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
     },
     async load(e, t) {
       try {
-        const r = await b(_n, vn);
+        const s = await _(Vs, js);
         if (!this.iframe)
           return;
-        const { PLAY: n, PLAY_PROGRESS: s, PAUSE: i, FINISH: l, ERROR: c } = r.Widget.Events;
-        t || (this.player = r.Widget(this.$refs.iframe), this.player.bind(n, this.onPlay), this.player.bind(i, () => {
+        const { PLAY: r, PLAY_PROGRESS: n, PAUSE: i, FINISH: o, ERROR: d } = s.Widget.Events;
+        t || (this.player = s.Widget(this.$refs.iframe), this.player.bind(r, this.onPlay), this.player.bind(i, () => {
           this.duration - this.currentTime < 0.05 || this.onPause();
-        }), this.player.bind(s, (o) => {
-          this.currentTime = o.currentPosition / 1e3, this.fractionLoaded = o.loadedProgress;
-        }), this.player.bind(l, this.onEnded), this.player.bind(c, this.onError)), this.player.load(e, {
+        }), this.player.bind(n, (h) => {
+          this.currentTime = h.currentPosition / 1e3, this.fractionLoaded = h.loadedProgress;
+        }), this.player.bind(o, this.onEnded), this.player.bind(d, this.onError)), this.player.load(e, {
           ...this.config.options,
           callback: () => {
-            this.player.getDuration((o) => {
-              this.duration = o / 1e3, this.onReady();
+            this.player.getDuration((h) => {
+              this.duration = h / 1e3, this.onReady();
             });
           }
         });
-      } catch (r) {
-        this.onError(r);
+      } catch (s) {
+        this.onError(s);
       }
     }
   }
-};
-var bn = function() {
-  var t = this, r = t._self._c;
-  return r("iframe", { ref: "iframe", staticClass: "vue-player--soundcloud", style: t.styles, attrs: { src: t.src, frameborder: "0", allow: "autoplay" } });
-}, wn = [], Sn = /* @__PURE__ */ m(
-  Pn,
-  bn,
-  wn,
-  !1,
-  null,
-  null,
-  null,
-  null
-);
-const $n = Sn.exports, Ln = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, xs = ["src"];
+function Ns(e, t, s, r, n, i) {
+  return c(), y("iframe", {
+    ref: "iframe",
+    class: "vue-player--soundcloud",
+    style: $(i.styles),
+    src: i.src,
+    frameborder: "0",
+    allow: "autoplay"
+  }, null, 12, xs);
+}
+const Hs = /* @__PURE__ */ m(Us, [["render", Ns]]), Ks = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: $n
-}, Symbol.toStringTag, { value: "Module" })), On = "https://cdn.embed.ly/player-0.1.0.min.js", Tn = "playerjs", En = {
+  default: Hs
+}, Symbol.toStringTag, { value: "Module" })), Bs = "https://cdn.embed.ly/player-0.1.0.min.js", Fs = "playerjs", zs = {
   // [META]
   displayName: "Streamable",
-  canPlay: h.streamable,
+  canPlay: u.streamable,
   // [/META]
-  mixins: [v],
+  mixins: [P],
   data() {
     return {
       duration: null,
@@ -2501,7 +2195,7 @@ const $n = Sn.exports, Ln = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
      * @type {string}
      */
     id() {
-      return this.url.match(Ye)[1];
+      return this.url.match(Ue)[1];
     },
     /**
      * @type {string}
@@ -2593,49 +2287,46 @@ const $n = Sn.exports, Ln = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
     },
     async load(e) {
       try {
-        const t = await getSDK(On, Tn);
+        const t = await getSDK(Bs, Fs);
         if (!this.iframe)
           return;
-        this.player = new t.Player(this.$refs.iframe), this.player.setLoop(this.loop), this.player.on("ready", this.onReady), this.player.on("play", this.onPlay), this.player.on("pause", this.onPause), this.player.on("seeked", this.onSeek), this.player.on("ended", this.onEnded), this.player.on("error", this.onError), this.player.on("timeupdate", ({ duration: r, seconds: n }) => {
-          this.duration = r, this.currentTime = n;
-        }), this.player.on("buffered", ({ percent: r }) => {
-          this.duration && (this.secondsLoaded = this.duration * r);
+        this.player = new t.Player(this.$refs.iframe), this.player.setLoop(this.loop), this.player.on("ready", this.onReady), this.player.on("play", this.onPlay), this.player.on("pause", this.onPause), this.player.on("seeked", this.onSeek), this.player.on("ended", this.onEnded), this.player.on("error", this.onError), this.player.on("timeupdate", ({ duration: s, seconds: r }) => {
+          this.duration = s, this.currentTime = r;
+        }), this.player.on("buffered", ({ percent: s }) => {
+          this.duration && (this.secondsLoaded = this.duration * s);
         }), this.muted && this.player.mute();
       } catch (t) {
         this.onError(t);
       }
     }
   }
-};
-var kn = function() {
-  var t = this, r = t._self._c;
-  return r("iframe", { ref: "iframe", staticClass: "vue-player--streamable", attrs: { src: t.src, frameborder: "0", scrolling: "no", allowfullscreen: "" } });
-}, Rn = [], Cn = /* @__PURE__ */ m(
-  En,
-  kn,
-  Rn,
-  !1,
-  null,
-  null,
-  null,
-  null
-);
-const An = Cn.exports, Dn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, Ys = ["src"];
+function Gs(e, t, s, r, n, i) {
+  return c(), y("iframe", {
+    class: "vue-player--streamable",
+    ref: "iframe",
+    src: i.src,
+    frameborder: "0",
+    scrolling: "no",
+    allowfullscreen: ""
+  }, null, 8, Ys);
+}
+const qs = /* @__PURE__ */ m(zs, [["render", Gs]]), Ws = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: An
-}, Symbol.toStringTag, { value: "Module" })), In = "https://player.twitch.tv/js/embed/v1.js", jn = "Twitch", Mn = "twitch-player-", Vn = {
+  default: qs
+}, Symbol.toStringTag, { value: "Module" })), Xs = "https://player.twitch.tv/js/embed/v1.js", Zs = "Twitch", Qs = "twitch-player-", Js = {
   // [META]
   displayName: "Twitch",
-  canPlay: h.twitch,
+  canPlay: u.twitch,
   loopOnEnded: !0,
   // [/META]
-  mixins: [v],
+  mixins: [P],
   props: {
-    config: He
+    config: Ce
   },
   data() {
     return {
-      randomId: `${Mn}${ee()}`
+      randomId: `${Qs}${Z()}`
     };
   },
   computed: {
@@ -2717,59 +2408,52 @@ const An = Cn.exports, Dn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
       return null;
     },
     async load(e, t) {
-      var r, n, s, i;
+      var s, r, n, i;
       try {
-        const { playsinline: l, config: c, controls: o } = this, u = Z.test(e), d = u ? e.match(Z)[1] : e.match(MATCH_URL_TWITCH_VIDEO)[1];
+        const { playsinline: o, config: d, controls: h } = this, l = W.test(e), p = l ? e.match(W)[1] : e.match(MATCH_URL_TWITCH_VIDEO)[1];
         if (t) {
-          u ? (n = (r = this.player) == null ? void 0 : r.setChannel) == null || n.call(r, d) : (i = (s = this.player) == null ? void 0 : s.setVideo) == null || i.call(s, "v" + d);
+          l ? (r = (s = this.player) == null ? void 0 : s.setChannel) == null || r.call(s, p) : (i = (n = this.player) == null ? void 0 : n.setVideo) == null || i.call(n, "v" + p);
           return;
         }
-        const y = await getSDK(In, jn);
-        this.player = new y.Player(this.pid, {
-          video: u ? "" : d,
-          channel: u ? d : "",
+        const f = await getSDK(Xs, Zs);
+        this.player = new f.Player(this.pid, {
+          video: l ? "" : p,
+          channel: l ? p : "",
           height: "100%",
           width: "100%",
-          playsinline: l,
+          playsinline: o,
           autoplay: this.playing,
           muted: this.muted,
           // https://github.com/CookPete/react-player/issues/733#issuecomment-549085859
-          controls: u ? !0 : o,
+          controls: l ? !0 : h,
           time: D(e),
-          ...c.options
+          ...d.options
         });
-        const { READY: p, PLAYING: g, PAUSE: L, ENDED: x, ONLINE: N, OFFLINE: F, SEEK: tt } = y.Player;
-        this.player.addEventListener(p, this.onReady), this.player.addEventListener(g, this.onPlay), this.player.addEventListener(L, this.onPause), this.player.addEventListener(x, this.onEnded), this.player.addEventListener(tt, this.onSeek), this.player.addEventListener(N, this.onLoaded), this.player.addEventListener(F, this.onLoaded);
-      } catch (l) {
-        this.onError(l);
+        const { READY: b, PLAYING: g, PAUSE: j, ENDED: U, ONLINE: x, OFFLINE: N, SEEK: Ge } = f.Player;
+        this.player.addEventListener(b, this.onReady), this.player.addEventListener(g, this.onPlay), this.player.addEventListener(j, this.onPause), this.player.addEventListener(U, this.onEnded), this.player.addEventListener(Ge, this.onSeek), this.player.addEventListener(x, this.onLoaded), this.player.addEventListener(N, this.onLoaded);
+      } catch (o) {
+        this.onError(o);
       }
     }
   }
-};
-var Un = function() {
-  var t = this, r = t._self._c;
-  return r("div", { staticClass: "vue-player--twitch", attrs: { id: t.pid } });
-}, xn = [], Nn = /* @__PURE__ */ m(
-  Vn,
-  Un,
-  xn,
-  !1,
-  null,
-  null,
-  null,
-  null
-);
-const Fn = Nn.exports, Hn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, er = ["id"];
+function tr(e, t, s, r, n, i) {
+  return c(), y("div", {
+    class: "vue-player--twitch",
+    id: i.pid
+  }, null, 8, er);
+}
+const sr = /* @__PURE__ */ m(Js, [["render", tr]]), rr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: Fn
-}, Symbol.toStringTag, { value: "Module" })), Kn = "https://play.vidyard.com/embed/v4.js", Bn = "VidyardV4", zn = "onVidyardAPI", Yn = {
+  default: sr
+}, Symbol.toStringTag, { value: "Module" })), ir = "https://play.vidyard.com/embed/v4.js", nr = "VidyardV4", ar = "onVidyardAPI", or = {
   // [META]
   displayName: "Vidyard",
-  canPlay: h.vidyard,
+  canPlay: u.vidyard,
   // [/META]
-  mixins: [v],
+  mixins: [P],
   props: {
-    config: Be,
+    config: Ve,
     display: a.string.def("block")
   },
   computed: {
@@ -2804,8 +2488,8 @@ const Fn = Nn.exports, Hn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
      * @playerHook stop
      */
     stop() {
-      var e, t, r;
-      (r = (t = (e = window.VidyardV4) == null ? void 0 : e.api) == null ? void 0 : t.destroyPlayer) == null || r.call(t, this.player);
+      var e, t, s;
+      (s = (t = (e = window.VidyardV4) == null ? void 0 : e.api) == null ? void 0 : t.destroyPlayer) == null || s.call(t, this.player);
     },
     /**
      * @inheritDoc
@@ -2873,19 +2557,19 @@ const Fn = Nn.exports, Hn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
     },
     async load(e) {
       try {
-        const { playing: t, config: r } = this, n = (e ?? this.url).match(Xe)[1];
+        const { playing: t, config: s } = this, r = (e ?? this.url).match(Ke)[1];
         this.player && this.stop();
-        const s = await b(Kn, Bn, zn);
+        const n = await _(ir, nr, ar);
         if (!this.$refs.container)
           return;
-        s.api.addReadyListener((i, l) => {
-          this.player = l, this.player.on("ready", this.onReady), this.player.on("play", this.onPlay), this.player.on("pause", this.onPause), this.player.on("seek", this.onSeek), this.player.on("playerComplete", this.onEnded);
-        }, n), s.api.renderPlayer({
-          uuid: n,
+        n.api.addReadyListener((i, o) => {
+          this.player = o, this.player.on("ready", this.onReady), this.player.on("play", this.onPlay), this.player.on("pause", this.onPause), this.player.on("seek", this.onSeek), this.player.on("playerComplete", this.onEnded);
+        }, r), n.api.renderPlayer({
+          uuid: r,
           container: this.$refs.container,
           autoplay: t ? 1 : 0,
-          ...r.options
-        }), s.api.getPlayerMetadata(n).then((i) => {
+          ...s.options
+        }), n.api.getPlayerMetadata(r).then((i) => {
           this.duration = i.length_in_seconds, this.onDuration(i.length_in_seconds);
         });
       } catch (t) {
@@ -2893,32 +2577,26 @@ const Fn = Nn.exports, Hn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
       }
     }
   }
-};
-var qn = function() {
-  var t = this, r = t._self._c;
-  return r("div", { style: t.styles }, [r("div", { ref: "container" })]);
-}, Gn = [], Wn = /* @__PURE__ */ m(
-  Yn,
-  qn,
-  Gn,
-  !1,
-  null,
-  null,
-  null,
-  null
-);
-const Xn = Wn.exports, Zn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, lr = { ref: "container" };
+function dr(e, t, s, r, n, i) {
+  return c(), y("div", {
+    style: $(i.styles)
+  }, [
+    k("div", lr, null, 512)
+  ], 4);
+}
+const cr = /* @__PURE__ */ m(or, [["render", dr]]), ur = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: Xn
-}, Symbol.toStringTag, { value: "Module" })), Jn = "https://player.vimeo.com/api/player.js", Qn = "Vimeo", es = {
+  default: cr
+}, Symbol.toStringTag, { value: "Module" })), hr = "https://player.vimeo.com/api/player.js", yr = "Vimeo", pr = {
   // [META]
   displayName: "Vimeo",
-  canPlay: h.vimeo,
+  canPlay: u.vimeo,
   forceLoad: !0,
   // [/META]
-  mixins: [v],
+  mixins: [P],
   props: {
-    config: Ie,
+    config: $e,
     display: a.string.def("block")
   },
   data() {
@@ -3039,10 +2717,10 @@ const Xn = Wn.exports, Zn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
     async load(e) {
       try {
         this.duration = null;
-        const t = await b(Jn, Qn);
+        const t = await _(hr, yr);
         if (!this.$refs.container)
           return;
-        const { playerOptions: r, title: n } = this.config;
+        const { playerOptions: s, title: r } = this.config;
         this.player = new t.Player(this.$refs.container, {
           url: e,
           autoplay: this.playing,
@@ -3050,18 +2728,18 @@ const Xn = Wn.exports, Zn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
           loop: this.loop,
           playsinline: this.playsinline,
           controls: this.controls,
-          ...r
+          ...s
         }), this.player.ready().then(() => {
-          const s = this.$refs.container.querySelector("iframe");
-          s.style.width = "100%", s.style.height = "100%", n && (s.title = n);
+          const n = this.$refs.container.querySelector("iframe");
+          n.style.width = "100%", n.style.height = "100%", r && (n.title = r);
         }).catch(this.onError), this.player.on("loaded", () => {
           this.onReady(), this.refreshDuration();
         }), this.player.on("play", () => {
           this.onPlay(), this.refreshDuration();
-        }), this.player.on("pause", this.onPause), this.player.on("seeked", (s) => this.onSeek(s.seconds)), this.player.on("ended", this.onEnded), this.player.on("error", this.onError), this.player.on("timeupdate", ({ seconds: s }) => {
-          this.currentTime = s;
-        }), this.player.on("progress", ({ seconds: s }) => {
-          this.secondsLoaded = s;
+        }), this.player.on("pause", this.onPause), this.player.on("seeked", (n) => this.onSeek(n.seconds)), this.player.on("ended", this.onEnded), this.player.on("error", this.onError), this.player.on("timeupdate", ({ seconds: n }) => {
+          this.currentTime = n;
+        }), this.player.on("progress", ({ seconds: n }) => {
+          this.secondsLoaded = n;
         }), this.player.on("bufferstart", this.onBuffer), this.player.on("bufferend", this.onBufferEnd);
       } catch (t) {
         this.onError(t);
@@ -3072,35 +2750,29 @@ const Xn = Wn.exports, Zn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
     }
   }
 };
-var ts = function() {
-  var t = this, r = t._self._c;
-  return r("div", { key: this.url, ref: "container", style: t.styles });
-}, rs = [], ns = /* @__PURE__ */ m(
-  es,
-  ts,
-  rs,
-  !1,
-  null,
-  null,
-  null,
-  null
-);
-const ss = ns.exports, is = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+function fr(e, t, s, r, n, i) {
+  return c(), y("div", {
+    key: this.url,
+    style: $(i.styles),
+    ref: "container"
+  }, null, 4);
+}
+const mr = /* @__PURE__ */ m(pr, [["render", fr]]), Pr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: ss
-}, Symbol.toStringTag, { value: "Module" })), as = "https://fast.wistia.com/assets/external/E-v1.js", os = "Wistia", ls = "wistia-player-", us = {
+  default: mr
+}, Symbol.toStringTag, { value: "Module" })), gr = "https://fast.wistia.com/assets/external/E-v1.js", br = "Wistia", _r = "wistia-player-", vr = {
   // [META]
   displayName: "Wistia",
-  canPlay: h.wistia,
+  canPlay: u.wistia,
   loopOnEnded: !0,
   // [/META]
-  mixins: [v],
+  mixins: [P],
   props: {
-    config: Ue
+    config: De
   },
   data() {
     return {
-      randomId: `${ls}${ee()}`
+      randomId: `${_r}${Z()}`
     };
   },
   computed: {
@@ -3108,8 +2780,8 @@ const ss = ns.exports, is = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
       return this.config.playerId ?? this.randomId;
     },
     videoId() {
-      var e, t, r;
-      return (r = (t = (e = this.url) == null ? void 0 : e.match) == null ? void 0 : t.call(e, qe)) == null ? void 0 : r[1];
+      var e, t, s;
+      return (s = (t = (e = this.url) == null ? void 0 : e.match) == null ? void 0 : t.call(e, xe)) == null ? void 0 : s[1];
     },
     className() {
       return `vue-player--wistia wistia_embed wistia_async_${this.videoId}`;
@@ -3205,15 +2877,15 @@ const ss = ns.exports, is = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
       return null;
     },
     async load(e) {
-      var t, r;
+      var t, s;
       try {
-        const { playing: n, muted: s, controls: i, onReady: l, config: c, onError: o } = this, u = await getSDK(as, os);
-        (r = (t = c.customControls) == null ? void 0 : t.forEach) == null || r.call(t, (d) => u.defineControl(d)), window._wq = window._wq || [], window._wq.push({
+        const { playing: r, muted: n, controls: i, onReady: o, config: d, onError: h } = this, l = await getSDK(gr, br);
+        (s = (t = d.customControls) == null ? void 0 : t.forEach) == null || s.call(t, (p) => l.defineControl(p)), window._wq = window._wq || [], window._wq.push({
           id: this.playerID,
           options: {
-            autoPlay: n,
+            autoPlay: r,
             silentAutoPlay: "allow",
-            muted: s,
+            muted: n,
             controlsVisibleOnLoad: i,
             fullscreenButton: i,
             playbar: i,
@@ -3222,46 +2894,40 @@ const ss = ns.exports, is = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
             volumeControl: i,
             settingsControl: i,
             smallPlayButton: i,
-            ...c.options
+            ...d.options
           },
-          onReady: (d) => {
-            this.player = d, this.unbind(), this.player.bind("play", this.onPlay), this.player.bind("pause", this.onPause), this.player.bind("seek", this.onSeek), this.player.bind("end", this.onEnded), this.player.bind("playbackratechange", this.onPlaybackRateChange), l();
+          onReady: (p) => {
+            this.player = p, this.unbind(), this.player.bind("play", this.onPlay), this.player.bind("pause", this.onPause), this.player.bind("seek", this.onSeek), this.player.bind("end", this.onEnded), this.player.bind("playbackratechange", this.onPlaybackRateChange), o();
           }
         });
-      } catch (n) {
-        this.onError(n);
+      } catch (r) {
+        this.onError(r);
       }
     },
     unbind() {
-      var e, t, r, n, s, i, l, c, o, u;
-      (t = (e = this.player) == null ? void 0 : e.unbind) == null || t.call(e, "play", this.onPlay), (n = (r = this.player) == null ? void 0 : r.unbind) == null || n.call(r, "pause", this.onPause), (i = (s = this.player) == null ? void 0 : s.unbind) == null || i.call(s, "seek", this.onSeek), (c = (l = this.player) == null ? void 0 : l.unbind) == null || c.call(l, "end", this.onEnded), (u = (o = this.player) == null ? void 0 : o.unbind) == null || u.call(o, "playbackratechange", this.onPlaybackRateChange);
+      var e, t, s, r, n, i, o, d, h, l;
+      (t = (e = this.player) == null ? void 0 : e.unbind) == null || t.call(e, "play", this.onPlay), (r = (s = this.player) == null ? void 0 : s.unbind) == null || r.call(s, "pause", this.onPause), (i = (n = this.player) == null ? void 0 : n.unbind) == null || i.call(n, "seek", this.onSeek), (d = (o = this.player) == null ? void 0 : o.unbind) == null || d.call(o, "end", this.onEnded), (l = (h = this.player) == null ? void 0 : h.unbind) == null || l.call(h, "playbackratechange", this.onPlaybackRateChange);
     }
   }
-};
-var cs = function() {
-  var t = this, r = t._self._c;
-  return r("div", { key: t.videoId, class: t.className, attrs: { id: t.pid } });
-}, ds = [], hs = /* @__PURE__ */ m(
-  us,
-  cs,
-  ds,
-  !1,
-  null,
-  null,
-  null,
-  null
-);
-const ys = hs.exports, ps = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, wr = ["id"];
+function Sr(e, t, s, r, n, i) {
+  return c(), y("div", {
+    id: i.pid,
+    key: i.videoId,
+    class: Xe(i.className)
+  }, null, 10, wr);
+}
+const Lr = /* @__PURE__ */ m(vr, [["render", Sr]]), Er = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: ys
-}, Symbol.toStringTag, { value: "Module" })), fs = "https://www.youtube.com/iframe_api", fe = "YT", ms = "onYouTubeIframeAPIReady", Y = /[?&](?:list|channel)=([a-zA-Z0-9_-]+)/, q = /user\/([a-zA-Z0-9_-]+)\/?/, gs = /youtube-nocookie\.com/, _s = "https://www.youtube-nocookie.com", vs = {
+  default: Lr
+}, Symbol.toStringTag, { value: "Module" })), $r = "https://www.youtube.com/iframe_api", he = "YT", Tr = "onYouTubeIframeAPIReady", z = /[?&](?:list|channel)=([a-zA-Z0-9_-]+)/, Y = /user\/([a-zA-Z0-9_-]+)\/?/, kr = /youtube-nocookie\.com/, Or = "https://www.youtube-nocookie.com", Dr = {
   // [META]
   displayName: "YouTube",
-  canPlay: h.youtube,
+  canPlay: u.youtube,
   // [/META]
-  mixins: [v],
+  mixins: [P],
   props: {
-    config: Ee
+    config: _e
   },
   computed: {
     styles() {
@@ -3371,50 +3037,50 @@ const ys = hs.exports, ps = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
     },
     async load(e, t) {
       try {
-        const { playing: r, muted: n, playsinline: s, controls: i, loop: l, config: c, onError: o } = this, { playerVars: u, embedOptions: d } = c, y = this.getID(e);
+        const { playing: s, muted: r, playsinline: n, controls: i, loop: o, config: d, onError: h } = this, { playerVars: l, embedOptions: p } = d, f = this.getID(e);
         if (t) {
-          if (Y.test(e) || q.test(e) || e instanceof Array) {
+          if (z.test(e) || Y.test(e) || e instanceof Array) {
             this.player.loadPlaylist(this.parsePlaylist(e));
             return;
           }
           this.player.cueVideoById({
-            videoId: y,
-            startSeconds: D(e) || u.start,
-            endSeconds: oe(e) || u.end
+            videoId: f,
+            startSeconds: D(e) || l.start,
+            endSeconds: ie(e) || l.end
           });
           return;
         }
-        const p = await b(fs, fe, ms, (g) => g.loaded);
+        const b = await _($r, he, Tr, (g) => g.loaded);
         if (!this.container)
           return;
-        this.player = new p.Player(this.container, {
+        this.player = new b.Player(this.container, {
           width: "100%",
           height: "100%",
-          videoId: y,
+          videoId: f,
           playerVars: {
-            autoplay: r ? 1 : 0,
-            mute: n ? 1 : 0,
+            autoplay: s ? 1 : 0,
+            mute: r ? 1 : 0,
             controls: i ? 1 : 0,
             start: D(e),
-            end: oe(e),
+            end: ie(e),
             origin: window.location.origin,
-            playsinline: s ? 1 : 0,
+            playsinline: n ? 1 : 0,
             ...this.parsePlaylist(e),
-            ...u
+            ...l
           },
           events: {
             onReady: () => {
-              l && this.player.setLoop(!0), this.onReady();
+              o && this.player.setLoop(!0), this.onReady();
             },
             onPlaybackRateChange: (g) => this.onPlaybackRateChange(g.data),
             onStateChange: this.onStateChange,
-            onError: (g) => o(g.data)
+            onError: (g) => h(g.data)
           },
-          host: gs.test(e) ? _s : void 0,
-          ...d
-        }), d.events && console.warn("Using `embedOptions.events` will likely break things. Use ReactPlayer’s callback props instead, eg onReady, onPlay, onPause");
-      } catch (r) {
-        this.onError(r);
+          host: kr.test(e) ? Or : void 0,
+          ...p
+        }), p.events && console.warn("Using `embedOptions.events` will likely break things. Use ReactPlayer’s callback props instead, eg onReady, onPlay, onPause");
+      } catch (s) {
+        this.onError(s);
       }
     },
     parsePlaylist(e) {
@@ -3423,15 +3089,15 @@ const ys = hs.exports, ps = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
           listType: "playlist",
           playlist: e.map(this.getID).join(",")
         };
-      if (Y.test(e)) {
-        const [, t] = e.match(Y);
+      if (z.test(e)) {
+        const [, t] = e.match(z);
         return {
           listType: "playlist",
           list: t.replace(/^UC/, "UU")
         };
       }
-      if (q.test(e)) {
-        const [, t] = e.match(q);
+      if (Y.test(e)) {
+        const [, t] = e.match(Y);
         return {
           listType: "user_uploads",
           list: t
@@ -3441,55 +3107,50 @@ const ys = hs.exports, ps = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object
     },
     onStateChange(e) {
       const { data: t } = e, {
-        onPlay: r,
-        onPause: n,
-        onBuffer: s,
+        onPlay: s,
+        onPause: r,
+        onBuffer: n,
         onBufferEnd: i,
-        onEnded: l,
-        onReady: c,
-        loop: o,
-        config: { playerVars: u, onUnstarted: d }
-      } = this, { UNSTARTED: y, PLAYING: p, PAUSED: g, BUFFERING: L, ENDED: x, CUED: N } = window[fe].PlayerState;
-      if (t === y && d(), t === p && (r(), i()), t === g && n(), t === L && s(), t === x) {
-        const F = !!this.callPlayer("getPlaylist");
-        o && !F && (u.start ? this.seekTo(u.start) : this.play()), l();
+        onEnded: o,
+        onReady: d,
+        loop: h,
+        config: { playerVars: l, onUnstarted: p }
+      } = this, { UNSTARTED: f, PLAYING: b, PAUSED: g, BUFFERING: j, ENDED: U, CUED: x } = window[he].PlayerState;
+      if (t === f && p(), t === b && (s(), i()), t === g && r(), t === j && n(), t === U) {
+        const N = !!this.callPlayer("getPlaylist");
+        h && !N && (l.start ? this.seekTo(l.start) : this.play()), o();
       }
-      t === N && c();
+      t === x && d();
     }
   }
-};
-var Ps = function() {
-  var t = this, r = t._self._c;
-  return r("div", { staticClass: "vue-player--youtube", style: t.styles }, [r("div", { ref: "container" })]);
-}, bs = [], ws = /* @__PURE__ */ m(
-  vs,
-  Ps,
-  bs,
-  !1,
-  null,
-  null,
-  null,
-  null
-);
-const Ss = ws.exports, $s = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, Ar = { ref: "container" };
+function Ir(e, t, s, r, n, i) {
+  return c(), y("div", {
+    class: "vue-player--youtube",
+    style: $(i.styles)
+  }, [
+    k("div", Ar, null, 512)
+  ], 4);
+}
+const Rr = /* @__PURE__ */ m(Dr, [["render", Ir]]), Cr = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: Ss
+  default: Rr
 }, Symbol.toStringTag, { value: "Module" }));
 export {
-  Cr as DailyMotionPlayer,
-  Ur as FacebookPlayer,
-  Qr as FilePlayer,
-  ln as KalturaPlayer,
-  mn as MixcloudPlayer,
-  mr as Player,
-  wr as Preview,
-  $n as SoundcloudPlayer,
-  An as StreamablePlayer,
-  Fn as TwitchPlayer,
-  Xn as VidyardPlayer,
-  ss as VimeoPlayer,
-  Ls as VuePlayer,
-  ys as WistiaPlayer,
-  Ss as YouTubePlayer,
-  v as playerMixin
+  es as DailyMotionPlayer,
+  as as FacebookPlayer,
+  _s as FilePlayer,
+  Ts as KalturaPlayer,
+  Cs as MixcloudPlayer,
+  Nt as Player,
+  Yt as Preview,
+  Hs as SoundcloudPlayer,
+  qs as StreamablePlayer,
+  sr as TwitchPlayer,
+  cr as VidyardPlayer,
+  mr as VimeoPlayer,
+  jr as VuePlayer,
+  Lr as WistiaPlayer,
+  Rr as YouTubePlayer,
+  P as playerMixin
 };
