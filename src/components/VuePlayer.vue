@@ -1,5 +1,5 @@
 <template>
-	<component :is="wrapper" ref="wrapper" v-bind="$attrs">
+	<component v-bind="$attrs" :is="wrapper" ref="wrapper">
 		<span v-if="!url">
 			<slot name="noUrl"/>
 		</span>

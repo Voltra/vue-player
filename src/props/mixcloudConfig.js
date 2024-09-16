@@ -1,4 +1,4 @@
-import VueTypes from "vue-types";
+import * as VueTypes from "vue-types";
 
 /**
  * @returns {MixcloudConfig}
@@ -14,6 +14,6 @@ export const mixcloudConfigPropsDefaults = () => ({
  */
 export const mixcloudConfigProps = () => VueTypes.shape({
 	options: VueTypes.shape({
-		hide_cover: VueTypes.integer,
+		hide_cover: VueTypes.integer(),
 	}).loose,
 }).loose.def(() => mixcloudConfigPropsDefaults());

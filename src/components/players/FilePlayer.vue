@@ -1,5 +1,6 @@
 <template>
 	<component
+		v-bind="config.attributes"
 		:is="tag"
 		ref="player"
 		class="vue-player--file"
@@ -10,19 +11,18 @@
 		:controls="controls"
 		:muted="muted"
 		:loop="loop"
-		v-bind="config.attributes"
 	>
 		<template v-if="urlIsArray">
 			<template v-for="(source, index) in this.url">
-				<slot name="source" v-bind="{ source }">
+				<slot v-bind="{ source }" name="source">
 					<source v-if="typeof source === 'string'" :src="source" :key="source"/>
-					<source v-else :key="index" v-bind="source"/>
+					<source v-else v-bind="source" :key="index"/>
 				</slot>
 			</template>
 
 			<template v-for="(track, index) in this.config.tracks">
-				<slot name="track" v-bind="{ track }">
-					<track :key="index" v-bind="track"/>
+				<slot v-bind="{ track }" name="track">
+					<track v-bind="track" :key="index"/>
 				</slot>
 			</template>
 		</template>

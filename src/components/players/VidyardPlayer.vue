@@ -7,7 +7,7 @@
 <script>
 	import { canPlay, MATCH_URL_VIDYARD } from "../../patterns";
 	import { playerMixin } from "../../mixins/player";
-	import VueTypes from "vue-types";
+	import * as VueTypes from "vue-types";
 	import { getSDK } from "../../utils";
 	import { vidyardConfigProps } from "../../props/vidyardConfig";
 
@@ -25,7 +25,7 @@
 
 		props: {
 			config: vidyardConfigProps(),
-			display: VueTypes.string.def("block"),
+			display: VueTypes.string().def("block"),
 		},
 
 		computed: {

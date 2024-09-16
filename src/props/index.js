@@ -1,7 +1,7 @@
 import { soundcloudConfigProps, soundcloudConfigPropsDefaults } from "./soundcloudConfig";
 import { youtubeConfigProps, youtubeConfigPropsDefaults } from "./youtubeConfig";
 import { facebookConfigProps, facebookConfigPropsDefaults } from "./facebookConfig";
-import VueTypes from "vue-types";
+import * as VueTypes from "vue-types";
 import { dailymotionConfigProps, dailymotionConfigPropsDefaults } from "./dailymotionConfig";
 import { vimeoConfigProps, vimeoConfigPropsDefaults } from "./vimeoConfig";
 import { fileConfigProps, fileConfigPropsDefaults } from "./fileConfig";
@@ -57,7 +57,7 @@ export const configProps = () => VueTypes.shape({
  * @returns {import("vue-types").VueTypeDef<object|string|((...args: any[]) => any)>}
  */
 export const tagOrComponentProps = () => VueTypes.oneOfType([
-	VueTypes.shape({ render: VueTypes.func }).loose,
-	VueTypes.string,
-	VueTypes.func,
+	VueTypes.shape({ render: VueTypes.func() }).loose,
+	VueTypes.string(),
+	VueTypes.func(),
 ]);

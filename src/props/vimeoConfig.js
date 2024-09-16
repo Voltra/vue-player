@@ -1,4 +1,4 @@
-import VueTypes from "vue-types";
+import * as VueTypes from "vue-types";
 
 /**
  * @returns {VimeoConfig}
@@ -18,10 +18,10 @@ export const vimeoConfigPropsDefaults = () => ({
  */
 export const vimeoConfigProps = () => VueTypes.shape({
 	playerOptions: VueTypes.shape({
-		autopause: VueTypes.bool,
-		byline: VueTypes.bool,
-		portrait: VueTypes.bool,
-		title: VueTypes.bool,
+		autopause: VueTypes.bool(),
+		byline: VueTypes.bool(),
+		portrait: VueTypes.bool(),
+		title: VueTypes.bool(),
 	}).loose,
-	title: VueTypes.string,
+	title: VueTypes.string(),
 }).loose.def(() => vimeoConfigPropsDefaults());

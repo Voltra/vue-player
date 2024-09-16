@@ -7,7 +7,7 @@
 	import { playerMixin } from "../../mixins/player";
 	import { vimeoConfigProps } from "../../props/vimeoConfig";
 	import { getSDK } from "../../utils";
-	import VueTypes from "vue-types";
+	import * as VueTypes from "vue-types";
 
 	const SDK_URL = "https://player.vimeo.com/api/player.js";
 	const SDK_GLOBAL = "Vimeo";
@@ -23,7 +23,7 @@
 
 		props: {
 			config: vimeoConfigProps(),
-			display: VueTypes.string.def("block"),
+			display: VueTypes.string().def("block"),
 		},
 
 		data() {

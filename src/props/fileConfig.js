@@ -1,4 +1,4 @@
-import VueTypes from "vue-types";
+import * as VueTypes from "vue-types";
 
 /**
  * @returns {FileConfig}
@@ -21,15 +21,15 @@ export const fileConfigPropsDefaults = () => ({
  * @returns {import("vue-types").VueTypeShape<FileConfig>}
  */
 export const fileConfigProps = () => VueTypes.shape({
-	attributes: VueTypes.object,
-	tracks: VueTypes.array,
-	forceVideo: VueTypes.bool,
-	forceAudio: VueTypes.bool,
-	forceHLS: VueTypes.bool,
-	forceDASH: VueTypes.bool,
-	forceFLV: VueTypes.bool,
-	hlsOptions: VueTypes.object,
-	hlsVersion: VueTypes.string,
-	dashVersion: VueTypes.string,
-	flvVersion: VueTypes.string,
+	attributes: VueTypes.object(),
+	tracks: VueTypes.array(),
+	forceVideo: VueTypes.bool(),
+	forceAudio: VueTypes.bool(),
+	forceHLS: VueTypes.bool(),
+	forceDASH: VueTypes.bool(),
+	forceFLV: VueTypes.bool(),
+	hlsOptions: VueTypes.object(),
+	hlsVersion: VueTypes.string(),
+	dashVersion: VueTypes.string(),
+	flvVersion: VueTypes.string(),
 }).loose.def(() => fileConfigPropsDefaults());

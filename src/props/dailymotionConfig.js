@@ -1,4 +1,4 @@
-import VueTypes from "vue-types";
+import * as VueTypes from "vue-types";
 
 /**
  * @returns {DailymotionConfig}
@@ -15,7 +15,7 @@ export const dailymotionConfigPropsDefaults = () => ({
  */
 export const dailymotionConfigProps = () => VueTypes.shape({
 	params: VueTypes.shape({
-		api: VueTypes.integer,
-		"endscreen-enable": VueTypes.bool,
+		api: VueTypes.integer(),
+		"endscreen-enable": VueTypes.bool(),
 	}).loose,
 }).loose.def(() => dailymotionConfigPropsDefaults());

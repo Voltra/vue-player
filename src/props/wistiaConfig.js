@@ -1,4 +1,4 @@
-import VueTypes from "vue-types";
+import * as VueTypes from "vue-types";
 
 /**
  * @returns {WistiaConfig}
@@ -16,8 +16,8 @@ export const wistiaConfigPropsDefaults = () => ({
  */
 export const wistiaConfigProps = () => VueTypes.shape({
 	wistia: VueTypes.shape({
-		options: VueTypes.object,
-		playerId: VueTypes.string,
-		customControls: VueTypes.array,
+		options: VueTypes.object(),
+		playerId: VueTypes.string(),
+		customControls: VueTypes.array(),
 	}).loose,
 }).loose.def(() => wistiaConfigPropsDefaults());

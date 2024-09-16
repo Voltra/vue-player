@@ -1,12 +1,12 @@
 <template>
 	<div
+		v-bind="config.attributes"
 		:id="this.playerID"
 		class="fb-video vue-player--facebook"
 		:data-href="this.url"
 		:data-autoplay="this.playing ? 'true' : 'false'"
 		:data-controls="this.controls ? 'true' : 'false'"
 		data-allowfullscreen="true"
-		v-bind="config.attributes"
 	/>
 </template>
 

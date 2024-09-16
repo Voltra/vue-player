@@ -1,4 +1,4 @@
-import VueTypes from "vue-types";
+import * as VueTypes from "vue-types";
 
 /**
  * @returns {YoutubeConfig}
@@ -20,12 +20,12 @@ export const youtubeConfigPropsDefaults = () => ({
  */
 export const youtubeConfigProps = () => VueTypes.shape({
 	playerVars: VueTypes.shape({
-		playsinline: VueTypes.integer,
-		showinfo: VueTypes.integer,
-		rel: VueTypes.integer,
-		iv_load_policy: VueTypes.integer,
-		modestbranding: VueTypes.integer,
+		playsinline: VueTypes.integer(),
+		showinfo: VueTypes.integer(),
+		rel: VueTypes.integer(),
+		iv_load_policy: VueTypes.integer(),
+		modestbranding: VueTypes.integer(),
 	}).loose,
-	embedOptions: VueTypes.object,
-	onUnstarted: VueTypes.func,
+	embedOptions: VueTypes.object(),
+	onUnstarted: VueTypes.func(),
 }).loose.def(() => youtubeConfigPropsDefaults());

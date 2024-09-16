@@ -1,7 +1,7 @@
 declare module "@voltra/vue-player/mixins/metaPlayer" {
 	import { PlayerComponent, PlayerMixin } from "@voltra/vue-player/mixins/player";
 	import { configProps, tagOrComponentProps } from "@voltra/vue-player/props/index";
-	import VueTypes from "vue-types";
+	import * as VueTypes from "vue-types";
 
 	export interface MetaPlayerMixin {
 		mixins: [playerMixin: PlayerMixin];

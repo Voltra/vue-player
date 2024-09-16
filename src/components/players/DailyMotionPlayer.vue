@@ -8,7 +8,7 @@
 	import { getSDK, parseStartTime } from "../../utils";
 	import { canPlay, MATCH_URL_DAILYMOTION } from "../../patterns";
 	import { playerMixin } from "../../mixins/player";
-	import VueTypes from "vue-types";
+	import * as VueTypes from "vue-types";
 	import { dailymotionConfigProps } from "../../props/dailymotionConfig";
 
 	const SDK_URL = "https://api.dmcdn.net/all.js";
@@ -25,7 +25,7 @@
 		mixins: [playerMixin],
 		props: {
 			config: dailymotionConfigProps(),
-			display: VueTypes.string.def("block"),
+			display: VueTypes.string().def("block"),
 		},
 
 		computed: {

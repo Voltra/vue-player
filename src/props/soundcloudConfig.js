@@ -1,4 +1,4 @@
-import VueTypes from "vue-types";
+import * as VueTypes from "vue-types";
 
 /**
  * @returns {SoundcloudConfig}
@@ -20,12 +20,12 @@ export const soundcloudConfigPropsDefaults = () => ({
  */
 export const soundcloudConfigProps = () => VueTypes.shape({
 	options: VueTypes.shape({
-		visual: VueTypes.bool,
-		buying: VueTypes.bool,
-		liking: VueTypes.bool,
-		download: VueTypes.bool,
-		sharing: VueTypes.bool,
-		show_comments: VueTypes.bool,
-		show_playcount: VueTypes.bool,
+		visual: VueTypes.bool(),
+		buying: VueTypes.bool(),
+		liking: VueTypes.bool(),
+		download: VueTypes.bool(),
+		sharing: VueTypes.bool(),
+		show_comments: VueTypes.bool(),
+		show_playcount: VueTypes.bool(),
 	}).loose,
 }).loose.def(() => soundcloudConfigPropsDefaults());
