@@ -1,15 +1,14 @@
-import { _ as o, c as l, p as d, l as y, n as c, g as p } from "./index-Bujz9oM-.mjs";
-import h from "vue-types";
-import { openBlock as u, createElementBlock as m, normalizeStyle as _, createElementVNode as f } from "vue";
-const P = "https://play.vidyard.com/embed/v4.js", V = "VidyardV4", g = "onVidyardAPI", k = {
+import { _ as l, c as o, p as d, l as y, C as c, n as p, g as h } from "./index-CYlonWpc.mjs";
+import { openBlock as u, createElementBlock as m, normalizeStyle as _, createElementVNode as P } from "vue";
+const f = "https://play.vidyard.com/embed/v4.js", g = "VidyardV4", V = "onVidyardAPI", k = {
   // [META]
   displayName: "Vidyard",
-  canPlay: l.vidyard,
+  canPlay: o.vidyard,
   // [/META]
   mixins: [d],
   props: {
-    config: y,
-    display: h.string.def("block")
+    config: y(),
+    display: c.string.def("block")
   },
   computed: {
     styles() {
@@ -112,11 +111,10 @@ const P = "https://play.vidyard.com/embed/v4.js", V = "VidyardV4", g = "onVidyar
     },
     async load(e) {
       try {
-        const { playing: t, config: a } = this, i = (e ?? this.url).match(c)[1];
+        const { playing: t, config: a } = this, i = (e ?? this.url).match(p)[1];
         this.player && this.stop();
-        const r = await p(P, V, g);
-        if (!this.$refs.container)
-          return;
+        const r = await h(f, g, V);
+        if (!this.$refs.container) return;
         r.api.addReadyListener((s, n) => {
           this.player = n, this.player.on("ready", this.onReady), this.player.on("play", this.onPlay), this.player.on("pause", this.onPause), this.player.on("seek", this.onSeek), this.player.on("playerComplete", this.onEnded);
         }, i), r.api.renderPlayer({
@@ -137,10 +135,10 @@ function v(e, t, a, i, r, s) {
   return u(), m("div", {
     style: _(s.styles)
   }, [
-    f("div", D, null, 512)
+    P("div", D, null, 512)
   ], 4);
 }
-const A = /* @__PURE__ */ o(k, [["render", v]]);
+const R = /* @__PURE__ */ l(k, [["render", v]]);
 export {
-  A as default
+  R as default
 };

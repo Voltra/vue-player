@@ -1,4 +1,4 @@
-import { _ as o, m as d } from "./index-Bujz9oM-.mjs";
+import { _ as o, m as d } from "./index-CYlonWpc.mjs";
 import { openBlock as l, createBlock as h, resolveDynamicComponent as u, mergeProps as y, toHandlers as p, createElementBlock as c, renderSlot as P } from "vue";
 const f = 5e3, g = {
   mixins: [d],
@@ -120,8 +120,7 @@ const f = 5e3, g = {
       this.progressTimeout = setTimeout(this.progress, this.progressFrequency ?? this.progressInterval);
     },
     handleReady() {
-      if (!this.mounted)
-        return;
+      if (!this.mounted) return;
       this.isReady = !0, this.isLoading = !1;
       const { onReady: e, playing: s, volume: i, muted: t } = this;
       e(), !t && i !== null && this.player.setVolume(i), this.loadOnReady ? (this.player.load(this.loadOnReady, !0), this.loadOnReady = null) : s && this.player.play(), this.handleDurationCheck();
@@ -165,7 +164,7 @@ function k(e, s, i, t, n, a) {
     onEnded: a.handleEnded,
     onLoaded: a.handleLoaded,
     onError: a.handleError
-  }, p(e.$listeners)), null, 16, ["onMount", "onReady", "onPlay", "onPause", "onEnded", "onLoaded", "onError"])) : (l(), c("span", m, [
+  }, p(e.$listeners ?? {})), null, 16, ["onMount", "onReady", "onPlay", "onPause", "onEnded", "onLoaded", "onError"])) : (l(), c("span", m, [
     P(e.$slots, "none")
   ]));
 }

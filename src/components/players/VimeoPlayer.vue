@@ -22,7 +22,7 @@
 		mixins: [playerMixin],
 
 		props: {
-			config: vimeoConfigProps,
+			config: vimeoConfigProps(),
 			display: VueTypes.string.def("block"),
 		},
 

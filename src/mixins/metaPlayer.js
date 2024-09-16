@@ -5,8 +5,8 @@ import VueTypes from "vue-types";
 export const metaPlayerMixin = {
 	mixins: [playerMixin],
 	props: {
-		config: configProps,
+		config: configProps(),
 		progressFrequency: VueTypes.number,
-		activePlayer: tagOrComponentProps,
+		activePlayer: tagOrComponentProps(),
 	},
 };

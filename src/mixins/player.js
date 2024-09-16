@@ -241,7 +241,7 @@ export const playerMixin = {
 			this.$emit("enable-pip", ...args);
 		},
 		onDisablePIP(...args) {
-			this.$emit("enable-pip", ...args);
+			this.$emit("disable-pip", ...args);
 		},
 		// [/Event handlers/delegates/propagators]
 	},

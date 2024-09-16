@@ -1,19 +1,19 @@
 import VueTypes from "vue-types";
 
 /**
- * @type {MixcloudConfig}
+ * @returns {MixcloudConfig}
  */
-export const mixcloudConfigPropsDefaults = {
+export const mixcloudConfigPropsDefaults = () => ({
 	options: {
 		hide_cover: 1
 	}
-};
+});
 
 /**
- * @type {import("vue-types").VueTypeShape<MixcloudConfig>}
+ * @returns {import("vue-types").VueTypeShape<MixcloudConfig>}
  */
-export const mixcloudConfigProps = VueTypes.shape({
+export const mixcloudConfigProps = () => VueTypes.shape({
 	options: VueTypes.shape({
 		hide_cover: VueTypes.integer,
 	}).loose,
-}).loose.def(() => mixcloudConfigPropsDefaults);
+}).loose.def(() => mixcloudConfigPropsDefaults());

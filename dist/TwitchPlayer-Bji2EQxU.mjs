@@ -1,4 +1,4 @@
-import { _ as f, c as T, p as g, t as v, r as w, e as c, a as I } from "./index-Bujz9oM-.mjs";
+import { _ as f, c as T, p as g, t as v, r as w, e as c, a as I } from "./index-CYlonWpc.mjs";
 import { openBlock as C, createElementBlock as D } from "vue";
 const S = "https://player.twitch.tv/js/embed/v1.js", A = "Twitch", N = "twitch-player-", R = {
   // [META]
@@ -8,7 +8,7 @@ const S = "https://player.twitch.tv/js/embed/v1.js", A = "Twitch", N = "twitch-p
   // [/META]
   mixins: [g],
   props: {
-    config: v
+    config: v()
   },
   data() {
     return {

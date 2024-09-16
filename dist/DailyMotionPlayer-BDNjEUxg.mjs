@@ -1,16 +1,15 @@
-import { _ as c, c as y, p, h as d, i as h, a as r, g as u } from "./index-Bujz9oM-.mjs";
-import m from "vue-types";
+import { _ as c, c as y, p as d, h as p, C as h, i as u, a as r, g as m } from "./index-CYlonWpc.mjs";
 import { openBlock as f, createElementBlock as g, normalizeStyle as _, createElementVNode as D } from "vue";
-const P = "https://api.dmcdn.net/all.js", M = "DM", T = "dmAsyncInit", L = {
+const P = "https://api.dmcdn.net/all.js", M = "DM", L = "dmAsyncInit", S = {
   // [META]
   displayName: "DailyMotion",
   canPlay: y.dailymotion,
   loopOnEnded: !0,
   // [/META]
-  mixins: [p],
+  mixins: [d],
   props: {
-    config: d,
-    display: m.string.def("block")
+    config: p(),
+    display: h.string.def("block")
   },
   computed: {
     /**
@@ -99,7 +98,7 @@ const P = "https://api.dmcdn.net/all.js", M = "DM", T = "dmAsyncInit", L = {
       return (t = this.player) == null ? void 0 : t.bufferedTime;
     },
     async load(t) {
-      const { controls: i, config: s, playing: n } = this, [, a] = t.match(h);
+      const { controls: i, config: s, playing: n } = this, [, a] = t.match(u);
       if (this.player) {
         this.player.load(a, {
           start: r(t),
@@ -108,9 +107,8 @@ const P = "https://api.dmcdn.net/all.js", M = "DM", T = "dmAsyncInit", L = {
         return;
       }
       try {
-        const e = await u(P, M, T, (l) => l.player);
-        if (!this.$refs.container)
-          return;
+        const e = await m(P, M, L, (l) => l.player);
+        if (!this.$refs.container) return;
         const o = e.player;
         this.player = new o(this.$refs.container, {
           width: "100%",
@@ -144,16 +142,16 @@ const P = "https://api.dmcdn.net/all.js", M = "DM", T = "dmAsyncInit", L = {
       this.onDuration(t);
     }
   }
-}, S = { ref: "container" };
+}, T = { ref: "container" };
 function k(t, i, s, n, a, e) {
   return f(), g("div", {
     class: "vue-player--dailymotion",
     style: _(e.styles)
   }, [
-    D("div", S, null, 512)
+    D("div", T, null, 512)
   ], 4);
 }
-const A = /* @__PURE__ */ c(L, [["render", k]]);
+const w = /* @__PURE__ */ c(S, [["render", k]]);
 export {
-  A as default
+  w as default
 };

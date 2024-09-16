@@ -1,13 +1,13 @@
-import { _ as R, c as k, p as D, o as _, A as w, u as f, x as p, H as O, D as U, F as H } from "./index-Bujz9oM-.mjs";
-import { openBlock as l, createBlock as V, resolveDynamicComponent as M, mergeProps as y, withCtx as N, createElementBlock as d, Fragment as m, renderList as E, renderSlot as g, normalizeProps as S, guardReactiveProps as b, createCommentVNode as T } from "vue";
-const I = typeof navigator < "u", j = I && navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1, A = I && (/iPad|iPhone|iPod/.test(navigator.userAgent) || j) && !window.MSStream, C = "https://cdn.jsdelivr.net/npm/hls.js@VERSION/dist/hls.min.js", F = "Hls", B = "https://cdnjs.cloudflare.com/ajax/libs/dashjs/VERSION/dash.all.min.js", x = "dashjs", K = "https://cdn.jsdelivr.net/npm/flv.js@VERSION/dist/flv.min.js", G = "flvjs", X = /www\.dropbox\.com\/.+/, v = /https:\/\/watch\.cloudflarestream\.com\/([a-z0-9]+)/, z = "https://videodelivery.net/{id}/manifest/video.m3u8", q = {
+import { _ as I, c as $, p as _, o as k, A as D, u as p, x as y, H as R, D as w, F as O } from "./index-CYlonWpc.mjs";
+import { openBlock as l, createBlock as U, resolveDynamicComponent as H, mergeProps as c, withCtx as V, createElementBlock as d, Fragment as m, renderList as E, renderSlot as g, createCommentVNode as M } from "vue";
+const b = typeof navigator < "u", N = b && navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1, S = b && (/iPad|iPhone|iPod/.test(navigator.userAgent) || N) && !window.MSStream, T = "https://cdn.jsdelivr.net/npm/hls.js@VERSION/dist/hls.min.js", j = "Hls", C = "https://cdnjs.cloudflare.com/ajax/libs/dashjs/VERSION/dash.all.min.js", F = "dashjs", B = "https://cdn.jsdelivr.net/npm/flv.js@VERSION/dist/flv.min.js", x = "flvjs", K = /www\.dropbox\.com\/.+/, v = /https:\/\/watch\.cloudflarestream\.com\/([a-z0-9]+)/, G = "https://videodelivery.net/{id}/manifest/video.m3u8", X = {
   // [META]
   displayName: "FilePlayer",
-  canPlay: k.file,
+  canPlay: $.file,
   // [/META]
-  mixins: [D],
+  mixins: [_],
   props: {
-    config: _
+    config: k()
   },
   data() {
     return {
@@ -35,7 +35,7 @@ const I = typeof navigator < "u", j = I && navigator.platform === "MacIntel" && 
     },
     shouldUseAudio() {
       var e;
-      return (e = this.config) != null && e.forceVideo || this.config.attributes.poster ? !1 : w.test(this.url) || this.config.forceAudio;
+      return (e = this.config) != null && e.forceVideo || this.config.attributes.poster ? !1 : D.test(this.url) || this.config.forceAudio;
     },
     styles() {
       return {
@@ -49,7 +49,7 @@ const I = typeof navigator < "u", j = I && navigator.platform === "MacIntel" && 
   },
   mounted() {
     var e, t;
-    this.addListeners(this.$refs.player), A && ((t = (e = this.$refs.player) == null ? void 0 : e.load) == null || t.call(e)), this.$watch(
+    this.addListeners(this.$refs.player), S && ((t = (e = this.$refs.player) == null ? void 0 : e.load) == null || t.call(e)), this.$watch(
       () => this.$refs.player,
       (s, i) => {
         this.prevPlayer = i;
@@ -62,7 +62,7 @@ const I = typeof navigator < "u", j = I && navigator.platform === "MacIntel" && 
   },
   watch: {
     url(e, t) {
-      this.prevUrl = t, !f(e) && this.$refs.player && (this.$refs.player.srcObject = null);
+      this.prevUrl = t, !p(e) && this.$refs.player && (this.$refs.player.srcObject = null);
     },
     shouldUseAudio() {
       this.removeListeners(this.prevPlayer, this.prevUrl), this.addListeners(this.$refs.player);
@@ -151,8 +151,7 @@ const I = typeof navigator < "u", j = I && navigator.platform === "MacIntel" && 
      * @playerHook getDuration
      */
     getDuration() {
-      if (!this.$refs.player)
-        return null;
+      if (!this.$refs.player) return null;
       const { duration: e, seekable: t } = this.$refs.player;
       return e === 1 / 0 && t.length > 0 ? t.end(t.length - 1) : e;
     },
@@ -171,8 +170,7 @@ const I = typeof navigator < "u", j = I && navigator.platform === "MacIntel" && 
      * @playerHook getSecondsLoaded
      */
     getSecondsLoaded() {
-      if (!this.$refs.player)
-        return null;
+      if (!this.$refs.player) return null;
       const { buffered: e } = this.$refs.player;
       if (e.length === 0)
         return 0;
@@ -198,7 +196,7 @@ const I = typeof navigator < "u", j = I && navigator.platform === "MacIntel" && 
      */
     enablePIP() {
       var e, t, s, i, h, r;
-      (e = this.$refs.player) != null && e.requestPictureInPicture && document.pictureInPictureElement !== this.$refs.player ? ((s = (t = this.$refs.player) == null ? void 0 : t.requestPictureInPicture) == null || s.call(t), this.onEnablePIP()) : p(this.$refs.player) && ((i = this.$refs.player) == null ? void 0 : i.webkitPresentationMode) !== "picture-in-picture" && ((r = (h = this.$refs.player) == null ? void 0 : h.webkitSetPresentationMode) == null || r.call(h, "picture-in-picture"), this.onEnablePIP());
+      (e = this.$refs.player) != null && e.requestPictureInPicture && document.pictureInPictureElement !== this.$refs.player ? ((s = (t = this.$refs.player) == null ? void 0 : t.requestPictureInPicture) == null || s.call(t), this.onEnablePIP()) : y(this.$refs.player) && ((i = this.$refs.player) == null ? void 0 : i.webkitPresentationMode) !== "picture-in-picture" && ((r = (h = this.$refs.player) == null ? void 0 : h.webkitSetPresentationMode) == null || r.call(h, "picture-in-picture"), this.onEnablePIP());
     },
     /**
      * @inheritDoc
@@ -207,33 +205,33 @@ const I = typeof navigator < "u", j = I && navigator.platform === "MacIntel" && 
      */
     disablePIP() {
       var e, t, s;
-      document.exitPictureInPicture && document.pictureInPictureElement === this.$refs.player ? (document.exitPictureInPicture(), this.onDisablePIP()) : p(this.$refs.player) && ((e = this.$refs.player) == null ? void 0 : e.webkitPresentationMode) !== "inline" && ((s = (t = this.$refs.player) == null ? void 0 : t.webkitSetPresentationMode) == null || s.call(t, "inline"), this.onDisablePIP());
+      document.exitPictureInPicture && document.pictureInPictureElement === this.$refs.player ? (document.exitPictureInPicture(), this.onDisablePIP()) : y(this.$refs.player) && ((e = this.$refs.player) == null ? void 0 : e.webkitPresentationMode) !== "inline" && ((s = (t = this.$refs.player) == null ? void 0 : t.webkitSetPresentationMode) == null || s.call(t, "inline"), this.onDisablePIP());
     },
     async load(e) {
-      var r, n, a, L, c, P;
+      var r, n, a, L, u, P;
       const { hlsVersion: t, hlsOptions: s, dashVersion: i, flvVersion: h } = this.config;
       if ((n = (r = this.hls) == null ? void 0 : r.destroy) == null || n.call(r), (L = (a = this.dash) == null ? void 0 : a.reset) == null || L.call(a), this.shouldUseHLS(e)) {
-        const o = await getSDK(C.replace("VERSION", t), F);
+        const o = await getSDK(T.replace("VERSION", t), j);
         if (this.hls = new o(s), this.hls.on(o.Events.MANIFEST_PARSED, () => {
           this.onReady();
-        }), this.hls.on(o.Events.ERROR, (u, $) => {
-          this.onError(u, $, this.hls, o);
+        }), this.hls.on(o.Events.ERROR, (f, A) => {
+          this.onError(f, A, this.hls, o);
         }), v.test(e)) {
-          const u = e.match(v)[1];
-          this.hls.loadSource(z.replace("{id}", u));
+          const f = e.match(v)[1];
+          this.hls.loadSource(G.replace("{id}", f));
         } else
           this.hls.loadSource(e);
         this.hls.attachMedia(this.$refs.player), this.onLoaded();
       } else if (this.shouldUseDASH(e)) {
-        const o = await getSDK(B.replace("VERSION", i), x);
+        const o = await getSDK(C.replace("VERSION", i), F);
         this.dash = o.MediaPlayer().create(), this.dash.initialize(this.$refs.player, e, this.playing), this.dash.on("error", this.onError), parseInt(i) < 3 ? this.dash.getDebug().setLogToBrowserConsole(!1) : this.dash.updateSettings({ debug: { logLevel: o.Debug.LOG_LEVEL_NONE } }), this.onLoaded();
       } else if (this.shouldUseFLV(e)) {
-        const o = await getSDK(K.replace("VERSION", h), G);
+        const o = await getSDK(B.replace("VERSION", h), x);
         this.flv = o.createPlayer({ type: "flv", url: e }), this.flv.attachMediaElement(this.$refs.player), this.flv.load(), this.onLoaded();
       }
       if (e instanceof Array)
-        (P = (c = this.$refs.player) == null ? void 0 : c.load) == null || P.call(c);
-      else if (f(e))
+        (P = (u = this.$refs.player) == null ? void 0 : u.load) == null || P.call(u);
+      else if (p(e))
         try {
           this.$refs.player.srcObject = e;
         } catch {
@@ -242,11 +240,11 @@ const I = typeof navigator < "u", j = I && navigator.platform === "MacIntel" && 
     },
     getSource(e) {
       const t = this.shouldUseHLS(e), s = this.shouldUseDASH(e), i = this.shouldUseFLV(e);
-      if (!(e instanceof Array || f(e) || t || s || i))
-        return X.test(e) ? e.replace("www.dropbox.com", "dl.dropboxusercontent.com") : e;
+      if (!(e instanceof Array || p(e) || t || s || i))
+        return K.test(e) ? e.replace("www.dropbox.com", "dl.dropboxusercontent.com") : e;
     },
     onPresentationModeChange(e) {
-      if (this.$refs.player && p(this.$refs.player)) {
+      if (this.$refs.player && y(this.$refs.player)) {
         const { webkitPresentationMode: t } = this.$refs.player;
         t === "picture-in-picture" ? this.onEnablePIP(e) : t === "inline" && this.onDisablePIP(e);
       }
@@ -260,18 +258,18 @@ const I = typeof navigator < "u", j = I && navigator.platform === "MacIntel" && 
     },
     shouldUseHLS(e) {
       var t;
-      return (t = this.config) != null && t.forceHLS ? !0 : A ? !1 : O.test(e) || v.test(e);
+      return (t = this.config) != null && t.forceHLS ? !0 : S ? !1 : R.test(e) || v.test(e);
     },
     shouldUseDASH(e) {
-      return U.test(e) || this.props.config.forceDASH;
+      return w.test(e) || this.props.config.forceDASH;
     },
     shouldUseFLV(e) {
-      return H.test(e) || this.props.config.forceFLV;
+      return O.test(e) || this.props.config.forceFLV;
     }
   }
-}, W = ["src"];
-function J(e, t, s, i, h, r) {
-  return l(), V(M(r.tag), y({
+}, q = ["src"];
+function z(e, t, s, i, h, r) {
+  return l(), U(H(r.tag), c({
     ref: "player",
     class: "vue-player--file",
     style: r.styles,
@@ -282,23 +280,29 @@ function J(e, t, s, i, h, r) {
     muted: e.muted,
     loop: e.loop
   }, s.config.attributes), {
-    default: N(() => [
+    default: V(() => [
       r.urlIsArray ? (l(), d(m, { key: 0 }, [
-        (l(!0), d(m, null, E(this.url, (n, a) => g(e.$slots, "source", S(b({ source: n })), () => [
+        (l(!0), d(m, null, E(this.url, (n, a) => g(e.$slots, "source", c({ ref_for: !0 }, { source: n }), () => [
           typeof n == "string" ? (l(), d("source", {
             src: n,
             key: n
-          }, null, 8, W)) : (l(), d("source", y({ key: a }, n), null, 16))
+          }, null, 8, q)) : (l(), d("source", c({
+            key: a,
+            ref_for: !0
+          }, n), null, 16))
         ])), 256)),
-        (l(!0), d(m, null, E(this.config.tracks, (n, a) => g(e.$slots, "track", S(b({ track: n })), () => [
-          (l(), d("track", y({ key: a }, n), null, 16))
+        (l(!0), d(m, null, E(this.config.tracks, (n, a) => g(e.$slots, "track", c({ ref_for: !0 }, { track: n }), () => [
+          (l(), d("track", c({
+            key: a,
+            ref_for: !0
+          }, n), null, 16))
         ])), 256))
-      ], 64)) : T("", !0)
+      ], 64)) : M("", !0)
     ]),
     _: 3
   }, 16, ["style", "src", "autoplay", "controls", "muted", "loop"]);
 }
-const Z = /* @__PURE__ */ R(q, [["render", J]]);
+const Q = /* @__PURE__ */ I(X, [["render", z]]);
 export {
-  Z as default
+  Q as default
 };

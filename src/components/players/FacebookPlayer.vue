@@ -32,7 +32,7 @@
 		mixins: [playerMixin],
 
 		props: {
-			config: facebookConfigProps,
+			config: facebookConfigProps(),
 		},
 
 		data() {

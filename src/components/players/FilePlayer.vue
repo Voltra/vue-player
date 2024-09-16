@@ -57,7 +57,7 @@
 		mixins: [playerMixin],
 
 		props: {
-			config: fileConfigProps,
+			config: fileConfigProps(),
 		},
 
 		data() {

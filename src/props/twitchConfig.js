@@ -1,17 +1,17 @@
 import VueTypes from "vue-types";
 
 /**
- * @type {TwitchConfig}
+ * @returns {TwitchConfig}
  */
-export const twitchConfigPropsDefaults = {
+export const twitchConfigPropsDefaults = () => ({
 	options: {},
 	playerId: null
-};
+});
 
 /**
- * @type {import("vue-types").VueTypeShape<TwitchConfig>}
+ * @returns {import("vue-types").VueTypeShape<TwitchConfig>}
  */
-export const twitchConfigProps = VueTypes.shape({
+export const twitchConfigProps = () => VueTypes.shape({
 	options: VueTypes.object,
 	playerId: VueTypes.string,
 }).loose.def(() => twitchConfigPropsDefaults);

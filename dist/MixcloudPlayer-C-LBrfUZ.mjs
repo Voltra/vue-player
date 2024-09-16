@@ -1,4 +1,4 @@
-import { _ as a, c as n, p as o, j as l, k as c, q as d, g as u } from "./index-Bujz9oM-.mjs";
+import { _ as a, c as n, p as o, j as l, k as c, q as d, g as u } from "./index-CYlonWpc.mjs";
 import { openBlock as h, createElementBlock as p } from "vue";
 const y = "https://widget.mixcloud.com/media/js/widgetApi.js", m = "Mixcloud", f = {
   // [META]
@@ -7,7 +7,7 @@ const y = "https://widget.mixcloud.com/media/js/widgetApi.js", m = "Mixcloud", f
   // [/META]
   mixins: [o],
   props: {
-    config: l
+    config: l()
   },
   data() {
     return {

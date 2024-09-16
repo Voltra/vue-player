@@ -1,5 +1,4 @@
-import { _ as a, c as n, p as l, v as h, g as c } from "./index-Bujz9oM-.mjs";
-import p from "vue-types";
+import { _ as a, c as n, p as l, v as h, C as c, g as p } from "./index-CYlonWpc.mjs";
 import { openBlock as u, createElementBlock as y, normalizeStyle as d } from "vue";
 const m = "https://player.vimeo.com/api/player.js", f = "Vimeo", P = {
   // [META]
@@ -9,8 +8,8 @@ const m = "https://player.vimeo.com/api/player.js", f = "Vimeo", P = {
   // [/META]
   mixins: [l],
   props: {
-    config: h,
-    display: p.string.def("block")
+    config: h(),
+    display: c.string.def("block")
   },
   data() {
     return {
@@ -130,9 +129,8 @@ const m = "https://player.vimeo.com/api/player.js", f = "Vimeo", P = {
     async load(e) {
       try {
         this.duration = null;
-        const s = await c(m, f);
-        if (!this.$refs.container)
-          return;
+        const s = await p(m, f);
+        if (!this.$refs.container) return;
         const { playerOptions: i, title: r } = this.config;
         this.player = new s.Player(this.$refs.container, {
           url: e,
@@ -170,7 +168,7 @@ function g(e, s, i, r, t, o) {
     ref: "container"
   }, null, 4);
 }
-const V = /* @__PURE__ */ a(P, [["render", g]]);
+const k = /* @__PURE__ */ a(P, [["render", g]]);
 export {
-  V as default
+  k as default
 };

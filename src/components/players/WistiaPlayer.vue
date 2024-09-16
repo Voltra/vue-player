@@ -26,7 +26,7 @@
 		mixins: [playerMixin],
 
 		props: {
-			config: wistiaConfigProps,
+			config: wistiaConfigProps(),
 		},
 
 		data() {

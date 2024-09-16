@@ -24,7 +24,7 @@
 
 		mixins: [playerMixin],
 		props: {
-			config: dailymotionConfigProps,
+			config: dailymotionConfigProps(),
 			display: VueTypes.string.def("block"),
 		},
 

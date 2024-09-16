@@ -24,7 +24,7 @@
 		mixins: [playerMixin],
 
 		props: {
-			config: vidyardConfigProps,
+			config: vidyardConfigProps(),
 			display: VueTypes.string.def("block"),
 		},
 

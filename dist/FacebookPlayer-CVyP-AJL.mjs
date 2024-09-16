@@ -1,4 +1,4 @@
-import { _ as u, c as d, p as h, f as p, r as y, g as o } from "./index-Bujz9oM-.mjs";
+import { _ as u, c as d, p as h, f as p, r as y, g as o } from "./index-CYlonWpc.mjs";
 import { openBlock as f, createElementBlock as b, mergeProps as m } from "vue";
 const n = "https://connect.facebook.net/en_US/sdk.js", l = "FB", c = "fbAsyncInit", g = "facebook-player-", P = {
   // [META]
@@ -9,7 +9,7 @@ const n = "https://connect.facebook.net/en_US/sdk.js", l = "FB", c = "fbAsyncIni
   events: ["loaded"],
   mixins: [h],
   props: {
-    config: p
+    config: p()
   },
   data() {
     return {

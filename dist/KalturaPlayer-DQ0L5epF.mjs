@@ -1,4 +1,4 @@
-import { _ as s, c as n, p as l, g as i } from "./index-Bujz9oM-.mjs";
+import { _ as s, c as n, p as l, g as i } from "./index-CYlonWpc.mjs";
 import { openBlock as o, createElementBlock as u } from "vue";
 const c = "https://cdn.embed.ly/player-0.1.0.min.js", d = "playerjs", h = {
   // [META]
@@ -97,8 +97,7 @@ const c = "https://cdn.embed.ly/player-0.1.0.min.js", d = "playerjs", h = {
     async load(e) {
       try {
         const t = await i(c, d);
-        if (!this.$refs.iframe)
-          return;
+        if (!this.$refs.iframe) return;
         this.player = new t.Player(this.$refs.iframe), this.player.on("ready", () => {
           setTimeout(() => {
             this.player.isReady = !0, this.player.setLoop(this.loop), this.muted && this.player.mute(), this.addListeners(this.player), this.onReady();

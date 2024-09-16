@@ -28,7 +28,7 @@
 
 		mixins: [playerMixin],
 		props: {
-			config: soundcloudConfigProps,
+			config: soundcloudConfigProps(),
 			display: VueTypes.string.def("block"),
 		},
 

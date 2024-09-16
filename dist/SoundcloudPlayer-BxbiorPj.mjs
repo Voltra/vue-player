@@ -1,5 +1,4 @@
-import { _ as u, c as d, p as c, s as h, g as p } from "./index-Bujz9oM-.mjs";
-import m from "vue-types";
+import { _ as u, c as d, p as c, s as h, C as p, g as m } from "./index-CYlonWpc.mjs";
 import { openBlock as y, createElementBlock as f, normalizeStyle as g } from "vue";
 const P = "https://w.soundcloud.com/player/api.js", _ = "SC", S = {
   // [META]
@@ -9,8 +8,8 @@ const P = "https://w.soundcloud.com/player/api.js", _ = "SC", S = {
   // [/META]
   mixins: [c],
   props: {
-    config: h,
-    display: m.string.def("block")
+    config: h(),
+    display: p.string.def("block")
   },
   data() {
     return {
@@ -106,19 +105,18 @@ const P = "https://w.soundcloud.com/player/api.js", _ = "SC", S = {
     },
     async load(t, i) {
       try {
-        const e = await p(P, _);
-        if (!this.iframe)
-          return;
-        const { PLAY: o, PLAY_PROGRESS: a, PAUSE: s, FINISH: n, ERROR: l } = e.Widget.Events;
-        i || (this.player = e.Widget(this.$refs.iframe), this.player.bind(o, this.onPlay), this.player.bind(s, () => {
+        const e = await m(P, _);
+        if (!this.iframe) return;
+        const { PLAY: o, PLAY_PROGRESS: a, PAUSE: r, FINISH: n, ERROR: l } = e.Widget.Events;
+        i || (this.player = e.Widget(this.$refs.iframe), this.player.bind(o, this.onPlay), this.player.bind(r, () => {
           this.duration - this.currentTime < 0.05 || this.onPause();
-        }), this.player.bind(a, (r) => {
-          this.currentTime = r.currentPosition / 1e3, this.fractionLoaded = r.loadedProgress;
+        }), this.player.bind(a, (s) => {
+          this.currentTime = s.currentPosition / 1e3, this.fractionLoaded = s.loadedProgress;
         }), this.player.bind(n, this.onEnded), this.player.bind(l, this.onError)), this.player.load(t, {
           ...this.config.options,
           callback: () => {
-            this.player.getDuration((r) => {
-              this.duration = r / 1e3, this.onReady();
+            this.player.getDuration((s) => {
+              this.duration = s / 1e3, this.onReady();
             });
           }
         });
@@ -128,17 +126,17 @@ const P = "https://w.soundcloud.com/player/api.js", _ = "SC", S = {
     }
   }
 }, E = ["src"];
-function L(t, i, e, o, a, s) {
+function L(t, i, e, o, a, r) {
   return y(), f("iframe", {
     ref: "iframe",
     class: "vue-player--soundcloud",
-    style: g(s.styles),
-    src: s.src,
+    style: g(r.styles),
+    src: r.src,
     frameborder: "0",
     allow: "autoplay"
   }, null, 12, E);
 }
-const k = /* @__PURE__ */ u(S, [["render", L]]);
+const T = /* @__PURE__ */ u(S, [["render", L]]);
 export {
-  k as default
+  T as default
 };

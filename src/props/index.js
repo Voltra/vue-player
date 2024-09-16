@@ -10,34 +10,54 @@ import { mixcloudConfigProps, mixcloudConfigPropsDefaults } from "./mixcloudConf
 import { twitchConfigProps, twitchConfigPropsDefaults } from "./twitchConfig";
 import { vidyardConfigProps, vidyardConfigPropsDefaults } from "./vidyardConfig";
 
-export const configPropsDefaults = {
-	soundcloud: soundcloudConfigPropsDefaults,
-	youtube: youtubeConfigPropsDefaults,
-	facebook: facebookConfigPropsDefaults,
-	dailymotion: dailymotionConfigPropsDefaults,
-	vimeo: vimeoConfigPropsDefaults,
-	file: fileConfigPropsDefaults,
-	wistia: wistiaConfigPropsDefaults,
-	mixcloud: mixcloudConfigPropsDefaults,
-	twitch: twitchConfigPropsDefaults,
-	vidyard: vidyardConfigPropsDefaults,
-};
+/**
+ * @returns {{
+ *  youtube: YoutubeConfig,
+ *  mixcloud: MixcloudConfig,
+ *  dailymotion: DailymotionConfig,
+ *  file: FileConfig,
+ *  twitch: TwitchConfig,
+ *  vimeo: VimeoConfig,
+ *  wistia: WistiaConfig,
+ *  facebook: FacebookConfig,
+ *  soundcloud: SoundcloudConfig,
+ *  vidyard: VidyardConfig
+ * }}
+ */
+export const configPropsDefaults = () => ({
+	soundcloud: soundcloudConfigPropsDefaults(),
+	youtube: youtubeConfigPropsDefaults(),
+	facebook: facebookConfigPropsDefaults(),
+	dailymotion: dailymotionConfigPropsDefaults(),
+	vimeo: vimeoConfigPropsDefaults(),
+	file: fileConfigPropsDefaults(),
+	wistia: wistiaConfigPropsDefaults(),
+	mixcloud: mixcloudConfigPropsDefaults(),
+	twitch: twitchConfigPropsDefaults(),
+	vidyard: vidyardConfigPropsDefaults(),
+});
 
-export const configProps = VueTypes.shape({
-	soundcloud: soundcloudConfigProps,
-	youtube: youtubeConfigProps,
-	facebook: facebookConfigProps,
-	dailymotion: dailymotionConfigProps,
-	vimeo: vimeoConfigProps,
-	file: fileConfigProps,
-	wistia: wistiaConfigProps,
-	mixcloud: mixcloudConfigProps,
-	twitch: twitchConfigProps,
-	vidyard: vidyardConfigProps,
-}).def(() => configPropsDefaults);
+/**
+ * @returns {import("vue-types").VueTypeShape<ReturnType<typeof configPropsDefaults>>}
+ */
+export const configProps = () => VueTypes.shape({
+	soundcloud: soundcloudConfigProps(),
+	youtube: youtubeConfigProps(),
+	facebook: facebookConfigProps(),
+	dailymotion: dailymotionConfigProps(),
+	vimeo: vimeoConfigProps(),
+	file: fileConfigProps(),
+	wistia: wistiaConfigProps(),
+	mixcloud: mixcloudConfigProps(),
+	twitch: twitchConfigProps(),
+	vidyard: vidyardConfigProps(),
+}).def(() => configPropsDefaults());
 
-export const tagOrComponentProps = VueTypes.oneOfType([
-	VueTypes.object,
+/**
+ * @returns {import("vue-types").VueTypeDef<object|string|((...args: any[]) => any)>}
+ */
+export const tagOrComponentProps = () => VueTypes.oneOfType([
+	VueTypes.shape({ render: VueTypes.func }).loose,
 	VueTypes.string,
 	VueTypes.func,
 ]);

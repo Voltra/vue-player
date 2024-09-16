@@ -1,4 +1,4 @@
-import { _ as y, c as u, p as h, w as p, r as m, d as P } from "./index-Bujz9oM-.mjs";
+import { _ as y, c as u, p as h, w as p, r as m, d as P } from "./index-CYlonWpc.mjs";
 import { openBlock as b, createElementBlock as _, normalizeClass as w } from "vue";
 const f = "https://fast.wistia.com/assets/external/E-v1.js", g = "Wistia", k = "wistia-player-", C = {
   // [META]
@@ -8,7 +8,7 @@ const f = "https://fast.wistia.com/assets/external/E-v1.js", g = "Wistia", k = "
   // [/META]
   mixins: [h],
   props: {
-    config: p
+    config: p()
   },
   data() {
     return {

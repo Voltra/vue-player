@@ -1,9 +1,9 @@
 import VueTypes from "vue-types";
 
 /**
- * @type {SoundcloudConfig}
+ * @returns {SoundcloudConfig}
  */
-export const soundcloudConfigPropsDefaults = {
+export const soundcloudConfigPropsDefaults = () => ({
 	options: {
 		visual: true, // Undocumented, but makes player fill container and look better
 		buying: false,
@@ -13,12 +13,12 @@ export const soundcloudConfigPropsDefaults = {
 		show_comments: false,
 		show_playcount: false
 	}
-};
+});
 
 /**
- * @type {import("vue-types").VueTypeShape<SoundcloudConfig>}
+ * @returns {import("vue-types").VueTypeShape<SoundcloudConfig>}
  */
-export const soundcloudConfigProps = VueTypes.shape({
+export const soundcloudConfigProps = () => VueTypes.shape({
 	options: VueTypes.shape({
 		visual: VueTypes.bool,
 		buying: VueTypes.bool,
@@ -28,4 +28,4 @@ export const soundcloudConfigProps = VueTypes.shape({
 		show_comments: VueTypes.bool,
 		show_playcount: VueTypes.bool,
 	}).loose,
-}).loose.def(() => soundcloudConfigPropsDefaults);
+}).loose.def(() => soundcloudConfigPropsDefaults());

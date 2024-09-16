@@ -6,9 +6,9 @@ declare module "@voltra/vue-player/mixins/metaPlayer" {
 	export interface MetaPlayerMixin {
 		mixins: [playerMixin: PlayerMixin];
 		props: {
-			configProps: typeof configProps;
+			configProps: ReturnType<typeof configProps>;
 			progressFrequency: typeof VueTypes.number;
-			activePlayer: typeof tagOrComponentProps;
+			activePlayer: ReturnType<typeof tagOrComponentProps>;
 		};
 	}
 

@@ -1,4 +1,4 @@
-import { _ as E, c as w, p as A, y as D, a as P, b as m, g as C } from "./index-Bujz9oM-.mjs";
+import { _ as E, c as w, p as A, y as D, a as P, b as m, g as C } from "./index-CYlonWpc.mjs";
 import { openBlock as R, createElementBlock as k, normalizeStyle as I, createElementVNode as L } from "vue";
 const U = "https://www.youtube.com/iframe_api", g = "YT", O = "onYouTubeIframeAPIReady", u = /[?&](?:list|channel)=([a-zA-Z0-9_-]+)/, f = /user\/([a-zA-Z0-9_-]+)\/?/, V = /youtube-nocookie\.com/, v = "https://www.youtube-nocookie.com", B = {
   // [META]
@@ -7,7 +7,7 @@ const U = "https://www.youtube.com/iframe_api", g = "YT", O = "onYouTubeIframeAP
   // [/META]
   mixins: [A],
   props: {
-    config: D
+    config: D()
   },
   computed: {
     styles() {
@@ -131,8 +131,7 @@ const U = "https://www.youtube.com/iframe_api", g = "YT", O = "onYouTubeIframeAP
           return;
         }
         const h = await C(U, g, O, (a) => a.loaded);
-        if (!this.container)
-          return;
+        if (!this.container) return;
         this.player = new h.Player(this.container, {
           width: "100%",
           height: "100%",
