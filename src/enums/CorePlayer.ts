@@ -1,0 +1,15 @@
+export enum CorePlayer {
+	DAILYMOTION = "DailyMotion",
+	FACEBOOK = "Facebook",
+	FILE = "FilePlayer",
+	KALTURA = "Kaltura",
+	MIXCLOUD = "Mixcloud",
+	MUX = "Mux",
+	SOUNDCLOUD = "SoundCloud",
+	STREAMABLE = "Streamable",
+	TWITCH = "Twitch",
+	VIDYARD = "Vidyard",
+	VIMEO = "Vimeo",
+	WISTIA = "Wistia",
+	YOUTUBE = "YouTube",
+}

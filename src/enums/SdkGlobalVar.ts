@@ -1,0 +1,16 @@
+export enum SdkGlobalVar {
+	DAILYMOTION = "DM",
+	FACEBOOK = "FB",
+	HLS = "Hls",
+	DASH = "dashjs",
+	FLV = "flvjs",
+	KALTURA = "playerjs",
+	MIXCLOUD = "Mixcloud",
+	SOUNDCLOUD = "SC",
+	STREAMABLE = "playerjs",
+	TWITCH = "Twitch",
+	VIDYARD = "VidyardV4",
+	VIMEO = "Vimeo",
+	WISTIA = "Wistia",
+	YOUTUBE = "YT",
+}

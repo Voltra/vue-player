@@ -1,0 +1,17 @@
+export enum SdkUrl {
+	DAILYMOTION = "https://api.dmcdn.net/all.js",
+	FACEBOOK = "https://connect.facebook.net/en_US/sdk.js",
+	HLS = "https://cdn.jsdelivr.net/npm/hls.js@{VERSION}/dist/hls.min.js",
+	DASH = "https://cdnjs.cloudflare.com/ajax/libs/dashjs/{VERSION}/dash.all.min.js",
+	FLV = "https://cdn.jsdelivr.net/npm/flv.js@{VERSION}/dist/flv.min.js",
+	KALTURA = "https://cdn.embed.ly/player-0.1.0.min.js",
+	MIXCLOUD = "https://widget.mixcloud.com/media/js/widgetApi.js",
+	MUX = "https://cdn.jsdelivr.net/npm/@mux/mux-player@{VERSION}/dist/mux-player.mjs",
+	SOUNDCLOUD = "https://w.soundcloud.com/player/api.js",
+	STREAMABLE = "https://cdn.embed.ly/player-0.1.0.min.js",
+	TWITCH = "https://player.twitch.tv/js/embed/v1.js",
+	VIDYARD = "https://play.vidyard.com/embed/v4.js",
+	VIMEO = "https://player.vimeo.com/api/player.js",
+	WISTIA = "https://fast.wistia.com/assets/external/E-v1.js",
+	YOUTUBE = "https://www.youtube.com/iframe_api",
+}
