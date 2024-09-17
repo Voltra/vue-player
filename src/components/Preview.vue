@@ -15,7 +15,7 @@
 </template>
 
 <script>
-	import VueTypes from "vue-types";
+	import * as VueTypes from "vue-types";
 
 	/**
 	 * @type {Record<string, string>}
@@ -25,10 +25,10 @@
 	export default {
 		emits: ["click"],
 		props: {
-			url: VueTypes.string.isRequired,
-			oEmbedUrl: VueTypes.string.isRequired,
-			previewTabIndex: VueTypes.integer.def(0),
-			light: VueTypes.any,
+			url: VueTypes.string().isRequired,
+			oEmbedUrl: VueTypes.string().isRequired,
+			previewTabIndex: VueTypes.integer().def(0),
+			light: VueTypes.any(),
 		},
 		data() {
 			return {

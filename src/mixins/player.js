@@ -1,4 +1,4 @@
-import VueTypes from "vue-types";
+import * as VueTypes from "vue-types";
 import { callPlayer } from "../utils";
 
 /*
@@ -33,30 +33,30 @@ export const playerMixin = {
 	],
 	slots: ["playIcon", "fallback"],
 	props: {
-		url: VueTypes.oneOfType([VueTypes.string, VueTypes.array, VueTypes.object]).isRequired,
-		playing: VueTypes.bool.def(false),
-		loop: VueTypes.bool.def(false),
-		controls: VueTypes.bool.def(false),
-		volume: VueTypes.number, // def: null
-		muted: VueTypes.bool.def(false),
-		playbackRate: VueTypes.number.def(1),
-		display: VueTypes.string.def("block"),
-		width: VueTypes.oneOfType([VueTypes.string, VueTypes.number]).def("640px"),
-		height: VueTypes.oneOfType([VueTypes.string, VueTypes.number]).def("360px"),
-		style: VueTypes.object.def(() => ({})),
-		progressInterval: VueTypes.number.def(1000),
-		playsInline: VueTypes.bool.def(false),
-		pictureInPicture: VueTypes.bool.def(false),
-		stopOnUnmount: VueTypes.bool.def(true),
-		light: VueTypes.oneOfType([VueTypes.bool, VueTypes.string]).def(false),
-		previewTabIndex: VueTypes.number.def(0),
-		oEmbedUrl: VueTypes.string.def("https://noembed.com/embed?url={url}"),
+		url: VueTypes.oneOfType([VueTypes.string(), VueTypes.array(), VueTypes.object()]).isRequired,
+		playing: VueTypes.bool().def(false),
+		loop: VueTypes.bool().def(false),
+		controls: VueTypes.bool().def(false),
+		volume: VueTypes.number().def(() => null), // def: null
+		muted: VueTypes.bool().def(false),
+		playbackRate: VueTypes.number().def(1),
+		display: VueTypes.string().def("block"),
+		width: VueTypes.oneOfType([VueTypes.string(), VueTypes.number]).def("640px"),
+		height: VueTypes.oneOfType([VueTypes.string(), VueTypes.number]).def("360px"),
+		style: VueTypes.object().def(() => ({})),
+		progressInterval: VueTypes.number().def(1000),
+		playsInline: VueTypes.bool().def(false),
+		pictureInPicture: VueTypes.bool().def(false),
+		stopOnUnmount: VueTypes.bool().def(true),
+		light: VueTypes.oneOfType([VueTypes.bool(), VueTypes.string()]).def(false),
+		previewTabIndex: VueTypes.number().def(0),
+		oEmbedUrl: VueTypes.string().def("https://noembed.com/embed?url={url}"),
 		wrapper: VueTypes.oneOfType([
-			VueTypes.string,
-			VueTypes.func,
-			VueTypes.shape({ render: VueTypes.func.isRequired }).loose,
+			VueTypes.string(),
+			VueTypes.func(),
+			VueTypes.shape({ render: VueTypes.func().isRequired }).loose,
 		]).def("div"),
-		config: VueTypes.object.def(() => ({})),
+		config: VueTypes.object().def(() => ({})),
 	},
 	data() {
 		return {
@@ -241,7 +241,7 @@ export const playerMixin = {
 			this.$emit("enable-pip", ...args);
 		},
 		onDisablePIP(...args) {
-			this.$emit("enable-pip", ...args);
+			this.$emit("disable-pip", ...args);
 		},
 		// [/Event handlers/delegates/propagators]
 	},

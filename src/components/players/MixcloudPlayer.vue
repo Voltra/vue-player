@@ -25,7 +25,7 @@
 
 		mixins: [playerMixin],
 		props: {
-			config: mixcloudConfigProps,
+			config: mixcloudConfigProps(),
 		},
 
 		data() {

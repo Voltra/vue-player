@@ -1,6 +1,6 @@
 <template>
-	<component :is="wrapper" ref="wrapper" v-bind="$attrs">
-		<span v-if="url">
+	<component v-bind="$attrs" :is="wrapper">
+		<span v-if="!url">
 			<slot name="noUrl"/>
 		</span>
 
@@ -15,9 +15,8 @@
 				</template>
 			</Preview>
 
-			<component
-				v-else
-				:is="currentPlayer"
+			<Player
+				v-else-if="currentPlayer"
 				v-bind="$props"
 				:key="playerKey"
 				ref="player"
@@ -25,12 +24,16 @@
 				:activePlayer="playerComponent"
 				:style="playerStyles"
 				@ready="handleReady"
-				v-on="$listeners"
+				v-on="$listeners ?? {}"
 			>
 				<template #none>
-					<slot name="#noPlayer"/>
+					<slot name="noPlayer"/>
 				</template>
-			</component>
+			</Player>
+
+			<span v-else class="vue-player--none">
+				<slot name="noPlayer" />
+			</span>
 		</template>
 	</component>
 </template>
@@ -84,8 +87,8 @@
 		mixins: [metaPlayerMixin],
 		emits: ["click-preview"],
 		components: {
-			Preview: () => import(/* webpackChunkName: 'vuePlayerPreview' */'./Preview.vue'),
-			Player: () => import(/* webpackChunkName: 'vuePlayerPlayer' */'./Player.vue'),
+			Preview: () => import(/* webpackChunkName: 'vuePlayerPreview' */'./Preview.vue').then(r => r.default ?? r),
+			Player: () => import(/* webpackChunkName: 'vuePlayerPlayer' */'./Player.vue').then(r => r.default ?? r),
 		},
 		data() {
 			return {

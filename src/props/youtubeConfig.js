@@ -1,9 +1,9 @@
-import VueTypes from "vue-types";
+import * as VueTypes from "vue-types";
 
 /**
- * @type {YoutubeConfig}
+ * @returns {YoutubeConfig}
  */
-export const youtubeConfigPropsDefaults = {
+export const youtubeConfigPropsDefaults = () => ({
 	playerVars: {
 		playsinline: 1,
 		showinfo: 0,
@@ -13,19 +13,19 @@ export const youtubeConfigPropsDefaults = {
 	},
 	embedOptions: {},
 	onUnstarted: () => {},
-};
+});
 
 /**
- * @type {import("vue-types").VueTypeShape<YoutubeConfig>}
+ * @returns {import("vue-types").VueTypeShape<YoutubeConfig>}
  */
-export const youtubeConfigProps = VueTypes.shape({
+export const youtubeConfigProps = () => VueTypes.shape({
 	playerVars: VueTypes.shape({
-		playsinline: VueTypes.integer,
-		showinfo: VueTypes.integer,
-		rel: VueTypes.integer,
-		iv_load_policy: VueTypes.integer,
-		modestbranding: VueTypes.integer,
+		playsinline: VueTypes.integer(),
+		showinfo: VueTypes.integer(),
+		rel: VueTypes.integer(),
+		iv_load_policy: VueTypes.integer(),
+		modestbranding: VueTypes.integer(),
 	}).loose,
-	embedOptions: VueTypes.object,
-	onUnstarted: VueTypes.func,
-}).loose.def(() => youtubeConfigPropsDefaults);
+	embedOptions: VueTypes.object(),
+	onUnstarted: VueTypes.func(),
+}).loose.def(() => youtubeConfigPropsDefaults());

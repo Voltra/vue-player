@@ -11,7 +11,7 @@
 		@ended="handleEnded"
 		@loaded="handleLoaded"
 		@error="handleError"
-		v-on="$listeners"
+		v-on="$listeners ?? {}"
 	/>
 
 	<span v-else class="vue-player--none">
