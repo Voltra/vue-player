@@ -5,6 +5,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import babel from "@rollup/plugin-babel";
 import terser from "@rollup/plugin-terser";
 import alias from "@rollup/plugin-alias";
+import replace from "@rollup/plugin-replace";
 
 const vuePlugin = () => vue({
 	preprocessStyles: false,
@@ -26,6 +27,13 @@ const sassPlugin = () =>
 			['sass', { includePaths: ['./src/'] }]
 		],
 	});
+
+const replacePlugin = () => replace({
+	preventAssignment: true,
+	values: {
+		"process.env.NODE_ENV": JSON.stringify("production"),
+	},
+})
 
 const babelPlugin = () => babel({
 	exclude: "node_modules/**",
@@ -61,6 +69,7 @@ const config = (format, output = {}) => ({
 		commonjs(),
 		babelPlugin(),
 		aliasPlugin(),
+		replacePlugin(),
 		terser(),
 	],
 })
