@@ -1,23 +1,23 @@
-import VueTypes from "vue-types";
+import * as VueTypes from "vue-types";
 
 /**
- * @type {WistiaConfig}
+ * @returns {WistiaConfig}
  */
-export const wistiaConfigPropsDefaults = {
+export const wistiaConfigPropsDefaults = () => ({
 	wistia: {
 		options: {},
 		playerId: null,
 		customControls: null
 	}
-};
+});
 
 /**
- * @type {import("vue-types").VueTypeShape<WistiaConfig>}
+ * @returns {import("vue-types").VueTypeShape<WistiaConfig>}
  */
-export const wistiaConfigProps = VueTypes.shape({
+export const wistiaConfigProps = () => VueTypes.shape({
 	wistia: VueTypes.shape({
-		options: VueTypes.object,
-		playerId: VueTypes.string,
-		customControls: VueTypes.array,
+		options: VueTypes.object(),
+		playerId: VueTypes.string(),
+		customControls: VueTypes.array(),
 	}).loose,
-}).loose.def(() => wistiaConfigPropsDefaults);
+}).loose.def(() => wistiaConfigPropsDefaults());

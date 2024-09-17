@@ -14,7 +14,7 @@
 	import { canPlay } from "../../patterns";
 	import { playerMixin } from "../../mixins/player";
 	import { soundcloudConfigProps } from "../../props/soundcloudConfig";
-	import VueTypes from "vue-types";
+	import * as VueTypes from "vue-types";
 
 	const SDK_URL = "https://w.soundcloud.com/player/api.js";
 	const SDK_GLOBAL = "SC";
@@ -28,8 +28,8 @@
 
 		mixins: [playerMixin],
 		props: {
-			config: soundcloudConfigProps,
-			display: VueTypes.string.def("block"),
+			config: soundcloudConfigProps(),
+			display: VueTypes.string().def("block"),
 		},
 
 		data() {

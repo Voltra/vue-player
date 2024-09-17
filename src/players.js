@@ -9,7 +9,7 @@ export const players = [
 		key: 'youtube',
 		name: 'YouTube',
 		canPlay: canPlay.youtube,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerYouTube' */"./components/players/YouTubePlayer.vue")
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerYouTube' */"./components/players/YouTubePlayer.vue").then(r => r.default ?? r),
 	},
 
 	/**
@@ -19,7 +19,7 @@ export const players = [
 		key: 'soundcloud',
 		name: 'SoundCloud',
 		canPlay: canPlay.soundcloud,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerSoundCloud' */"./components/players/SoundCloudPlayer.vue")
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerSoundCloud' */"./components/players/SoundCloudPlayer.vue").then(r => r.default ?? r),
 	},
 
 	/**
@@ -29,7 +29,7 @@ export const players = [
 		key: 'vimeo',
 		name: 'Vimeo',
 		canPlay: canPlay.vimeo,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerVimeo' */"./components/players/VimeoPlayer.vue")
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerVimeo' */"./components/players/VimeoPlayer.vue").then(r => r.default ?? r),
 	},
 
 	/**
@@ -39,7 +39,7 @@ export const players = [
 		key: 'facebook',
 		name: 'Facebook',
 		canPlay: canPlay.facebook,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerFacebook' */"./components/players/FacebookPlayer.vue")
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerFacebook' */"./components/players/FacebookPlayer.vue").then(r => r.default ?? r),
 	},
 
 	/**
@@ -49,7 +49,7 @@ export const players = [
 		key: 'streamable',
 		name: 'Streamable',
 		canPlay: canPlay.streamable,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerStreamable' */"./components/players/StreamablePlayer.vue")
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerStreamable' */"./components/players/StreamablePlayer.vue").then(r => r.default ?? r),
 	},
 
 	/**
@@ -59,7 +59,7 @@ export const players = [
 		key: 'wistia',
 		name: 'Wistia',
 		canPlay: canPlay.wistia,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerWistia' */"./components/players/WistiaPlayer.vue")
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerWistia' */"./components/players/WistiaPlayer.vue").then(r => r.default ?? r),
 	},
 
 	/**
@@ -69,7 +69,7 @@ export const players = [
 		key: 'twitch',
 		name: 'Twitch',
 		canPlay: canPlay.twitch,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerTwitch' */"./components/players/TwitchPlayer.vue")
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerTwitch' */"./components/players/TwitchPlayer.vue").then(r => r.default ?? r),
 	},
 
 	/**
@@ -79,7 +79,7 @@ export const players = [
 		key: 'dailymotion',
 		name: 'DailyMotion',
 		canPlay: canPlay.dailymotion,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerDailyMotion' */"./components/players/DailyMotionPlayer.vue")
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerDailyMotion' */"./components/players/DailyMotionPlayer.vue").then(r => r.default ?? r),
 	},
 
 	/**
@@ -89,7 +89,7 @@ export const players = [
 		key: 'mixcloud',
 		name: 'Mixcloud',
 		canPlay: canPlay.mixcloud,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerMixcloud' */"./components/players/MixcloudPlayer.vue")
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerMixcloud' */"./components/players/MixcloudPlayer.vue").then(r => r.default ?? r),
 	},
 
 	/**
@@ -99,7 +99,7 @@ export const players = [
 		key: 'vidyard',
 		name: 'Vidyard',
 		canPlay: canPlay.vidyard,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerVidyard' */"./components/players/VidyardPlayer.vue")
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerVidyard' */"./components/players/VidyardPlayer.vue").then(r => r.default ?? r),
 	},
 
 	/**
@@ -109,7 +109,7 @@ export const players = [
 		key: 'kaltura',
 		name: 'Kaltura',
 		canPlay: canPlay.kaltura,
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerKaltura' */"./components/players/KalturaPlayer.vue")
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerKaltura' */"./components/players/KalturaPlayer.vue").then(r => r.default ?? r),
 	},
 
 	/**
@@ -122,7 +122,7 @@ export const players = [
 		canEnablePIP: url => {
 			return canPlay.file(url) && (document.pictureInPictureEnabled || supportsWebKitPresentationMode()) && !AUDIO_EXTENSIONS.test(url)
 		},
-		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerFilePlayer' */"./components/players/FilePlayer.vue")
+		lazyPlayer: () => import(/* webpackChunkName: 'vuePlayerFilePlayer' */"./components/players/FilePlayer.vue").then(r => r.default ?? r),
 	}
 ];
 

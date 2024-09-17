@@ -1,9 +1,9 @@
-import VueTypes from "vue-types";
+import * as VueTypes from "vue-types";
 
 /**
- * @type {FileConfig}
+ * @returns {FileConfig}
  */
-export const fileConfigPropsDefaults = {
+export const fileConfigPropsDefaults = () => ({
 	attributes: {},
 	tracks: [],
 	forceVideo: false,
@@ -15,21 +15,21 @@ export const fileConfigPropsDefaults = {
 	hlsVersion: '1.1.4',
 	dashVersion: '3.1.3',
 	flvVersion: '1.5.0'
-};
+});
 
 /**
- * @type {import("vue-types").VueTypeShape<FileConfig>}
+ * @returns {import("vue-types").VueTypeShape<FileConfig>}
  */
-export const fileConfigProps = VueTypes.shape({
-	attributes: VueTypes.object,
-	tracks: VueTypes.array,
-	forceVideo: VueTypes.bool,
-	forceAudio: VueTypes.bool,
-	forceHLS: VueTypes.bool,
-	forceDASH: VueTypes.bool,
-	forceFLV: VueTypes.bool,
-	hlsOptions: VueTypes.object,
-	hlsVersion: VueTypes.string,
-	dashVersion: VueTypes.string,
-	flvVersion: VueTypes.string,
-}).loose.def(() => fileConfigPropsDefaults);
+export const fileConfigProps = () => VueTypes.shape({
+	attributes: VueTypes.object(),
+	tracks: VueTypes.array(),
+	forceVideo: VueTypes.bool(),
+	forceAudio: VueTypes.bool(),
+	forceHLS: VueTypes.bool(),
+	forceDASH: VueTypes.bool(),
+	forceFLV: VueTypes.bool(),
+	hlsOptions: VueTypes.object(),
+	hlsVersion: VueTypes.string(),
+	dashVersion: VueTypes.string(),
+	flvVersion: VueTypes.string(),
+}).loose.def(() => fileConfigPropsDefaults());

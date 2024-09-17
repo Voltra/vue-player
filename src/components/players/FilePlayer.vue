@@ -1,7 +1,7 @@
 <template>
 	<component
+		v-bind="config.attributes"
 		:is="tag"
-		ref="player"
 		class="vue-player--file"
 		:style="styles"
 		preload="auto"
@@ -10,19 +10,18 @@
 		:controls="controls"
 		:muted="muted"
 		:loop="loop"
-		v-bind="config.attributes"
 	>
 		<template v-if="urlIsArray">
 			<template v-for="(source, index) in this.url">
-				<slot name="source" v-bind="{ source }">
+				<slot v-bind="{ source }" name="source">
 					<source v-if="typeof source === 'string'" :src="source" :key="source"/>
-					<source v-else :key="index" v-bind="source"/>
+					<source v-else v-bind="source" :key="index"/>
 				</slot>
 			</template>
 
 			<template v-for="(track, index) in this.config.tracks">
-				<slot name="track" v-bind="{ track }">
-					<track :key="index" v-bind="track"/>
+				<slot v-bind="{ track }" name="track">
+					<track v-bind="track" :key="index"/>
 				</slot>
 			</template>
 		</template>
@@ -57,7 +56,7 @@
 		mixins: [playerMixin],
 
 		props: {
-			config: fileConfigProps,
+			config: fileConfigProps(),
 		},
 
 		data() {
@@ -65,7 +64,7 @@
 				/**
 				 * @type {HTMLElement|null}
 				 */
-				prevPlayer: this.$refs.player ?? null,
+				prevPlayer: this.$el ?? null,
 
 				/**
 				 * @type {string}
@@ -110,14 +109,14 @@
 		},
 
 		mounted() {
-			this.addListeners(this.$refs.player);
+			this.addListeners(this.$el);
 
 			if (IS_IOS) {
-				this.$refs.player?.load?.();
+				this.$el?.load?.();
 			}
 
 			this.$watch(
-				() => this.$refs.player,
+				() => this.$el,
 				(newPlayer, oldPlayer) => {
 					this.prevPlayer = oldPlayer;
 				},
@@ -125,7 +124,7 @@
 		},
 		beforeUnmount() {
 			this.prevPlayer = null;
-			this.removeListeners(this.$refs.player);
+			this.removeListeners(this.$el);
 			this.hls?.destroy?.();
 		},
 
@@ -133,13 +132,13 @@
 			url(newUrl, prevUrl) {
 				this.prevUrl = prevUrl;
 
-				if (!isMediaStream(newUrl) && this.$refs.player) {
-					this.$refs.player.srcObject = null;
+				if (!isMediaStream(newUrl) && this.$el) {
+					this.$el.srcObject = null;
 				}
 			},
 			shouldUseAudio() {
 				this.removeListeners(this.prevPlayer, this.prevUrl);
-				this.addListeners(this.$refs.player);
+				this.addListeners(this.$el);
 			},
 		},
 
@@ -172,7 +171,7 @@
 			 * @playerHook play
 			 */
 			play() {
-				const promise = this.$refs.player.play?.();
+				const promise = this.$el.play?.();
 
 				if (promise) {
 					promise.catch(this.onError);
@@ -185,7 +184,7 @@
 			 * @playerHook pause
 			 */
 			pause() {
-				this.$refs.player.pause?.();
+				this.$el.pause?.();
 			},
 
 			/**
@@ -194,7 +193,7 @@
 			 * @playerHook stop
 			 */
 			stop() {
-				this.$refs.player?.removeAttribute?.("src");
+				this.$el?.removeAttribute?.("src");
 				this.dash?.reset?.();
 			},
 
@@ -240,8 +239,8 @@
 			 * @playerHook getDuration
 			 */
 			getDuration() {
-				if (!this.$refs.player) return null;
-				const { duration, seekable } = this.$refs.player;
+				if (!this.$el) return null;
+				const { duration, seekable } = this.$el;
 				// on iOS, live streams return Infinity for the duration
 				// so instead we use the end of the seekable timerange
 				if (duration === Infinity && seekable.length > 0) {
@@ -256,7 +255,7 @@
 			 * @playerHook getCurrentTime
 			 */
 			getCurrentTime() {
-				return this.$refs.player?.currentTime;
+				return this.$el?.currentTime;
 			},
 
 			/**
@@ -265,8 +264,8 @@
 			 * @playerHook getSecondsLoaded
 			 */
 			getSecondsLoaded() {
-				if (!this.$refs.player) return null;
-				const { buffered } = this.$refs.player;
+				if (!this.$el) return null;
+				const { buffered } = this.$el;
 				if (buffered.length === 0) {
 					return 0;
 				}
@@ -285,7 +284,7 @@
 			 */
 			setPlaybackRate(rate) {
 				try {
-					this.$refs.player.playbackRate = rate;
+					this.$el.playbackRate = rate;
 				} catch (error) {
 					this.onError(error);
 				}
@@ -297,11 +296,11 @@
 			 * @playerHook enablePIP
 			 */
 			enablePIP() {
-				if (this.$refs.player?.requestPictureInPicture && document.pictureInPictureElement !== this.$refs.player) {
-					this.$refs.player?.requestPictureInPicture?.();
+				if (this.$el?.requestPictureInPicture && document.pictureInPictureElement !== this.$el) {
+					this.$el?.requestPictureInPicture?.();
 					this.onEnablePIP();
-				} else if (supportsWebKitPresentationMode(this.$refs.player) && this.$refs.player?.webkitPresentationMode !== "picture-in-picture") {
-					this.$refs.player?.webkitSetPresentationMode?.("picture-in-picture");
+				} else if (supportsWebKitPresentationMode(this.$el) && this.$el?.webkitPresentationMode !== "picture-in-picture") {
+					this.$el?.webkitSetPresentationMode?.("picture-in-picture");
 					this.onEnablePIP();
 				}
 			},
@@ -312,11 +311,11 @@
 			 * @playerHook disablePIP
 			 */
 			disablePIP() {
-				if (document.exitPictureInPicture && document.pictureInPictureElement === this.$refs.player) {
+				if (document.exitPictureInPicture && document.pictureInPictureElement === this.$el) {
 					document.exitPictureInPicture();
 					this.onDisablePIP();
-				} else if (supportsWebKitPresentationMode(this.$refs.player) && this.$refs.player?.webkitPresentationMode !== "inline") {
-					this.$refs.player?.webkitSetPresentationMode?.("inline");
+				} else if (supportsWebKitPresentationMode(this.$el) && this.$el?.webkitPresentationMode !== "inline") {
+					this.$el?.webkitSetPresentationMode?.("inline");
 					this.onDisablePIP();
 				}
 			},
@@ -342,12 +341,12 @@
 					} else {
 						this.hls.loadSource(url);
 					}
-					this.hls.attachMedia(this.$refs.player);
+					this.hls.attachMedia(this.$el);
 					this.onLoaded();
 				} else if (this.shouldUseDASH(url)) {
 					const dashjs = await getSDK(DASH_SDK_URL.replace("VERSION", dashVersion), DASH_GLOBAL);
 					this.dash = dashjs.MediaPlayer().create();
-					this.dash.initialize(this.$refs.player, url, this.playing);
+					this.dash.initialize(this.$el, url, this.playing);
 					this.dash.on("error", this.onError);
 					if (parseInt(dashVersion) < 3) {
 						this.dash.getDebug().setLogToBrowserConsole(false);
@@ -358,7 +357,7 @@
 				} else if (this.shouldUseFLV(url)) {
 					const flvjs = await getSDK(FLV_SDK_URL.replace("VERSION", flvVersion), FLV_GLOBAL);
 					this.flv = flvjs.createPlayer({ type: "flv", url });
-					this.flv.attachMediaElement(this.$refs.player);
+					this.flv.attachMediaElement(this.$el);
 					this.flv.load();
 					this.onLoaded();
 				}
@@ -368,12 +367,12 @@
 					// HTMLMediaElement.load() is needed to reset the media element
 					// and restart the media resource. Just replacing children source
 					// dom nodes is not enough
-					this.$refs.player?.load?.();
+					this.$el?.load?.();
 				} else if (isMediaStream(url)) {
 					try {
-						this.$refs.player.srcObject = url;
+						this.$el.srcObject = url;
 					} catch (e) {
-						this.$refs.player.src = URL.createObjectURL(url);
+						this.$el.src = URL.createObjectURL(url);
 					}
 				}
 			},
@@ -392,8 +391,8 @@
 			},
 
 			onPresentationModeChange(e) {
-				if (this.$refs.player && supportsWebKitPresentationMode(this.$refs.player)) {
-					const { webkitPresentationMode } = this.$refs.player;
+				if (this.$el && supportsWebKitPresentationMode(this.$el)) {
+					const { webkitPresentationMode } = this.$el;
 					if (webkitPresentationMode === "picture-in-picture") {
 						this.onEnablePIP(e);
 					} else if (webkitPresentationMode === "inline") {

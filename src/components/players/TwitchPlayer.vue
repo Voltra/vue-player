@@ -21,7 +21,7 @@
 
 		mixins: [playerMixin],
 		props: {
-			config: twitchConfigProps,
+			config: twitchConfigProps(),
 		},
 
 		data() {

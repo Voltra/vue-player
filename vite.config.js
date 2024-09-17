@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import path from "path";
+import path from "node:path";
 
 /**
  * Create an absolute URL to the given URI inside the current directory
@@ -11,7 +11,16 @@ const here = (uri = "") => path.resolve(__dirname, uri);
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [vue()],
+	define: {
+		process: JSON.stringify({
+			env: {
+				NODE_ENV: "production",
+			},
+		}),
+	},
+	plugins: [
+		vue(),
+	],
 	build: {
 		lib: {
 			entry: here("src/index.js"),
@@ -32,11 +41,10 @@ export default defineConfig({
 		emptyOutDir: true,
 		outDir: "dist",
 		rollupOptions: {
-			external: ["vue", "vue-types"],
+			external: ["vue"],
 			output: {
 				globals: {
 					vue: "Vue",
-					"vue-types": "VueTypes",
 				},
 			},
 		},

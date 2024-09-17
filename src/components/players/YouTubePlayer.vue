@@ -27,7 +27,7 @@
 		mixins: [playerMixin],
 
 		props: {
-			config: youtubeConfigProps,
+			config: youtubeConfigProps(),
 		},
 
 		computed: {
