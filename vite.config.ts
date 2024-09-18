@@ -8,10 +8,12 @@ const here = (uri = "") => path.resolve(__dirname, uri)
 export default defineConfig({
 	plugins: [vue()],
 	build: {
+		emptyOutDir: true,
 		lib: {
 			entry: here("src/index.ts"),
 			name: "vuePlayer",
-			fileName: "vue-player",
+			fileName: (format, entryName) => `${format}/${entryName}.${format}`,
+			formats: ["umd", "cjs", "es"],
 		},
 		rollupOptions: {
 			external: ["vue"],

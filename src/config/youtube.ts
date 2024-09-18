@@ -1,4 +1,4 @@
-import { SoftBoolean } from "../types.ts";
+import { SoftBoolean } from "../types";
 
 export enum YoutubeIvLoadPolicy {
 	WITH_ANNOTATIONS = 1,

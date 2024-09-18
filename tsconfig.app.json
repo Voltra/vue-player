@@ -15,7 +15,7 @@
 		/* Bundler mode */
 		"moduleResolution": "bundler",
 		"allowSyntheticDefaultImports": true,
-		"allowImportingTsExtensions": true,
+//		"allowImportingTsExtensions": true,
 		"isolatedModules": true,
 		"moduleDetection": "force",
 //		"noEmit": true,
@@ -28,7 +28,6 @@
 	},
 	"include": [
 		"src/**/*.ts",
-		"src/**/*.tsx",
 		"src/**/*.vue"
 	],
 	"exclude": [
